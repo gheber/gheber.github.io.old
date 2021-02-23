@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-02-23 Tue 14:03 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Call the Doctor - HDF(5) Clinic</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="gerdheber" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Call the Doctor - HDF(5) Clinic</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orga654620">Clinic 2021-02-23</a>
+<ul>
+<li><a href="#org8f8466b">Your questions</a></li>
+<li><a href="#orgfab5e72">Last week's highlights</a></li>
+<li><a href="#org6d532df">Appendix</a></li>
+</ul>
+</li>
+<li><a href="#org4da03b9">Clinic 2021-02-16</a>
+<ul>
+<li><a href="#org31219fd">Your questions</a></li>
+<li><a href="#org97e0b62">Last week's highlights</a></li>
+<li><a href="#org17bdc0c">Notes</a></li>
+</ul>
+</li>
+<li><a href="#orgd9ac379">Clinic 2021-02-09</a>
+<ul>
+<li><a href="#org4b81a21">Goal(s)</a></li>
+<li><a href="#org438746e">This is a meeting dedicated to <i>your</i> questions.</a></li>
+<li><a href="#orgb75806a">In the unlikely event there aren't any</a></li>
+<li><a href="#org56aea03">Sometimes life deals you an HDF5 file</a></li>
+<li><a href="#org966d485">Meeting Etiquette</a></li>
+<li><a href="#org413ebfe">Be social, turn on your camera (if you've got one)</a></li>
+<li><a href="#orgad52562">Raise your hand to signal a contribution (question, comment)</a></li>
+<li><a href="#org98c8de6">Be mindful of your "airtime"</a></li>
+<li><a href="#org01c623f">Introduce yourself</a></li>
+<li><a href="#org3001cec">Use the shared Google doc for questions and code snippets</a></li>
+<li><a href="#org19e0226">When the 30 min. timer runs out, this meeting is over.</a></li>
+<li><a href="#org999d986">Notes</a></li>
+<li><a href="#org5ff519a">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</a></li>
+<li><a href="#org8efe65d">Bug-of-the-Week Award (my candidate)</a></li>
+<li><a href="#org69e6843">Documentation update</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga654620" class="outline-2">
+<h2 id="orga654620">Clinic 2021-02-23</h2>
+<div class="outline-text-2" id="text-orga654620">
+</div>
+<div id="outline-container-org8f8466b" class="outline-3">
+<h3 id="org8f8466b">Your questions</h3>
+<div class="outline-text-3" id="text-org8f8466b">
+</div>
+<ul class="org-ul">
+<li><a id="orgc239d86"></a>How to use <code>H5Ocopy</code> in C++ code?<br />
+<div class="outline-text-4" id="text-orgc239d86">
+<ul class="org-ul">
+<li><p>
+<a href="https://forum.hdfgroup.org/t/how-to-use-h5copy-in-c-code/8175">Forum post</a>
+</p>
+<blockquote>
+<p>
+sandhya.v250 (Feb 19)
+</p>
+
+<p>
+Hello Team, I want to copy few groups from one hdf5 file to hdf5 another file
+which is not yet created and this should be done inside the C++ code..can you
+please tell me how can I use this inside this tool
+</p>
+</blockquote></li>
+
+<li><p>
+The <a href="https://portal.hdfgroup.org/display/HDF5/H5O_COPY">function in question</a>  (there is also a tool called <code>h5copy</code>):
+</p>
+<div class="org-src-container">
+<pre class="src src-C">
+<span style="color: #6434A3;">herr_t</span> <span style="color: #006699;">H5Ocopy</span>
+(
+ <span style="color: #6434A3;">hid_t</span>       <span style="color: #BA36A5;">src_loc_id</span>,
+ <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">src_name</span>,
+ <span style="color: #6434A3;">hid_t</span>       <span style="color: #BA36A5;">dst_loc_id</span>,
+ <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">dst_name</span>,
+ <span style="color: #6434A3;">hid_t</span>       <span style="color: #BA36A5;">ocpypl_id</span>,
+ <span style="color: #6434A3;">hid_t</span>       <span style="color: #BA36A5;">lcpl_id</span>
+);
+
+</pre>
+</div></li>
+
+<li>The emphasis  appears to be on C++
+<ul class="org-ul">
+<li>You can do this in C. It's just more boilerplate.</li>
+<li>Whenever I need something C++, I turn to my colleague Steven Varga (=
+Mr. <a href="http://h5cpp.org/">H5CPP</a>)</li>
+<li>He also created a nice <a href="https://github.com/steven-varga/h5rnd">random HDF5 file generator/tester</a> (= 'Prüfer' in
+German)</li>
+</ul></li>
+</ul>
+</div>
+</li>
+
+<li><a id="org0025ba1"></a>Steven's solution (excerpt)<br />
+<div class="outline-text-4" id="text-org0025ba1">
+<p>
+The full example can be downloaded from <a href="https://github.com/steven-varga/HDFGroup-mailinglist/tree/master/object-copy-2021-feb-18">here</a>.
+</p>
+
+<p>
+<b><b>Basic idea:</b></b> Visit all objects in the source via <code>H5Ovisit</code> and invoke
+<code>H5Ocopy</code> in the callback.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++"><span class="linenr"> 1: </span>
+<span class="linenr"> 2: </span><span style="color: #808080;">#include</span> <span style="color: #008000;">"argparse.h"</span>
+<span class="linenr"> 3: </span><span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;h5cpp/all&gt;</span>
+<span class="linenr"> 4: </span><span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;string&gt;</span>
+<span class="linenr"> 5: </span>
+<span class="linenr"> 6: </span><span style="color: #6434A3;">herr_t</span> <span style="color: #006699;">ocpy_callback</span>(<span style="color: #6434A3;">hid_t</span> <span style="color: #BA36A5;">src</span>, <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span> *<span style="color: #BA36A5;">name</span>, <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">H5O_info_t</span> *<span style="color: #BA36A5;">info</span>,
+<span class="linenr"> 7: </span>                     <span style="color: #6434A3;">void</span> *<span style="color: #BA36A5;">dst_</span>) {
+<span class="linenr"> 8: </span>  <span style="color: #6434A3;">hid_t</span>* <span style="color: #BA36A5;">dst</span> = <span style="color: #0000FF;">static_cast</span>&lt;<span style="color: #6434A3;">hid_t</span>*&gt;(dst_);
+<span class="linenr"> 9: </span>  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">err</span> = 0;
+<span class="linenr">10: </span>  <span style="color: #0000FF;">switch</span>( info-&gt;type ){
+<span class="linenr">11: </span>  <span style="color: #0000FF;">case</span> H5O_TYPE_GROUP:
+<span class="linenr">12: </span>    <span style="color: #0000FF;">if</span>(H5Lexists( *dst, name, H5P_DEFAULT) &gt;= 0)
+<span class="linenr">13: </span>      err = H5Ocopy(src, name, *dst, name, H5P_DEFAULT, H5P_DEFAULT);
+<span class="linenr">14: </span>    <span style="color: #0000FF;">break</span>;
+<span class="linenr">15: </span>  <span style="color: #0000FF;">case</span> H5O_TYPE_DATASET:
+<span class="linenr">16: </span>    err = H5Ocopy(src, name, *dst, name, H5P_DEFAULT, H5P_DEFAULT);
+<span class="linenr">17: </span>    <span style="color: #0000FF;">break</span>;
+<span class="linenr">18: </span>  <span style="color: #0000FF;">default</span>: <span style="color: #8D8D84;">/*</span><span style="color: #8D8D84; font-style: italic;">H5O_TYPE_NAMED_DATATYPE, H5O_TYPE_NTYPES, H5O_TYPE_UNKNOWN</span><span style="color: #8D8D84;"> */</span>
+<span class="linenr">19: </span>    ; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">nop to keep compiler happy</span>
+<span class="linenr">20: </span>  }
+<span class="linenr">21: </span>  <span style="color: #0000FF;">return</span> 0;
+<span class="linenr">22: </span>}
+<span class="linenr">23: </span>
+<span class="linenr">24: </span><span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">argc</span>, <span style="color: #6434A3;">char</span> **<span style="color: #BA36A5;">argv</span>)
+<span class="linenr">25: </span>{
+<span class="linenr">26: </span>  <span style="color: #D0372D;">argparse</span>::<span style="color: #6434A3;">ArgumentParser</span> <span style="color: #BA36A5;">arg</span>(<span style="color: #008000;">"ocpy"</span>, <span style="color: #008000;">"0.0.1"</span>);
+<span class="linenr">27: </span>  arg.add_argument(<span style="color: #008000;">"-i"</span>, <span style="color: #008000;">"--input"</span>)
+<span class="linenr">28: </span>    .required().help(<span style="color: #008000;">"path to input hdf5 file"</span>);
+<span class="linenr">29: </span>  arg.add_argument(<span style="color: #008000;">"-s"</span>, <span style="color: #008000;">"--source"</span>)
+<span class="linenr">30: </span>    .default_value(<span style="color: #D0372D;">std</span>::string(<span style="color: #008000;">"/"</span>))
+<span class="linenr">31: </span>    .help(<span style="color: #008000;">"path to group within hdf5 container"</span>);
+<span class="linenr">32: </span>  arg.add_argument(<span style="color: #008000;">"-o"</span>, <span style="color: #008000;">"--output"</span>).required()
+<span class="linenr">33: </span>    .help(<span style="color: #008000;">"the new hdf5 will be created/or opened rw"</span>);
+<span class="linenr">34: </span>  arg.add_argument(<span style="color: #008000;">"-d"</span>, <span style="color: #008000;">"--destination"</span>)
+<span class="linenr">35: </span>    .default_value(<span style="color: #D0372D;">std</span>::string(<span style="color: #008000;">"/"</span>))
+<span class="linenr">36: </span>    .help(<span style="color: #008000;">"target group"</span>);
+<span class="linenr">37: </span>
+<span class="linenr">38: </span>  <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">input</span>, <span style="color: #BA36A5;">output</span>, <span style="color: #BA36A5;">source</span>, <span style="color: #BA36A5;">destination</span>;
+<span class="linenr">39: </span>  <span style="color: #0000FF;">try</span> {
+<span class="linenr">40: </span>    arg.parse_args(argc, argv);
+<span class="linenr">41: </span>    input = arg.get&lt;<span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span>&gt;(<span style="color: #008000;">"--input"</span>);
+<span class="linenr">42: </span>    output = arg.get&lt;<span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span>&gt;(<span style="color: #008000;">"--output"</span>);
+<span class="linenr">43: </span>    source = arg.get&lt;<span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span>&gt;(<span style="color: #008000;">"--source"</span>);
+<span class="linenr">44: </span>    destination = arg.get&lt;<span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span>&gt;(<span style="color: #008000;">"--destination"</span>);
+<span class="linenr">45: </span>
+<span class="linenr">46: </span>    <span style="color: #D0372D;">h5</span>::<span style="color: #6434A3;">fd_t</span> <span style="color: #BA36A5;">fd_i</span> = <span style="color: #D0372D;">h5</span>::open(input, H5F_ACC_RDONLY);
+<span class="linenr">47: </span>    <span style="color: #D0372D;">h5</span>::<span style="color: #6434A3;">fd_t</span> <span style="color: #BA36A5;">fd_o</span> = <span style="color: #D0372D;">h5</span>::create(output, H5F_ACC_TRUNC);
+<span class="linenr">48: </span>    <span style="color: #D0372D;">h5</span>::<span style="color: #6434A3;">gr_t</span> <span style="color: #BA36A5;">dgr</span>{H5I_UNINIT}, <span style="color: #BA36A5;">sgr</span> = <span style="color: #D0372D;">h5</span>::gr_t{H5Gopen(fd_i, source.data(),
+<span class="linenr">49: </span>                                                     H5P_DEFAULT)};
+<span class="linenr">50: </span>    <span style="color: #D0372D;">h5</span>::mute();
+<span class="linenr">51: </span>    <span style="color: #0000FF;">if</span>( destination != <span style="color: #008000;">"/"</span> ){
+<span class="linenr">52: </span>      <span style="color: #6434A3;">char</span> * <span style="color: #BA36A5;">gname</span> = destination.data();
+<span class="linenr">53: </span>      dgr = H5Lexists(fd_o, gname, H5P_DEFAULT) &gt;= 0 ?
+<span class="linenr">54: </span>        <span style="color: #D0372D;">h5</span>::gr_t{H5Gcreate(fd_o, gname, H5P_DEFAULT, H5P_DEFAULT,
+<span class="linenr">55: </span>                           H5P_DEFAULT)}
+<span class="linenr">56: </span>        : <span style="color: #D0372D;">h5</span>::gr_t{H5Gopen(fd_i, gname, H5P_DEFAULT)};
+<span class="linenr">57: </span>      H5Ovisit(sgr, H5_INDEX_CRT_ORDER, H5_ITER_NATIVE, ocpy_callback, &amp;dgr );
+<span class="linenr">58: </span>    } <span style="color: #0000FF;">else</span>
+<span class="linenr">59: </span>      H5Ovisit(sgr, H5_INDEX_CRT_ORDER, H5_ITER_NATIVE, ocpy_callback, &amp;fd_o);
+<span class="linenr">60: </span>    <span style="color: #D0372D;">h5</span>::unmute();
+<span class="linenr">61: </span>  } <span style="color: #0000FF;">catch</span> ( <span style="color: #0000FF;">const</span> <span style="color: #D0372D;">h5</span>::<span style="color: #D0372D;">error</span>::<span style="color: #6434A3;">any</span>&amp; <span style="color: #BA36A5;">e</span> ) {
+<span class="linenr">62: </span>    <span style="color: #D0372D;">std</span>::cerr &lt;&lt; e.what() &lt;&lt; <span style="color: #D0372D;">std</span>::endl;
+<span class="linenr">63: </span>    <span style="color: #D0372D;">std</span>::cout &lt;&lt; arg;
+<span class="linenr">64: </span>  }
+<span class="linenr">65: </span>  <span style="color: #0000FF;">return</span> 0;
+<span class="linenr">66: </span>}
+<span class="linenr">67: </span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org54a0fca"></a>Parting thoughts<br />
+<div class="outline-text-4" id="text-org54a0fca">
+<ul class="org-ul">
+<li>This is can be tricky business depending on how selective you want to be</li>
+<li><code>H5Ovisit</code> visits <i>objects</i> and does not account for dangling links, etc.</li>
+<li><code>H5Ocopy</code>'s behavior is highly customizable. Check the options &amp; play w/
+<code>h5copy</code> to see the effect!</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org4e1709c"></a>More Questions<br />
+<ul class="org-ul">
+<li><a id="orge68690a"></a>Question 1<br />
+<div class="outline-text-5" id="text-orge68690a">
+<blockquote>
+<p>
+I have an unrelated question. I have 7,000 HDF5 files, each 500 MB long. When I
+use them, should I open them selectively, when I need them, or is it
+advantageous to make one big file, or to open virtual files? I am interested in
+the speed of the different approaches.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>40 GbE connectivity</li>
+<li>10 contiguously laid out Datasets per file =&gt; ~50 MB per dataset</li>
+<li>Always reading full datasets</li>
+<li><b><b>Considerations:</b></b>
+<ul class="org-ul">
+<li>If you have the RAM and use all data in an "epoch" just read whole files and
+use <a href="https://support.hdfgroup.org/HDF5/doc/Advanced/FileImageOperations/HDF5FileImageOperations.pdf">HDF5 file images</a> for "in-memory I/O."</li>
+<li>You could maintain an index file <i>I</i> which contains external links (one for
+each of the 7,000 files), and a dataset which for each external file and
+dataset contains the offset of the dataset in the file. You would keep <i>I</i>
+(small!) in memory and, for each dataset request, read the ~50MB directly
+w/o the HDF5 library. This assumes that no datatype conversion is necessary
+and you have no trouble interpreting the bytes.</li>
+<li>A variation of the previous approach would be for the stub-file to contain
+HDF5 <a href="https://www.star.nesdis.noaa.gov/jpss/documents/HDF5_Tutorial_201509/2-3-Working%20with%20collections%20of%20HDF5%20files.pptx.pdf"><i>virtual datasets</i></a>, datasets stitched together from other
+datasets. This would we a good option, if you wanted to simplify your
+application code and make everything appear as a single large HDF5
+file. It'd be important though to have that (small) stub-file on the clients
+in memory to not incur a high latency penalty.</li>
+<li>Both approaches can be easily parallelized, assuming read-only access. If
+there are writers involved, it's still doable, but additional considerations
+apply.</li>
+</ul></li>
+</ul>
+
+<blockquote>
+<p>
+Another question: what is the recommended way to combine Python with C++ with
+C++ reading in and working on large hdf5 files that require a lot of speed.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>To be honest, we ran out of time and I (GH) didn't fully grasp the question.</li>
+<li>Steven said something about Julia</li>
+<li>Henric uses Boost Python.  What about Cython?</li>
+<li><p>
+What's the access pattern?
+</p>
+
+<p>
+<b><b>Let's continue the discussion on the forum or come back next week!</b></b>
+</p></li>
+</ul>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-orgfab5e72" class="outline-3">
+<h3 id="orgfab5e72">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orgfab5e72">
+</div>
+<ul class="org-ul">
+<li><a id="org228eac6"></a>Forum<br />
+<div class="outline-text-4" id="text-org228eac6">
+<ul class="org-ul">
+<li><a href="https://forum.hdfgroup.org/t/possible-bug-with-hyperslab-selection-in-1-10-7/8164">Hyperslab selection bug confirmed</a></li>
+<li><a href="https://forum.hdfgroup.org/t/write-data-to-variable-length-string-attribute/8101">Write data to variable length string attribute</a> bug is a feature <code>;-)</code></li>
+<li><a href="https://forum.hdfgroup.org/t/creating-a-dataset-through-external-link-does-not-allow-hdf5view-to-see-resulting-dataset-from-root-file/8148">Possible bug in HDFView</a>
+<ul class="org-ul">
+<li>The <a href="https://en.wikipedia.org/wiki/Minimal_working_example">MWE</a> checks out and it looks more and more like a bug in HDFView</li>
+</ul></li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org6d532df" class="outline-3">
+<h3 id="org6d532df">Appendix</h3>
+<div class="outline-text-3" id="text-org6d532df">
+</div>
+<ul class="org-ul">
+<li><a id="orge4850cc"></a>The <code>h5copy</code> command line tool<br />
+<div class="outline-text-4" id="text-orge4850cc">
+<pre class="example" id="org589ef43">
+gerd@guix ~$ h5copy
+
+usage: h5copy [OPTIONS] [OBJECTS...]
+   OBJECTS
+      -i, --input        input file name
+      -o, --output       output file name
+      -s, --source       source object name
+      -d, --destination  destination object name
+   OPTIONS
+      -h, --help         Print a usage message and exit
+      -p, --parents      No error if existing, make parent groups as needed
+      -v, --verbose      Print information about OBJECTS and OPTIONS
+      -V, --version      Print version number and exit
+      --enable-error-stack
+                  Prints messages from the HDF5 error stack as they occur.
+      -f, --flag         Flag type
+
+      Flag type is one of the following strings:
+
+      shallow     Copy only immediate members for groups
+
+      soft        Expand soft links into new objects
+
+      ext         Expand external links into new objects
+
+      ref         Copy references and any referenced objects, i.e., objects
+                  that the references point to.
+                    Referenced objects are copied in addition to the objects
+                  specified on the command line and reference datasets are
+                  populated with correct reference values. Copies of referenced
+                  datasets outside the copy range specified on the command line
+                  will normally have a different name from the original.
+                    (Default:Without this option, reference value(s) in any
+                  reference datasets are set to NULL and referenced objects are
+                  not copied unless they are otherwise within the copy range
+                  specified on the command line.)
+
+      noattr      Copy object without copying attributes
+
+      allflags    Switches all flags from the default to the non-default setting
+
+      These flag types correspond to the following API symbols
+
+      H5O_COPY_SHALLOW_HIERARCHY_FLAG
+      H5O_COPY_EXPAND_SOFT_LINK_FLAG
+      H5O_COPY_EXPAND_EXT_LINK_FLAG
+      H5O_COPY_EXPAND_REFERENCE_FLAG
+      H5O_COPY_WITHOUT_ATTR_FLAG
+      H5O_COPY_ALL
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4da03b9" class="outline-2">
+<h2 id="org4da03b9">Clinic 2021-02-16</h2>
+<div class="outline-text-2" id="text-org4da03b9">
+</div>
+<div id="outline-container-org31219fd" class="outline-3">
+<h3 id="org31219fd">Your questions</h3>
+</div>
+<div id="outline-container-org97e0b62" class="outline-3">
+<h3 id="org97e0b62">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org97e0b62">
+</div>
+<ul class="org-ul">
+<li><a id="org0c44e82"></a>Events<br />
+<div class="outline-text-4" id="text-org0c44e82">
+<ul class="org-ul">
+<li><a href="https://www.youtube.com/watch?v=7ZYZKB7DNUg">Webinar: <i>Learn about data virtualization with HDF5-UDF and how it can
+streamline your work</i></a></li>
+<li><a href="https://www.youtube.com/watch?v=g5h_YlvI9Aw">Recording of last week's clinic</a></li>
+</ul>
+</div>
+</li>
+<li><a id="org03762f6"></a>Forum<br />
+<div class="outline-text-4" id="text-org03762f6">
+<ul class="org-ul">
+<li><a href="https://forum.hdfgroup.org/t/hdfql-2-3-0-release-with-excel-import-export-support/8132">Release of HDFql 2.3.0</a>
+<ul class="org-ul">
+<li>Excel import and export (no Excel or OLE dependency!)</li>
+</ul></li>
+<li><a href="https://forum.hdfgroup.org/t/creating-a-dataset-through-external-link-does-not-allow-hdf5view-to-see-resulting-dataset-from-root-file/8148">Possible bug in HDFView</a>
+<ul class="org-ul">
+<li>Based on the description, it appears that external links are not properly
+traversed</li>
+<li>Waiting for <a href="https://en.wikipedia.org/wiki/Minimal_working_example">MWE</a></li>
+</ul></li>
+<li><a href="https://forum.hdfgroup.org/t/possible-bug-with-hyperslab-selection-in-1-10-7/8164">Possible hyperslab selection bug in 1.10.7</a>
+<ul class="org-ul">
+<li>It appears that <code>H5S_SELECT_OR</code> is no longer "commutative", i.e., <code>H5Dread</code>
+with <code>SelA OR SelB</code> works, but not <code>SelB OR SelA</code></li>
+<li>Wasn't there in 1.10.6</li>
+</ul></li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org17bdc0c" class="outline-3">
+<h3 id="org17bdc0c">Notes</h3>
+<div class="outline-text-3" id="text-org17bdc0c">
+</div>
+<ul class="org-ul">
+<li><a id="org659312d"></a>What (if any) are the ACID properties of HDF5 operations?<br />
+<ul class="org-ul">
+<li><a id="orgb768b82"></a>Split-state<br />
+<div class="outline-text-5" id="text-orgb768b82">
+<p>
+The state of an open (for RW) HDF5 file is <i>split</i> between RAM and persistent
+storage. Often the partial states will be out of sync. In the event of a
+"catastrophic" failure (power outage, application crash, system crash), it is
+impossible to predict what the partial state on disk will be.
+</p>
+
+
+<div id="orgcbb86f0" class="figure">
+<p><img src="hdf5-file-state.png" alt="hdf5-file-state.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="org6b7d7a2"></a>Non-transactional<br />
+<div class="outline-text-5" id="text-org6b7d7a2">
+<p>
+The main reason why it is impossible to predict the outcome is that HDF5
+operations are non-transactional. By 'transaction' I mean a collection of
+operations (and the effects of their execution) on the physical and abstract
+application state. In particular, there are no concepts of beginning a
+transaction, a commit, or a roll-back. Since they are not transactional, it is
+not straightforward to speak about the ACID properties of HDF5 operations.
+</p>
+</div>
+</li>
+
+<li><a id="org8a26523"></a>File system facilities<br />
+<div class="outline-text-5" id="text-org8a26523">
+<p>
+People sometimes speak about ACID properties with respect to file system
+operations. Although the HDF5 library relies on file system operations for the
+implementation of HDF5 operations, the correspondence is not as direct as
+might wish. For example, what appears as a single HDF5 operation to the user
+often includes multiple file system operations. Several file system operations
+have a certain property only at the level of a single operation, but not
+multiple operations combined.
+</p>
+</div>
+</li>
+
+<li><a id="orgf6bb2ac"></a>ACID<br />
+<div class="outline-text-5" id="text-orgf6bb2ac">
+<dl class="org-dl">
+<dt>Atomicity</dt><dd>All changes to an HDF5 file's state must complete or fail as a
+whole unit.
+<ul class="org-ul">
+<li>Supported in HDF5? <b><b>No.</b></b></li>
+<li>Some file systems only support single op. atomicity, if at all.</li>
+<li>A lot of HDF5 operations are <i>in-place</i>; mixed success -&gt; impossible to
+recover</li>
+</ul></dd>
+<dt>Consistency</dt><dd>An operation is a correct transformation of the HDF5 file's
+state.
+<ul class="org-ul">
+<li>Supported in HDF5? <b><b>Yes and No</b></b></li>
+<li>Depends on one's definition of HDF5 file/object integrity constraints</li>
+<li>Assuming we are dealing with a correct program</li>
+<li>Special case w/ multiple processes: Single Writer Multiple Reader</li>
+</ul></dd>
+<dt>Isolation (serialization)</dt><dd>Even though operations execute concurrently, it</dd>
+</dl>
+<p>
+appears to each operation, OP, that others executed either before OP or after
+  OP, but not both.
+</p>
+<ul class="org-ul">
+<li>Supported in HDF5? <b><b>No.</b></b></li>
+<li>Depends on concurrency scenario and requires special configuration (e.g.,
+MT, MPI).</li>
+<li>Time-of-check-time-of-use vulnerability</li>
+</ul>
+<dl class="org-dl">
+<dt>Durability</dt><dd>Once an operation completes successfully, it's changes to the
+file's state survive failure.
+<ul class="org-ul">
+<li>Supported in HDF5? <b><b>No.</b></b></li>
+<li>"Split brain"</li>
+<li>No transaction log</li>
+</ul></dd>
+</dl>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd9ac379" class="outline-2">
+<h2 id="orgd9ac379">Clinic 2021-02-09</h2>
+<div class="outline-text-2" id="text-orgd9ac379">
+<p>
+<b><b>THIS MEETING IS BEING RECORDED</b></b> and the recording will be available on The
+HDF Group's <a href="https://www.youtube.com/channel/UCRhtsIZquL3r-zH-R-r9-tQ">YouTube channel</a>. Remember to subscribe!
+</p>
+</div>
+
+<div id="outline-container-org4b81a21" class="outline-3">
+<h3 id="org4b81a21">Goal(s)</h3>
+</div>
+<div id="outline-container-org438746e" class="outline-3">
+<h3 id="org438746e">This is a meeting dedicated to <i>your</i> questions.</h3>
+</div>
+<div id="outline-container-orgb75806a" class="outline-3">
+<h3 id="orgb75806a">In the unlikely event there aren't any</h3>
+<div class="outline-text-3" id="text-orgb75806a">
+<p>
+We have a few prepared topics (forum posts, announcements, etc.)
+</p>
+</div>
+</div>
+<div id="outline-container-org56aea03" class="outline-3">
+<h3 id="org56aea03">Sometimes life deals you an HDF5 file</h3>
+<div class="outline-text-3" id="text-org56aea03">
+<p>
+No question is too small. We are here to learn. All of us.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org966d485" class="outline-3">
+<h3 id="org966d485">Meeting Etiquette</h3>
+</div>
+<div id="outline-container-org413ebfe" class="outline-3">
+<h3 id="org413ebfe">Be social, turn on your camera (if you've got one)</h3>
+<div class="outline-text-3" id="text-org413ebfe">
+<p>
+Talking to black boxes isn't fun.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgad52562" class="outline-3">
+<h3 id="orgad52562">Raise your hand to signal a contribution (question, comment)</h3>
+<div class="outline-text-3" id="text-orgad52562">
+<p>
+Mute yourself while others are speaking, be ready to participate.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org98c8de6" class="outline-3">
+<h3 id="org98c8de6">Be mindful of your "airtime"</h3>
+<div class="outline-text-3" id="text-org98c8de6">
+<p>
+We want to cover as many of your topics as possible. Be fair to others.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org01c623f" class="outline-3">
+<h3 id="org01c623f">Introduce yourself</h3>
+<div class="outline-text-3" id="text-org01c623f">
+<ol class="org-ol">
+<li>Your Name</li>
+<li>Your affiliation/organization/group</li>
+<li>One reason why you are here today</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org3001cec" class="outline-3">
+<h3 id="org3001cec">Use the shared Google doc for questions and code snippets</h3>
+<div class="outline-text-3" id="text-org3001cec">
+<p>
+The <a href="https://docs.google.com/document/d/17j7MsAdNdCLxxWA_PtXv3jTgWDTqOm2uTk5jHCj8zXM/edit">link</a> can be found in the chat window.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org19e0226" class="outline-3">
+<h3 id="org19e0226">When the 30 min. timer runs out, this meeting is over.</h3>
+<div class="outline-text-3" id="text-org19e0226">
+<p>
+Continue the discussion on the <a href="https://forum.hdfgroup.org/">HDF Forum</a> or come back next week!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org999d986" class="outline-3">
+<h3 id="org999d986">Notes</h3>
+</div>
+<div id="outline-container-org5ff519a" class="outline-3">
+<h3 id="org5ff519a">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</h3>
+<div class="outline-text-3" id="text-org5ff519a">
+<ul class="org-ul">
+<li>Presented by Lucas Villa Real (IBM Research)</li>
+<li>Feb 12, 2021 11:00 AM in Central Time (US and Canada)</li>
+<li><a href="https://zoom.us/meeting/register/tJEsc-iqrj4iGNJirT52ttruJ1DH2uWmFV">Sign-up link</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8efe65d" class="outline-3">
+<h3 id="org8efe65d">Bug-of-the-Week Award (my candidate)</h3>
+<div class="outline-text-3" id="text-org8efe65d">
+<ul class="org-ul">
+<li><a href="https://forum.hdfgroup.org/t/write-data-to-variable-length-string-attribute/8101">Write data to variable length string attribute</a> by Kerim Khemraev</li>
+<li><a href="https://jira.hdfgroup.org/browse/HDFFV-11215">Jira issue HDFFV-11215</a></li>
+<li><p>
+Quick demonstration
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #808080;">#include</span> <span style="color: #008000;">"hdf5.h"</span>
+
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;filesystem&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;iostream&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;string&gt;</span>
+
+<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">H5FILE_NAME</span> <span style="color: #008000;">"Attributes.h5"</span>
+<span style="color: #808080;">#define</span> <span style="color: #BA36A5;">ATTR_NAME</span>   <span style="color: #008000;">"VarLenAttr"</span>
+
+<span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">fs</span> = <span style="color: #D0372D;">std</span>::filesystem;
+
+<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">argc</span>, <span style="color: #6434A3;">char</span> *<span style="color: #BA36A5;">argv</span>[])
+{
+  <span style="color: #6434A3;">hid_t</span> <span style="color: #BA36A5;">file</span>, <span style="color: #BA36A5;">attr</span>;
+
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">attr_type</span> = H5Tcopy(H5T_C_S1);
+  H5Tset_size(attr_type, H5T_VARIABLE);
+  H5Tset_cset(attr_type, H5T_CSET_UTF8);
+
+  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">make_scalar_attr</span> = [](<span style="color: #0000FF;">auto</span>&amp; <span style="color: #BA36A5;">file</span>, <span style="color: #0000FF;">auto</span>&amp; <span style="color: #BA36A5;">attr_type</span>)
+   -&gt; hid_t
+  {
+    <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">attr_space</span>  = H5Screate(H5S_SCALAR);
+    <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">result</span> = H5Acreate(file, ATTR_NAME,
+                            attr_type, attr_space,
+                            H5P_DEFAULT, H5P_DEFAULT);
+    H5Sclose(attr_space);
+    <span style="color: #0000FF;">return</span> result;
+  };
+
+  <span style="color: #0000FF;">if</span>( !<span style="color: #D0372D;">fs</span>::exists(H5FILE_NAME) )
+    { <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">If the file doesn't exist we create it &amp;</span>
+      <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">add a root group attribute</span>
+      <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Creating file...\n"</span>;
+      file = H5Fcreate(H5FILE_NAME, H5F_ACC_TRUNC,
+                      H5P_DEFAULT, H5P_DEFAULT);
+      attr = make_scalar_attr(file, attr_type);
+    }
+  <span style="color: #0000FF;">else</span>
+    { <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">File exists: we either delete the attribute and</span>
+      <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">re-create it, or we just re-write it.</span>
+      <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Opening file...\n"</span>;
+      file = H5Fopen(H5FILE_NAME, H5F_ACC_RDWR, H5P_DEFAULT);
+
+<span style="color: #808080;">#if</span><span style="color: #808080;">n</span><span style="color: #808080;">def</span> REWRITE_ONLY
+      H5Adelete(file, ATTR_NAME);
+      attr = make_scalar_attr(file, attr_type);
+<span style="color: #808080;">#else</span>
+      attr = H5Aopen(file, ATTR_NAME, H5P_DEFAULT);
+<span style="color: #808080;">#endif</span>
+    }
+
+  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">Write or re-write the attribute</span>
+  <span style="color: #0000FF;">const</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">data</span>[1] = { <span style="color: #008000;">"Let it be &#955;!"</span> };
+  H5Awrite(attr, attr_type, data);
+
+  <span style="color: #6434A3;">hsize_t</span> <span style="color: #BA36A5;">size</span>;
+  H5Fget_filesize(file, &amp;size);
+  <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"File size: "</span> &lt;&lt; size &lt;&lt; <span style="color: #008000;">" bytes\n"</span>;
+
+  H5Tclose(attr_type);
+  H5Aclose(attr);
+  H5Fclose(file);
+}
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org69e6843" class="outline-3">
+<h3 id="org69e6843">Documentation update</h3>
+<div class="outline-text-3" id="text-org69e6843">
+<ul class="org-ul">
+<li>Doxygen-based RM</li>
+<li>Remaining: a few <code>H5P</code>  calls and <code>H5E</code></li>
+<li>Current version: <a href="https://hdf5.io/develop/modules.html">https://hdf5.io/develop/modules.html</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: gerdheber</p>
+<p class="date">Created: 2021-02-23 Tue 14:03</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

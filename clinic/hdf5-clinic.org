@@ -1,0 +1,530 @@
+#+TITLE: Call the Doctor - HDF(5) Clinic
+#+STARTUP: overview
+#+OPTIONS: num:nil H:2
+#+SETUPFILE: ~/org/theme-readtheorg.setup
+
+* Clinic 2021-02-23
+** Your questions
+*** How to use ~H5Ocopy~ in C++ code?
+- [[https://forum.hdfgroup.org/t/how-to-use-h5copy-in-c-code/8175][Forum post]]
+  #+begin_quote
+  sandhya.v250 (Feb 19)
+
+  Hello Team, I want to copy few groups from one hdf5 file to hdf5 another file
+  which is not yet created and this should be done inside the C++ code..can you
+  please tell me how can I use this inside this tool
+#+end_quote
+
+- The [[https://portal.hdfgroup.org/display/HDF5/H5O_COPY][function in question]]  (there is also a tool called =h5copy=):
+  #+begin_src C
+
+herr_t H5Ocopy
+(
+ hid_t       src_loc_id,
+ const char* src_name,
+ hid_t       dst_loc_id,
+ const char* dst_name,
+ hid_t       ocpypl_id,
+ hid_t       lcpl_id
+);
+
+#+end_src
+
+- The emphasis  appears to be on C++
+  - You can do this in C. It's just more boilerplate.
+  - Whenever I need something C++, I turn to my colleague Steven Varga (=
+    Mr. [[http://h5cpp.org/][H5CPP]])
+  - He also created a nice [[https://github.com/steven-varga/h5rnd][random HDF5 file generator/tester]] (= 'Prüfer' in
+    German)
+
+*** Steven's solution (excerpt)
+
+The full example can be downloaded from [[https://github.com/steven-varga/HDFGroup-mailinglist/tree/master/object-copy-2021-feb-18][here]].
+
+**Basic idea:** Visit all objects in the source via ~H5Ovisit~ and invoke
+~H5Ocopy~ in the callback.
+
+#+begin_src C++ -N
+
+#include "argparse.h"
+#include <h5cpp/all>
+#include <string>
+
+herr_t ocpy_callback(hid_t src, const char *name, const H5O_info_t *info,
+                     void *dst_) {
+  hid_t* dst = static_cast<hid_t*>(dst_);
+  int err = 0;
+  switch( info->type ){
+  case H5O_TYPE_GROUP:
+    if(H5Lexists( *dst, name, H5P_DEFAULT) >= 0)
+      err = H5Ocopy(src, name, *dst, name, H5P_DEFAULT, H5P_DEFAULT);
+    break;
+  case H5O_TYPE_DATASET:
+    err = H5Ocopy(src, name, *dst, name, H5P_DEFAULT, H5P_DEFAULT);
+    break;
+  default: /*H5O_TYPE_NAMED_DATATYPE, H5O_TYPE_NTYPES, H5O_TYPE_UNKNOWN */
+    ; // nop to keep compiler happy
+  }
+  return 0;
+}
+
+int main(int argc, char **argv)
+{
+  argparse::ArgumentParser arg("ocpy", "0.0.1");
+  arg.add_argument("-i", "--input")
+    .required().help("path to input hdf5 file");
+  arg.add_argument("-s", "--source")
+    .default_value(std::string("/"))
+    .help("path to group within hdf5 container");
+  arg.add_argument("-o", "--output").required()
+    .help("the new hdf5 will be created/or opened rw");
+  arg.add_argument("-d", "--destination")
+    .default_value(std::string("/"))
+    .help("target group");
+
+  std::string input, output, source, destination;
+  try {
+    arg.parse_args(argc, argv);
+    input = arg.get<std::string>("--input");
+    output = arg.get<std::string>("--output");
+    source = arg.get<std::string>("--source");
+    destination = arg.get<std::string>("--destination");
+
+    h5::fd_t fd_i = h5::open(input, H5F_ACC_RDONLY);
+    h5::fd_t fd_o = h5::create(output, H5F_ACC_TRUNC);
+    h5::gr_t dgr{H5I_UNINIT}, sgr = h5::gr_t{H5Gopen(fd_i, source.data(),
+                                                     H5P_DEFAULT)};
+    h5::mute();
+    if( destination != "/" ){
+      char * gname = destination.data();
+      dgr = H5Lexists(fd_o, gname, H5P_DEFAULT) >= 0 ?
+        h5::gr_t{H5Gcreate(fd_o, gname, H5P_DEFAULT, H5P_DEFAULT,
+                           H5P_DEFAULT)}
+        : h5::gr_t{H5Gopen(fd_i, gname, H5P_DEFAULT)};
+      H5Ovisit(sgr, H5_INDEX_CRT_ORDER, H5_ITER_NATIVE, ocpy_callback, &dgr );
+    } else
+      H5Ovisit(sgr, H5_INDEX_CRT_ORDER, H5_ITER_NATIVE, ocpy_callback, &fd_o);
+    h5::unmute();
+  } catch ( const h5::error::any& e ) {
+    std::cerr << e.what() << std::endl;
+    std::cout << arg;
+  }
+  return 0;
+}
+
+#+end_src
+
+*** Parting thoughts
+- This is can be tricky business depending on how selective you want to be
+- ~H5Ovisit~ visits /objects/ and does not account for dangling links, etc.
+- ~H5Ocopy~'s behavior is highly customizable. Check the options & play w/
+  =h5copy= to see the effect!
+
+*** More Questions
+**** Question 1
+#+begin_quote
+I have an unrelated question. I have 7,000 HDF5 files, each 500 MB long. When I
+use them, should I open them selectively, when I need them, or is it
+advantageous to make one big file, or to open virtual files? I am interested in
+the speed of the different approaches.
+#+end_quote
+
+- 40 GbE connectivity
+- 10 contiguously laid out Datasets per file => ~50 MB per dataset
+- Always reading full datasets
+- **Considerations:**
+  - If you have the RAM and use all data in an "epoch" just read whole files and
+    use [[https://support.hdfgroup.org/HDF5/doc/Advanced/FileImageOperations/HDF5FileImageOperations.pdf][HDF5 file images]] for "in-memory I/O."
+  - You could maintain an index file /I/ which contains external links (one for
+    each of the 7,000 files), and a dataset which for each external file and
+    dataset contains the offset of the dataset in the file. You would keep /I/
+    (small!) in memory and, for each dataset request, read the ~50MB directly
+    w/o the HDF5 library. This assumes that no datatype conversion is necessary
+    and you have no trouble interpreting the bytes.
+  - A variation of the previous approach would be for the stub-file to contain
+    HDF5 [[https://www.star.nesdis.noaa.gov/jpss/documents/HDF5_Tutorial_201509/2-3-Working%20with%20collections%20of%20HDF5%20files.pptx.pdf][/virtual datasets/]], datasets stitched together from other
+    datasets. This would we a good option, if you wanted to simplify your
+    application code and make everything appear as a single large HDF5
+    file. It'd be important though to have that (small) stub-file on the clients
+    in memory to not incur a high latency penalty.
+  - Both approaches can be easily parallelized, assuming read-only access. If
+    there are writers involved, it's still doable, but additional considerations
+    apply.
+
+#+begin_quote
+Another question: what is the recommended way to combine Python with C++ with
+C++ reading in and working on large hdf5 files that require a lot of speed.
+#+end_quote
+
+- To be honest, we ran out of time and I (GH) didn't fully grasp the question.
+- Steven said something about Julia
+- Henric uses Boost Python.  What about Cython?
+- What's the access pattern?
+
+  **Let's continue the discussion on the forum or come back next week!**
+
+** Last week's highlights
+*** Forum
+- [[https://forum.hdfgroup.org/t/possible-bug-with-hyperslab-selection-in-1-10-7/8164][Hyperslab selection bug confirmed]]
+- [[https://forum.hdfgroup.org/t/write-data-to-variable-length-string-attribute/8101][Write data to variable length string attribute]] bug is a feature =;-)=
+- [[https://forum.hdfgroup.org/t/creating-a-dataset-through-external-link-does-not-allow-hdf5view-to-see-resulting-dataset-from-root-file/8148][Possible bug in HDFView]]
+  - The [[https://en.wikipedia.org/wiki/Minimal_working_example][MWE]] checks out and it looks more and more like a bug in HDFView
+
+** Appendix
+*** The =h5copy= command line tool
+
+#+begin_example
+gerd@guix ~$ h5copy
+
+usage: h5copy [OPTIONS] [OBJECTS...]
+   OBJECTS
+      -i, --input        input file name
+      -o, --output       output file name
+      -s, --source       source object name
+      -d, --destination  destination object name
+   OPTIONS
+      -h, --help         Print a usage message and exit
+      -p, --parents      No error if existing, make parent groups as needed
+      -v, --verbose      Print information about OBJECTS and OPTIONS
+      -V, --version      Print version number and exit
+      --enable-error-stack
+                  Prints messages from the HDF5 error stack as they occur.
+      -f, --flag         Flag type
+
+      Flag type is one of the following strings:
+
+      shallow     Copy only immediate members for groups
+
+      soft        Expand soft links into new objects
+
+      ext         Expand external links into new objects
+
+      ref         Copy references and any referenced objects, i.e., objects
+                  that the references point to.
+                    Referenced objects are copied in addition to the objects
+                  specified on the command line and reference datasets are
+                  populated with correct reference values. Copies of referenced
+                  datasets outside the copy range specified on the command line
+                  will normally have a different name from the original.
+                    (Default:Without this option, reference value(s) in any
+                  reference datasets are set to NULL and referenced objects are
+                  not copied unless they are otherwise within the copy range
+                  specified on the command line.)
+
+      noattr      Copy object without copying attributes
+
+      allflags    Switches all flags from the default to the non-default setting
+
+      These flag types correspond to the following API symbols
+
+      H5O_COPY_SHALLOW_HIERARCHY_FLAG
+      H5O_COPY_EXPAND_SOFT_LINK_FLAG
+      H5O_COPY_EXPAND_EXT_LINK_FLAG
+      H5O_COPY_EXPAND_REFERENCE_FLAG
+      H5O_COPY_WITHOUT_ATTR_FLAG
+      H5O_COPY_ALL
+  #+end_example
+
+* Clinic 2021-02-16
+** Your questions
+** Last week's highlights
+*** Events
+- [[https://www.youtube.com/watch?v=7ZYZKB7DNUg][Webinar: /Learn about data virtualization with HDF5-UDF and how it can
+  streamline your work/]]
+- [[https://www.youtube.com/watch?v=g5h_YlvI9Aw][Recording of last week's clinic]]
+*** Forum
+- [[https://forum.hdfgroup.org/t/hdfql-2-3-0-release-with-excel-import-export-support/8132][Release of HDFql 2.3.0]]
+  - Excel import and export (no Excel or OLE dependency!)
+- [[https://forum.hdfgroup.org/t/creating-a-dataset-through-external-link-does-not-allow-hdf5view-to-see-resulting-dataset-from-root-file/8148][Possible bug in HDFView]]
+  - Based on the description, it appears that external links are not properly
+    traversed
+  - Waiting for [[https://en.wikipedia.org/wiki/Minimal_working_example][MWE]]
+- [[https://forum.hdfgroup.org/t/possible-bug-with-hyperslab-selection-in-1-10-7/8164][Possible hyperslab selection bug in 1.10.7]]
+  - It appears that =H5S_SELECT_OR= is no longer "commutative", i.e., ~H5Dread~
+    with =SelA OR SelB= works, but not =SelB OR SelA=
+  - Wasn't there in 1.10.6
+** Notes
+*** What (if any) are the ACID properties of HDF5 operations?
+**** Split-state
+The state of an open (for RW) HDF5 file is /split/ between RAM and persistent
+storage. Often the partial states will be out of sync. In the event of a
+"catastrophic" failure (power outage, application crash, system crash), it is
+impossible to predict what the partial state on disk will be.
+
+#+begin_src plantuml :hidden :file hdf5-file-state.png
+skinparam componentStyle rectangle
+
+package "HDF5 File State" {
+  database "Disk" {
+    [Partial State 1]
+  }
+  cloud "RAM" {
+    [Partial State 2]
+  }
+}
+#+end_src
+
+#+RESULTS:
+[[file:hdf5-file-state.png]]
+
+**** Non-transactional
+The main reason why it is impossible to predict the outcome is that HDF5
+operations are non-transactional. By 'transaction' I mean a collection of
+operations (and the effects of their execution) on the physical and abstract
+application state. In particular, there are no concepts of beginning a
+transaction, a commit, or a roll-back. Since they are not transactional, it is
+not straightforward to speak about the ACID properties of HDF5 operations.
+
+**** File system facilities
+People sometimes speak about ACID properties with respect to file system
+operations. Although the HDF5 library relies on file system operations for the
+implementation of HDF5 operations, the correspondence is not as direct as
+might wish. For example, what appears as a single HDF5 operation to the user
+often includes multiple file system operations. Several file system operations
+have a certain property only at the level of a single operation, but not
+multiple operations combined.
+
+**** ACID
+- Atomicity :: All changes to an HDF5 file's state must complete or fail as a
+  whole unit.
+  - Supported in HDF5? **No.**
+  - Some file systems only support single op. atomicity, if at all.
+  - A lot of HDF5 operations are /in-place/; mixed success -> impossible to
+    recover
+- Consistency :: An operation is a correct transformation of the HDF5 file's
+  state.
+  - Supported in HDF5? **Yes and No**
+  - Depends on one's definition of HDF5 file/object integrity constraints
+  - Assuming we are dealing with a correct program
+  - Special case w/ multiple processes: Single Writer Multiple Reader
+- Isolation (serialization) :: Even though operations execute concurrently, it
+appears to each operation, OP, that others executed either before OP or after
+  OP, but not both.
+  - Supported in HDF5? **No.**
+  - Depends on concurrency scenario and requires special configuration (e.g.,
+    MT, MPI).
+  - Time-of-check-time-of-use vulnerability
+- Durability :: Once an operation completes successfully, it's changes to the
+  file's state survive failure.
+  - Supported in HDF5? **No.**
+  - "Split brain"
+  - No transaction log
+
+* Clinic 2021-02-09
+**THIS MEETING IS BEING RECORDED** and the recording will be available on The
+HDF Group's [[https://www.youtube.com/channel/UCRhtsIZquL3r-zH-R-r9-tQ][YouTube channel]]. Remember to subscribe!
+
+** Goal(s)
+** This is a meeting dedicated to /your/ questions.
+** In the unlikely event there aren't any
+We have a few prepared topics (forum posts, announcements, etc.)
+** Sometimes life deals you an HDF5 file
+No question is too small. We are here to learn. All of us.
+
+** Meeting Etiquette
+** Be social, turn on your camera (if you've got one)
+Talking to black boxes isn't fun.
+
+** Raise your hand to signal a contribution (question, comment)
+Mute yourself while others are speaking, be ready to participate.
+
+** Be mindful of your "airtime"
+We want to cover as many of your topics as possible. Be fair to others.
+
+** Introduce yourself
+1. Your Name
+2. Your affiliation/organization/group
+3. One reason why you are here today
+
+** Use the shared Google doc for questions and code snippets
+The [[https://docs.google.com/document/d/17j7MsAdNdCLxxWA_PtXv3jTgWDTqOm2uTk5jHCj8zXM/edit][link]] can be found in the chat window.
+
+** When the 30 min. timer runs out, this meeting is over.
+Continue the discussion on the [[https://forum.hdfgroup.org/][HDF Forum]] or come back next week!
+
+** Notes
+** Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work
+- Presented by Lucas Villa Real (IBM Research)
+- Feb 12, 2021 11:00 AM in Central Time (US and Canada)
+- [[https://zoom.us/meeting/register/tJEsc-iqrj4iGNJirT52ttruJ1DH2uWmFV][Sign-up link]]
+
+** Bug-of-the-Week Award (my candidate)
+- [[https://forum.hdfgroup.org/t/write-data-to-variable-length-string-attribute/8101][Write data to variable length string attribute]] by Kerim Khemraev
+- [[https://jira.hdfgroup.org/browse/HDFFV-11215][Jira issue HDFFV-11215]]
+- Quick demonstration
+  #+begin_src C++ :tangle ./foo4k.cpp
+  #include "hdf5.h"
+
+  #include <filesystem>
+  #include <iostream>
+  #include <string>
+
+  #define H5FILE_NAME "Attributes.h5"
+  #define ATTR_NAME   "VarLenAttr"
+
+  namespace fs = std::filesystem;
+
+  int main(int argc, char *argv[])
+  {
+    hid_t file, attr;
+
+    auto attr_type = H5Tcopy(H5T_C_S1);
+    H5Tset_size(attr_type, H5T_VARIABLE);
+    H5Tset_cset(attr_type, H5T_CSET_UTF8);
+
+    auto make_scalar_attr = [](auto& file, auto& attr_type)
+     -> hid_t
+    {
+      auto attr_space  = H5Screate(H5S_SCALAR);
+      auto result = H5Acreate(file, ATTR_NAME,
+                              attr_type, attr_space,
+                              H5P_DEFAULT, H5P_DEFAULT);
+      H5Sclose(attr_space);
+      return result;
+    };
+
+    if( !fs::exists(H5FILE_NAME) )
+      { // If the file doesn't exist we create it &
+        // add a root group attribute
+        std::cout << "Creating file...\n";
+        file = H5Fcreate(H5FILE_NAME, H5F_ACC_TRUNC,
+                        H5P_DEFAULT, H5P_DEFAULT);
+        attr = make_scalar_attr(file, attr_type);
+      }
+    else
+      { // File exists: we either delete the attribute and
+        // re-create it, or we just re-write it.
+        std::cout << "Opening file...\n";
+        file = H5Fopen(H5FILE_NAME, H5F_ACC_RDWR, H5P_DEFAULT);
+
+  #ifndef REWRITE_ONLY
+        H5Adelete(file, ATTR_NAME);
+        attr = make_scalar_attr(file, attr_type);
+  #else
+        attr = H5Aopen(file, ATTR_NAME, H5P_DEFAULT);
+  #endif
+      }
+
+    // Write or re-write the attribute
+    const char* data[1] = { "Let it be λ!" };
+    H5Awrite(attr, attr_type, data);
+
+    hsize_t size;
+    H5Fget_filesize(file, &size);
+    std::cout << "File size: " << size << " bytes\n";
+
+    H5Tclose(attr_type);
+    H5Aclose(attr);
+    H5Fclose(file);
+  }
+  #+end_src
+
+** Documentation update
+- Doxygen-based RM
+- Remaining: a few =H5P=  calls and =H5E=
+- Current version: [[https://hdf5.io/develop/modules.html]]
+
+
+* COMMENT Anatomy
+A few /skeletons/ to get started.
+
+** C
+
+#+begin_src C -r -n :tangle ctd.c :noweb no-export :results output
+
+#include "hdf5.h"
+
+int main(int argc, char** argv)
+{
+  <<main-variables>>
+
+  <<print-library-version>>
+
+  <<create-or-open-a-file>>
+
+  <<release-handles>>
+}
+
+#+end_src
+
+*** =h5dump=
+
+#+begin_src sh :results output
+
+h5dump -pB hello.hdf5
+
+#+end_src
+
+*** =<<main-variables>>=
+
+#+begin_src C -r -n :noweb-ref main-variables
+
+hid_t file, lcpl;
+
+lcpl = H5Pcreate(H5P_LINK_CREATE);
+H5Pset_create_intermediate_group(lcpl, 1);
+
+#+end_src
+
+*** =<<release-handles>>=
+
+#+begin_src C -r -n :noweb-ref release handles
+
+H5Fclose(file);
+H5Pclose(lcpl);
+
+#+end_src
+
+*** =<<print-library-version>>=
+
+#+begin_src C -r -n :noweb-ref print-library-version
+
+{
+  unsigned majnum, minnum, relnum;
+  H5get_libversion(&majnum, &minnum, &relnum);
+  printf("HDF5 version %u.%u.%u\n", majnum, minnum, relnum);
+}
+
+#+end_src
+
+*** =<<create-or-open-file>>=
+
+#+begin_src C -r -n :noweb-ref create-or-open-a-file
+
+{
+  /*
+  hid_t fcpl = H5Pcreate(H5P_FILE_CREATE);
+  hid_t fapl = H5Pcreate(H5P_FILE_ACCESS);
+  ,*/
+  file = H5Fcreate("hello.hdf5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+  /*
+  H5Pclose(fapl);
+  H5Pclose(fcpl);
+  */
+}
+
+#+end_src
+
+** Julia
+** Python
+** R
+
+* COMMENT Helpers
+
+#+begin_src emacs-lisp
+
+(defun 25min-countdown ()
+  (interactive)
+  (setq org-timer-default-timer 25
+        current-prefix-arg '(4 4)) ; C-u C-u
+  (call-interactively 'org-timer-set-timer))
+
+  #+end_src
+
+* COMMENT Local Variables
+
+# Local Variables:
+# org-babel-C-compiler: h5cc
+# org-coderef-label-format: "// (ref:%s)"
+# after-save-hook: org-preview-latex-fragment
+# End:
