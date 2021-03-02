@@ -10,14 +10,24 @@
   randomized string be used?
   - =h5rnd= Generates a pool of random strings as link names
   - Uniform length distribution between 5 and 30 over =[a-z][A-Z]=
+
 - **Question:** Does it create multi-dimensional datasets with a rich set of
   HDF5 datatypes?  Compound datatypes, perhaps?
   - Currently, it creates 1,000 element 1D FP64 datasets (w/ attribute)
   - RE: types - anything is possible. Budget?
+
 - **Question:** Are named datatypes generated? If not, are these reasonable
   types of extensions for =h5rnd=?
   - Not currently, but anything is possible
+
 *** Other questions?
+- **Question:** How do these extensions fit with the general intent and
+  extensibility of =h5rnd=?
+  - It was written as an illustration
+  - Uses an older version of H5CPP
+  - Labeling could be improved
+  - Dataset generation under development
+  - Some enhancements in a future version
 
 ** Last week's highlights
 *** Forum
@@ -45,7 +55,8 @@
 - Current status (w/ MPI) MD-modifying ops. must be collective
 - On the horizon: asynchronous operations (ASYNC VOL)
 
-** New biz
+**** [[https://forum.hdfgroup.org/t/writing-to-virtual-datasets/8188][Writing to virtual datasets]]
+- Apparently broken when a datatype conversion (truncation!) is involved
 
 * Clinic 2021-02-23
 ** Your questions

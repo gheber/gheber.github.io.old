@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-02-23 Tue 14:03 -->
+<!-- 2021-03-02 Tue 13:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Call the Doctor - HDF(5) Clinic</title>
@@ -229,54 +229,177 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orga654620">Clinic 2021-02-23</a>
+<li><a href="#org2dab1cf">Clinic 2021-03-02</a>
 <ul>
-<li><a href="#org8f8466b">Your questions</a></li>
-<li><a href="#orgfab5e72">Last week's highlights</a></li>
-<li><a href="#org6d532df">Appendix</a></li>
+<li><a href="#org8c45316">Your questions</a></li>
+<li><a href="#org8107d57">Last week's highlights</a></li>
 </ul>
 </li>
-<li><a href="#org4da03b9">Clinic 2021-02-16</a>
+<li><a href="#org2e9ffbd">Clinic 2021-02-23</a>
 <ul>
-<li><a href="#org31219fd">Your questions</a></li>
-<li><a href="#org97e0b62">Last week's highlights</a></li>
-<li><a href="#org17bdc0c">Notes</a></li>
+<li><a href="#org61e8221">Your questions</a></li>
+<li><a href="#org89f253b">Last week's highlights</a></li>
+<li><a href="#org17bbc8f">Appendix</a></li>
 </ul>
 </li>
-<li><a href="#orgd9ac379">Clinic 2021-02-09</a>
+<li><a href="#orgdce8002">Clinic 2021-02-16</a>
 <ul>
-<li><a href="#org4b81a21">Goal(s)</a></li>
-<li><a href="#org438746e">This is a meeting dedicated to <i>your</i> questions.</a></li>
-<li><a href="#orgb75806a">In the unlikely event there aren't any</a></li>
-<li><a href="#org56aea03">Sometimes life deals you an HDF5 file</a></li>
-<li><a href="#org966d485">Meeting Etiquette</a></li>
-<li><a href="#org413ebfe">Be social, turn on your camera (if you've got one)</a></li>
-<li><a href="#orgad52562">Raise your hand to signal a contribution (question, comment)</a></li>
-<li><a href="#org98c8de6">Be mindful of your "airtime"</a></li>
-<li><a href="#org01c623f">Introduce yourself</a></li>
-<li><a href="#org3001cec">Use the shared Google doc for questions and code snippets</a></li>
-<li><a href="#org19e0226">When the 30 min. timer runs out, this meeting is over.</a></li>
-<li><a href="#org999d986">Notes</a></li>
-<li><a href="#org5ff519a">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</a></li>
-<li><a href="#org8efe65d">Bug-of-the-Week Award (my candidate)</a></li>
-<li><a href="#org69e6843">Documentation update</a></li>
+<li><a href="#org55af126">Your questions</a></li>
+<li><a href="#org21740da">Last week's highlights</a></li>
+<li><a href="#org939a8bb">Notes</a></li>
+</ul>
+</li>
+<li><a href="#orgb940ca9">Clinic 2021-02-09</a>
+<ul>
+<li><a href="#org23ceace">Goal(s)</a></li>
+<li><a href="#orgcff77fb">This is a meeting dedicated to <i>your</i> questions.</a></li>
+<li><a href="#orgaeaa3a2">In the unlikely event there aren't any</a></li>
+<li><a href="#orgd7b1f27">Sometimes life deals you an HDF5 file</a></li>
+<li><a href="#orgd90e9a7">Meeting Etiquette</a></li>
+<li><a href="#orgb49a30a">Be social, turn on your camera (if you've got one)</a></li>
+<li><a href="#org8fb40ee">Raise your hand to signal a contribution (question, comment)</a></li>
+<li><a href="#org6fc31e4">Be mindful of your "airtime"</a></li>
+<li><a href="#org579c9d2">Introduce yourself</a></li>
+<li><a href="#org54d360b">Use the shared Google doc for questions and code snippets</a></li>
+<li><a href="#orgd2fd193">When the 30 min. timer runs out, this meeting is over.</a></li>
+<li><a href="#org06af423">Notes</a></li>
+<li><a href="#org1865d2e">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</a></li>
+<li><a href="#orgc741995">Bug-of-the-Week Award (my candidate)</a></li>
+<li><a href="#org3427e43">Documentation update</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orga654620" class="outline-2">
-<h2 id="orga654620">Clinic 2021-02-23</h2>
-<div class="outline-text-2" id="text-orga654620">
+<div id="outline-container-org2dab1cf" class="outline-2">
+<h2 id="org2dab1cf">Clinic 2021-03-02</h2>
+<div class="outline-text-2" id="text-org2dab1cf">
 </div>
-<div id="outline-container-org8f8466b" class="outline-3">
-<h3 id="org8f8466b">Your questions</h3>
-<div class="outline-text-3" id="text-org8f8466b">
+<div id="outline-container-org8c45316" class="outline-3">
+<h3 id="org8c45316">Your questions</h3>
+<div class="outline-text-3" id="text-org8c45316">
 </div>
 <ul class="org-ul">
-<li><a id="orgc239d86"></a>How to use <code>H5Ocopy</code> in C++ code?<br />
-<div class="outline-text-4" id="text-orgc239d86">
+<li><a id="org33bb2f1"></a><a href="https://github.com/steven-varga/h5rnd">h5rnd</a><br />
+<div class="outline-text-4" id="text-org33bb2f1">
+<ul class="org-ul">
+<li><b><b>Question:</b></b> How are generated HDF5 objects named?  An integer name, or can a
+randomized string be used?
+<ul class="org-ul">
+<li><code>h5rnd</code> Generates a pool of random strings as link names</li>
+<li>Uniform length distribution between 5 and 30 over <code>[a-z][A-Z]</code></li>
+</ul></li>
+
+<li><b><b>Question:</b></b> Does it create multi-dimensional datasets with a rich set of
+HDF5 datatypes?  Compound datatypes, perhaps?
+<ul class="org-ul">
+<li>Currently, it creates 1,000 element 1D FP64 datasets (w/ attribute)</li>
+<li>RE: types - anything is possible. Budget?</li>
+</ul></li>
+
+<li><b><b>Question:</b></b> Are named datatypes generated? If not, are these reasonable
+types of extensions for <code>h5rnd</code>?
+<ul class="org-ul">
+<li>Not currently, but anything is possible</li>
+</ul></li>
+</ul>
+</div>
+</li>
+
+<li><a id="orgd171883"></a>Other questions?<br />
+<div class="outline-text-4" id="text-orgd171883">
+<ul class="org-ul">
+<li><b><b>Question:</b></b> How do these extensions fit with the general intent and
+extensibility of <code>h5rnd</code>?
+<ul class="org-ul">
+<li>It was written as an illustration</li>
+<li>Uses an older version of H5CPP</li>
+<li>Labeling could be improved</li>
+<li>Dataset generation under development</li>
+<li>Some enhancements in a future version</li>
+</ul></li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org8107d57" class="outline-3">
+<h3 id="org8107d57">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org8107d57">
+</div>
+<ul class="org-ul">
+<li><a id="org640745e"></a>Forum<br />
+<ul class="org-ul">
+<li><a id="orgcd83348"></a><a href="https://forum.hdfgroup.org/t/external-link-access-in-parallel-hdf5-1-12-0/8219">External link access in parallel HDF5 1.12.0</a><br />
+<div class="outline-text-5" id="text-orgcd83348">
+<ul class="org-ul">
+<li>Can't access externally linked datasets in parallel; fine in 1.10.x and in serial</li>
+<li>It appears that someone encountered a known bug in the field</li>
+<li>Dev. claim it's fixed in <code>develop</code>, waiting for confirmation from the user</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org647240f"></a><a href="https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104"><code>H5I_dec_ref</code> hangs</a><br />
+<div class="outline-text-5" id="text-org647240f">
+<ul class="org-ul">
+<li><a href="https://portal.hdfgroup.org/display/HDF5/H5I_DEC_REF"><code>H5Idec_ref</code></a> is one of those functions that needs to be used w/ extra care</li>
+<li>Using <code>mpi4py</code> and <code>h5py</code></li>
+<li>User provided an MWE (in Python) and, honestly, there is limited help we can
+offer (as we are neither <code>mpi4py</code> nor <code>h5py</code> experts)</li>
+<li>A C or C++ MWE might be the better starting point</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org62ad69a"></a><a href="https://forum.hdfgroup.org/t/h5diff-exits-with-1-but-doesnt-print-differences/6872"><code>h5diff</code> exits with 1 but doesn’t print differences</a><br />
+<div class="outline-text-5" id="text-org62ad69a">
+<ul class="org-ul">
+<li>Case of out-of-date/poor documentation</li>
+<li><a href="https://portal.hdfgroup.org/display/HDF5/h5diff"><code>h5diff</code></a> is perhaps the most complex tool (multi-graph comparison + what does
+<code>'='</code> mean?)</li>
+<li>Writing code is the easy part</li>
+<li>We need to do better</li>
+</ul>
+</div>
+</li>
+
+<li><a id="orgeb61f53"></a><a href="https://forum.hdfgroup.org/t/independent-datasets-for-mpi-processes-progress/8202">Independent datasets for MPI processes. Progress?</a><br />
+<div class="outline-text-5" id="text-orgeb61f53">
+<ul class="org-ul">
+<li>Need some clarification on the problem formulation</li>
+<li>Current status (w/ MPI) MD-modifying ops. must be collective</li>
+<li>On the horizon: asynchronous operations (ASYNC VOL)</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org3db7d42"></a><a href="https://forum.hdfgroup.org/t/writing-to-virtual-datasets/8188">Writing to virtual datasets</a><br />
+<div class="outline-text-5" id="text-org3db7d42">
+<ul class="org-ul">
+<li>Apparently broken when a datatype conversion (truncation!) is involved</li>
+</ul>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2e9ffbd" class="outline-2">
+<h2 id="org2e9ffbd">Clinic 2021-02-23</h2>
+<div class="outline-text-2" id="text-org2e9ffbd">
+</div>
+<div id="outline-container-org61e8221" class="outline-3">
+<h3 id="org61e8221">Your questions</h3>
+<div class="outline-text-3" id="text-org61e8221">
+</div>
+<ul class="org-ul">
+<li><a id="org69a15f1"></a>How to use <code>H5Ocopy</code> in C++ code?<br />
+<div class="outline-text-4" id="text-org69a15f1">
 <ul class="org-ul">
 <li><p>
 <a href="https://forum.hdfgroup.org/t/how-to-use-h5copy-in-c-code/8175">Forum post</a>
@@ -323,8 +446,8 @@ German)</li>
 </div>
 </li>
 
-<li><a id="org0025ba1"></a>Steven's solution (excerpt)<br />
-<div class="outline-text-4" id="text-org0025ba1">
+<li><a id="orgb128676"></a>Steven's solution (excerpt)<br />
+<div class="outline-text-4" id="text-orgb128676">
 <p>
 The full example can be downloaded from <a href="https://github.com/steven-varga/HDFGroup-mailinglist/tree/master/object-copy-2021-feb-18">here</a>.
 </p>
@@ -407,8 +530,8 @@ The full example can be downloaded from <a href="https://github.com/steven-varga
 </div>
 </li>
 
-<li><a id="org54a0fca"></a>Parting thoughts<br />
-<div class="outline-text-4" id="text-org54a0fca">
+<li><a id="orgd4c2d75"></a>Parting thoughts<br />
+<div class="outline-text-4" id="text-orgd4c2d75">
 <ul class="org-ul">
 <li>This is can be tricky business depending on how selective you want to be</li>
 <li><code>H5Ovisit</code> visits <i>objects</i> and does not account for dangling links, etc.</li>
@@ -418,10 +541,10 @@ The full example can be downloaded from <a href="https://github.com/steven-varga
 </div>
 </li>
 
-<li><a id="org4e1709c"></a>More Questions<br />
+<li><a id="org79e3184"></a>More Questions<br />
 <ul class="org-ul">
-<li><a id="orge68690a"></a>Question 1<br />
-<div class="outline-text-5" id="text-orge68690a">
+<li><a id="orge851a0e"></a>Question 1<br />
+<div class="outline-text-5" id="text-orge851a0e">
 <blockquote>
 <p>
 I have an unrelated question. I have 7,000 HDF5 files, each 500 MB long. When I
@@ -483,13 +606,13 @@ What's the access pattern?
 </ul>
 </div>
 
-<div id="outline-container-orgfab5e72" class="outline-3">
-<h3 id="orgfab5e72">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgfab5e72">
+<div id="outline-container-org89f253b" class="outline-3">
+<h3 id="org89f253b">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org89f253b">
 </div>
 <ul class="org-ul">
-<li><a id="org228eac6"></a>Forum<br />
-<div class="outline-text-4" id="text-org228eac6">
+<li><a id="org765d750"></a>Forum<br />
+<div class="outline-text-4" id="text-org765d750">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/possible-bug-with-hyperslab-selection-in-1-10-7/8164">Hyperslab selection bug confirmed</a></li>
 <li><a href="https://forum.hdfgroup.org/t/write-data-to-variable-length-string-attribute/8101">Write data to variable length string attribute</a> bug is a feature <code>;-)</code></li>
@@ -503,14 +626,14 @@ What's the access pattern?
 </ul>
 </div>
 
-<div id="outline-container-org6d532df" class="outline-3">
-<h3 id="org6d532df">Appendix</h3>
-<div class="outline-text-3" id="text-org6d532df">
+<div id="outline-container-org17bbc8f" class="outline-3">
+<h3 id="org17bbc8f">Appendix</h3>
+<div class="outline-text-3" id="text-org17bbc8f">
 </div>
 <ul class="org-ul">
-<li><a id="orge4850cc"></a>The <code>h5copy</code> command line tool<br />
-<div class="outline-text-4" id="text-orge4850cc">
-<pre class="example" id="org589ef43">
+<li><a id="org7d2df01"></a>The <code>h5copy</code> command line tool<br />
+<div class="outline-text-4" id="text-org7d2df01">
+<pre class="example" id="org0d32277">
 gerd@guix ~$ h5copy
 
 usage: h5copy [OPTIONS] [OBJECTS...]
@@ -567,20 +690,20 @@ usage: h5copy [OPTIONS] [OBJECTS...]
 </div>
 </div>
 
-<div id="outline-container-org4da03b9" class="outline-2">
-<h2 id="org4da03b9">Clinic 2021-02-16</h2>
-<div class="outline-text-2" id="text-org4da03b9">
+<div id="outline-container-orgdce8002" class="outline-2">
+<h2 id="orgdce8002">Clinic 2021-02-16</h2>
+<div class="outline-text-2" id="text-orgdce8002">
 </div>
-<div id="outline-container-org31219fd" class="outline-3">
-<h3 id="org31219fd">Your questions</h3>
+<div id="outline-container-org55af126" class="outline-3">
+<h3 id="org55af126">Your questions</h3>
 </div>
-<div id="outline-container-org97e0b62" class="outline-3">
-<h3 id="org97e0b62">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org97e0b62">
+<div id="outline-container-org21740da" class="outline-3">
+<h3 id="org21740da">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org21740da">
 </div>
 <ul class="org-ul">
-<li><a id="org0c44e82"></a>Events<br />
-<div class="outline-text-4" id="text-org0c44e82">
+<li><a id="org6244939"></a>Events<br />
+<div class="outline-text-4" id="text-org6244939">
 <ul class="org-ul">
 <li><a href="https://www.youtube.com/watch?v=7ZYZKB7DNUg">Webinar: <i>Learn about data virtualization with HDF5-UDF and how it can
 streamline your work</i></a></li>
@@ -588,8 +711,8 @@ streamline your work</i></a></li>
 </ul>
 </div>
 </li>
-<li><a id="org03762f6"></a>Forum<br />
-<div class="outline-text-4" id="text-org03762f6">
+<li><a id="org78b1be8"></a>Forum<br />
+<div class="outline-text-4" id="text-org78b1be8">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/hdfql-2-3-0-release-with-excel-import-export-support/8132">Release of HDFql 2.3.0</a>
 <ul class="org-ul">
@@ -612,15 +735,15 @@ with <code>SelA OR SelB</code> works, but not <code>SelB OR SelA</code></li>
 </li>
 </ul>
 </div>
-<div id="outline-container-org17bdc0c" class="outline-3">
-<h3 id="org17bdc0c">Notes</h3>
-<div class="outline-text-3" id="text-org17bdc0c">
+<div id="outline-container-org939a8bb" class="outline-3">
+<h3 id="org939a8bb">Notes</h3>
+<div class="outline-text-3" id="text-org939a8bb">
 </div>
 <ul class="org-ul">
-<li><a id="org659312d"></a>What (if any) are the ACID properties of HDF5 operations?<br />
+<li><a id="org3eb9e9e"></a>What (if any) are the ACID properties of HDF5 operations?<br />
 <ul class="org-ul">
-<li><a id="orgb768b82"></a>Split-state<br />
-<div class="outline-text-5" id="text-orgb768b82">
+<li><a id="orgd64ade9"></a>Split-state<br />
+<div class="outline-text-5" id="text-orgd64ade9">
 <p>
 The state of an open (for RW) HDF5 file is <i>split</i> between RAM and persistent
 storage. Often the partial states will be out of sync. In the event of a
@@ -629,15 +752,15 @@ impossible to predict what the partial state on disk will be.
 </p>
 
 
-<div id="orgcbb86f0" class="figure">
+<div id="org09e202d" class="figure">
 <p><img src="hdf5-file-state.png" alt="hdf5-file-state.png" />
 </p>
 </div>
 </div>
 </li>
 
-<li><a id="org6b7d7a2"></a>Non-transactional<br />
-<div class="outline-text-5" id="text-org6b7d7a2">
+<li><a id="org714e83e"></a>Non-transactional<br />
+<div class="outline-text-5" id="text-org714e83e">
 <p>
 The main reason why it is impossible to predict the outcome is that HDF5
 operations are non-transactional. By 'transaction' I mean a collection of
@@ -649,8 +772,8 @@ not straightforward to speak about the ACID properties of HDF5 operations.
 </div>
 </li>
 
-<li><a id="org8a26523"></a>File system facilities<br />
-<div class="outline-text-5" id="text-org8a26523">
+<li><a id="orgc90f339"></a>File system facilities<br />
+<div class="outline-text-5" id="text-orgc90f339">
 <p>
 People sometimes speak about ACID properties with respect to file system
 operations. Although the HDF5 library relies on file system operations for the
@@ -663,8 +786,8 @@ multiple operations combined.
 </div>
 </li>
 
-<li><a id="orgf6bb2ac"></a>ACID<br />
-<div class="outline-text-5" id="text-orgf6bb2ac">
+<li><a id="orgbd71f3a"></a>ACID<br />
+<div class="outline-text-5" id="text-orgbd71f3a">
 <dl class="org-dl">
 <dt>Atomicity</dt><dd>All changes to an HDF5 file's state must complete or fail as a
 whole unit.
@@ -711,71 +834,71 @@ file's state survive failure.
 </div>
 </div>
 
-<div id="outline-container-orgd9ac379" class="outline-2">
-<h2 id="orgd9ac379">Clinic 2021-02-09</h2>
-<div class="outline-text-2" id="text-orgd9ac379">
+<div id="outline-container-orgb940ca9" class="outline-2">
+<h2 id="orgb940ca9">Clinic 2021-02-09</h2>
+<div class="outline-text-2" id="text-orgb940ca9">
 <p>
 <b><b>THIS MEETING IS BEING RECORDED</b></b> and the recording will be available on The
 HDF Group's <a href="https://www.youtube.com/channel/UCRhtsIZquL3r-zH-R-r9-tQ">YouTube channel</a>. Remember to subscribe!
 </p>
 </div>
 
-<div id="outline-container-org4b81a21" class="outline-3">
-<h3 id="org4b81a21">Goal(s)</h3>
+<div id="outline-container-org23ceace" class="outline-3">
+<h3 id="org23ceace">Goal(s)</h3>
 </div>
-<div id="outline-container-org438746e" class="outline-3">
-<h3 id="org438746e">This is a meeting dedicated to <i>your</i> questions.</h3>
+<div id="outline-container-orgcff77fb" class="outline-3">
+<h3 id="orgcff77fb">This is a meeting dedicated to <i>your</i> questions.</h3>
 </div>
-<div id="outline-container-orgb75806a" class="outline-3">
-<h3 id="orgb75806a">In the unlikely event there aren't any</h3>
-<div class="outline-text-3" id="text-orgb75806a">
+<div id="outline-container-orgaeaa3a2" class="outline-3">
+<h3 id="orgaeaa3a2">In the unlikely event there aren't any</h3>
+<div class="outline-text-3" id="text-orgaeaa3a2">
 <p>
 We have a few prepared topics (forum posts, announcements, etc.)
 </p>
 </div>
 </div>
-<div id="outline-container-org56aea03" class="outline-3">
-<h3 id="org56aea03">Sometimes life deals you an HDF5 file</h3>
-<div class="outline-text-3" id="text-org56aea03">
+<div id="outline-container-orgd7b1f27" class="outline-3">
+<h3 id="orgd7b1f27">Sometimes life deals you an HDF5 file</h3>
+<div class="outline-text-3" id="text-orgd7b1f27">
 <p>
 No question is too small. We are here to learn. All of us.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org966d485" class="outline-3">
-<h3 id="org966d485">Meeting Etiquette</h3>
+<div id="outline-container-orgd90e9a7" class="outline-3">
+<h3 id="orgd90e9a7">Meeting Etiquette</h3>
 </div>
-<div id="outline-container-org413ebfe" class="outline-3">
-<h3 id="org413ebfe">Be social, turn on your camera (if you've got one)</h3>
-<div class="outline-text-3" id="text-org413ebfe">
+<div id="outline-container-orgb49a30a" class="outline-3">
+<h3 id="orgb49a30a">Be social, turn on your camera (if you've got one)</h3>
+<div class="outline-text-3" id="text-orgb49a30a">
 <p>
 Talking to black boxes isn't fun.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgad52562" class="outline-3">
-<h3 id="orgad52562">Raise your hand to signal a contribution (question, comment)</h3>
-<div class="outline-text-3" id="text-orgad52562">
+<div id="outline-container-org8fb40ee" class="outline-3">
+<h3 id="org8fb40ee">Raise your hand to signal a contribution (question, comment)</h3>
+<div class="outline-text-3" id="text-org8fb40ee">
 <p>
 Mute yourself while others are speaking, be ready to participate.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org98c8de6" class="outline-3">
-<h3 id="org98c8de6">Be mindful of your "airtime"</h3>
-<div class="outline-text-3" id="text-org98c8de6">
+<div id="outline-container-org6fc31e4" class="outline-3">
+<h3 id="org6fc31e4">Be mindful of your "airtime"</h3>
+<div class="outline-text-3" id="text-org6fc31e4">
 <p>
 We want to cover as many of your topics as possible. Be fair to others.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org01c623f" class="outline-3">
-<h3 id="org01c623f">Introduce yourself</h3>
-<div class="outline-text-3" id="text-org01c623f">
+<div id="outline-container-org579c9d2" class="outline-3">
+<h3 id="org579c9d2">Introduce yourself</h3>
+<div class="outline-text-3" id="text-org579c9d2">
 <ol class="org-ol">
 <li>Your Name</li>
 <li>Your affiliation/organization/group</li>
@@ -784,30 +907,30 @@ We want to cover as many of your topics as possible. Be fair to others.
 </div>
 </div>
 
-<div id="outline-container-org3001cec" class="outline-3">
-<h3 id="org3001cec">Use the shared Google doc for questions and code snippets</h3>
-<div class="outline-text-3" id="text-org3001cec">
+<div id="outline-container-org54d360b" class="outline-3">
+<h3 id="org54d360b">Use the shared Google doc for questions and code snippets</h3>
+<div class="outline-text-3" id="text-org54d360b">
 <p>
 The <a href="https://docs.google.com/document/d/17j7MsAdNdCLxxWA_PtXv3jTgWDTqOm2uTk5jHCj8zXM/edit">link</a> can be found in the chat window.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org19e0226" class="outline-3">
-<h3 id="org19e0226">When the 30 min. timer runs out, this meeting is over.</h3>
-<div class="outline-text-3" id="text-org19e0226">
+<div id="outline-container-orgd2fd193" class="outline-3">
+<h3 id="orgd2fd193">When the 30 min. timer runs out, this meeting is over.</h3>
+<div class="outline-text-3" id="text-orgd2fd193">
 <p>
 Continue the discussion on the <a href="https://forum.hdfgroup.org/">HDF Forum</a> or come back next week!
 </p>
 </div>
 </div>
 
-<div id="outline-container-org999d986" class="outline-3">
-<h3 id="org999d986">Notes</h3>
+<div id="outline-container-org06af423" class="outline-3">
+<h3 id="org06af423">Notes</h3>
 </div>
-<div id="outline-container-org5ff519a" class="outline-3">
-<h3 id="org5ff519a">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</h3>
-<div class="outline-text-3" id="text-org5ff519a">
+<div id="outline-container-org1865d2e" class="outline-3">
+<h3 id="org1865d2e">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</h3>
+<div class="outline-text-3" id="text-org1865d2e">
 <ul class="org-ul">
 <li>Presented by Lucas Villa Real (IBM Research)</li>
 <li>Feb 12, 2021 11:00 AM in Central Time (US and Canada)</li>
@@ -816,9 +939,9 @@ Continue the discussion on the <a href="https://forum.hdfgroup.org/">HDF Forum</
 </div>
 </div>
 
-<div id="outline-container-org8efe65d" class="outline-3">
-<h3 id="org8efe65d">Bug-of-the-Week Award (my candidate)</h3>
-<div class="outline-text-3" id="text-org8efe65d">
+<div id="outline-container-orgc741995" class="outline-3">
+<h3 id="orgc741995">Bug-of-the-Week Award (my candidate)</h3>
+<div class="outline-text-3" id="text-orgc741995">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/write-data-to-variable-length-string-attribute/8101">Write data to variable length string attribute</a> by Kerim Khemraev</li>
 <li><a href="https://jira.hdfgroup.org/browse/HDFFV-11215">Jira issue HDFFV-11215</a></li>
@@ -896,9 +1019,9 @@ Quick demonstration
 </div>
 </div>
 
-<div id="outline-container-org69e6843" class="outline-3">
-<h3 id="org69e6843">Documentation update</h3>
-<div class="outline-text-3" id="text-org69e6843">
+<div id="outline-container-org3427e43" class="outline-3">
+<h3 id="org3427e43">Documentation update</h3>
+<div class="outline-text-3" id="text-org3427e43">
 <ul class="org-ul">
 <li>Doxygen-based RM</li>
 <li>Remaining: a few <code>H5P</code>  calls and <code>H5E</code></li>
@@ -910,7 +1033,7 @@ Quick demonstration
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: gerdheber</p>
-<p class="date">Created: 2021-02-23 Tue 14:03</p>
+<p class="date">Created: 2021-03-02 Tue 13:32</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
