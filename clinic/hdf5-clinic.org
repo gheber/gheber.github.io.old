@@ -3,6 +3,50 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-03-02
+** Your questions
+*** [[https://github.com/steven-varga/h5rnd][h5rnd]]
+- **Question:** How are generated HDF5 objects named?  An integer name, or can a
+  randomized string be used?
+  - =h5rnd= Generates a pool of random strings as link names
+  - Uniform length distribution between 5 and 30 over =[a-z][A-Z]=
+- **Question:** Does it create multi-dimensional datasets with a rich set of
+  HDF5 datatypes?  Compound datatypes, perhaps?
+  - Currently, it creates 1,000 element 1D FP64 datasets (w/ attribute)
+  - RE: types - anything is possible. Budget?
+- **Question:** Are named datatypes generated? If not, are these reasonable
+  types of extensions for =h5rnd=?
+  - Not currently, but anything is possible
+*** Other questions?
+
+** Last week's highlights
+*** Forum
+**** [[https://forum.hdfgroup.org/t/external-link-access-in-parallel-hdf5-1-12-0/8219][External link access in parallel HDF5 1.12.0]]
+- Can't access externally linked datasets in parallel; fine in 1.10.x and in serial
+- It appears that someone encountered a known bug in the field
+- Dev. claim it's fixed in =develop=, waiting for confirmation from the user
+
+**** [[https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104][=H5I_dec_ref= hangs]]
+- [[https://portal.hdfgroup.org/display/HDF5/H5I_DEC_REF][=H5Idec_ref=]] is one of those functions that needs to be used w/ extra care
+- Using =mpi4py= and =h5py=
+- User provided an MWE (in Python) and, honestly, there is limited help we can
+  offer (as we are neither =mpi4py= nor =h5py= experts)
+- A C or C++ MWE might be the better starting point
+
+**** [[https://forum.hdfgroup.org/t/h5diff-exits-with-1-but-doesnt-print-differences/6872][=h5diff= exits with 1 but doesn’t print differences]]
+- Case of out-of-date/poor documentation
+- [[https://portal.hdfgroup.org/display/HDF5/h5diff][=h5diff=]] is perhaps the most complex tool (multi-graph comparison + what does
+  ~'='~ mean?)
+- Writing code is the easy part
+- We need to do better
+
+**** [[https://forum.hdfgroup.org/t/independent-datasets-for-mpi-processes-progress/8202][Independent datasets for MPI processes. Progress?]]
+- Need some clarification on the problem formulation
+- Current status (w/ MPI) MD-modifying ops. must be collective
+- On the horizon: asynchronous operations (ASYNC VOL)
+
+** New biz
+
 * Clinic 2021-02-23
 ** Your questions
 *** How to use ~H5Ocopy~ in C++ code?
