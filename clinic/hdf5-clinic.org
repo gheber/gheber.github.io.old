@@ -3,6 +3,125 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-03-09
+** Your questions (as of 9:00 a.m. Central Time today)
+*** Question 1
+#+begin_quote
+Is there a limit on array size if I save an array as an attribute of a dataset?
+
+In terms of the performance, is there any consequence if I save a large amount
+of data into an attribute?
+#+end_quote
+
+- Size limit :: No, not in newer versions (1.8.x+) of HDF5. See [[https://portal.hdfgroup.org/pages/viewpage.action?pageId=48808714][What limits are
+  there in HDF5?]]
+- Performance :: It depends. (...on what you mean by /performance/)
+  - Attributes have a different function (from datasets) in HDF5
+    - They "decorate" other objects - application metadata
+  - There values are treated as atomic units, i.e., you will always write and
+    read the entire "large" value.
+    - In other words, you lose partial I/O
+    - Several layouts available for datasets are not supported with attributes
+      - No compression
+
+*** Question 2
+#+begin_quote
+Question regarding hdf5 I/O performance, compare saving data into a large array
+in one dataset Vs saving data into several smaller arrays and in several
+dataset. Any consequence in terms of the performance? Will there be any sweet
+spot for best performance? Or any tricks to make it reading/writing faster? I
+know parallel I/O but parallel I/O would need hardware support which is not
+always available. So the question is about the tricks to speed up I/O without
+parallel I/O.
+#+end_quote
+
+- One large dataset vs. many small datasets, which is faster? :: It depends.
+  - How do you access the data?
+    - Do you always write read the entire array in the order it was written?
+    - Is it WORM (write once read many)?
+      - How and how frequently does it change?
+  - How compressible is the data?
+    - Do you need to store data at all? E.g., [[https://www.hdfgroup.org/2021/02/webinar-learn-about-data-virtualization-with-hdf5-udf-and-how-it-can-streamline-your-work-materials/][HDF5-UDF]]
+  - What is performance for you and how do you measure it?
+  - What percentage of total runtime does your application spend doing I/O?
+  - What scalability behavior do you expect?
+  - Assuming throughput is the measure, create a baseline for your target
+    system, for example, via [[https://fio.readthedocs.io/en/latest/fio_doc.html][FIO]] or [[https://github.com/hpc/ior][IOR]]
+    - Your goal is to saturate the I/O subsystem
+    - Is this a dedicated system?
+  - Which other systems do you need to support? Are you the only user? What's
+    the future?
+  - **What's the budget?**
+
+** Last week's highlights
+*** Announcements
+**** [[https://forum.hdfgroup.org/t/ann-h5py-3-2-released/8232][h5py 3.2 release]]
+- Supports the HDF5 S3 (read-only) VFD thanks to Satrajit Ghosh
+  - Need to [[https://docs.h5py.org/en/stable/build.html#source-install][build h5py from source]]
+- Minimum Python version 3.7
+- Interesting bugfix: [[https://github.com/h5py/h5py/issues/1817][Fix reading data with a datatype of variable-length arrays of fixed length strings]]
+**** HDF5 Community BOF at ECP Community BOF Days
+- March 30, 3:00 p.m. (Eastern)
+- [[https://exascaleproject.zoomgov.com/meeting/register/vJItf-Chrj4jH9xNnStZkPE-P84YcZ52-7s][Registration]]
+*** Forum
+**** [[https://forum.hdfgroup.org/t/get-object-header-size/8233][Get Object Header size]]
+- The user created a compound type with 100s of fields and eventually saw this
+  error:
+  #+begin_example
+H5Oalloc.c line 1312 in H5O__alloc(): object header message is too large
+  #+end_example
+- This issue was first raised (Jira-ticket HDFFV-1089 date) on  Jun 08, 2009
+- **Root cause:** the size of header message data is represented in a 2 byte
+  unsigned integer (see section IV.A.1.a and IV.A.1.b of the [[https://portal.hdfgroup.org/display/HDF5/File+Format+Specification][HDF5 file format spec.]])
+  - Ergo, header messages, currently, cannot be larger than 64 KB.
+  - Datatype information is stored in a header message (see section IV.A.2.d)
+  - This can be fixed with a file format update, but it's /fallen through the
+    cracks/ for over 10 years
+- The customer is always right, but who needs 100s of fields in a compound type?
+  - _Use Case_: You have a large record type and you always (or most of the
+    time) read and write all fields together.
+  - Outside this narrow use case you are bound to lose a lot of performance and
+    flexibility
+- You are Leaving the +American Sector+ Mainstream: not too many tools will be
+  able to handle your data
+- Better approach: divide-and-conquer, i.e., go w/ a group of compounds or
+  individual columns
+**** [[https://forum.hdfgroup.org/t/using-hdf5-in-qt-creator/8194][Using HDF5 in Qt Creator]]
+- Linker can't find ~H5::FileAccPropList()~ and ~H5::FileCreatPropList()~
+- Works fine in release mode, but not in debug mode
+- AFAIK, we don't distribute debug libraries in binary form. Still doesn't
+  explain why the user couldn't use the release binaries in a debug build,
+  unless QT Creator is extra pedantic?
+**** [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Reference Manual in Doxygen]]
+- Making good progress; see [[https://github.com/HDFGroup/hdf5/tree/doxygen2][GitHub]] and [[https://hdf5.io/develop/index.html][preview]]
+- What do you think?
+- In which order should existing content be migrated? [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Chime in!]]
+  - [[https://portal.hdfgroup.org/display/knowledge][HDF Knowledge Base]]?
+- Examples:
+  - [[https://hdf5.io/develop/api-compat-macros.html][API Compatibility Macros]]
+  - [[https://hdf5.io/develop/_t_n_m_d_c.html][Metadata Caching in HDF5]]
+  - [[https://hdf5.io/develop/_f_m_t.html][File Format Specification]]
+**** [[https://forum.hdfgroup.org/t/h5i-get-name-call-is-very-slow-for-hdf5-file-5-gb/8246][~H5Iget_name~ call is very slow for HDF5 file > 5 GB]]
+- [[https://portal.hdfgroup.org/display/HDF5/H5I_GET_NAME][~H5Iget_nname~]] constructs /an/ HDF5 path name given an object identifier
+  - _Use Case_: You are in a corner of an application where all you've got is a
+    handle (identifier) and you would like to render something meaningful to
+    humans.
+- It's not so much the file size but the number and arrangement of objects that
+  makes ~H5Iget_name~ slow
+  - See the [[https://portal.hdfgroup.org/display/HDF5/h5stat][=h5stat=]] output the user provided!
+- What contributes to ~H5Iget_name~ being slow?
+  - The path names are not stored in an HDF5 file (except in symbolic links...)
+    and are created on-demand
+  - In general, HDF5 /arrangements/ are not trees, not even directed graphs, but
+    directed multi-graphs
+    - A node can be the target of multiple edges (including from the same source
+      node)
+    - Certain nodes (groups) can be source and target of an edge
+- *Take-Home-Message:*Unless you are certain that your HDF5 arrangement is a
+  tree, you are skating on thin ice with path names!
+  - Trying to uniquely identify objects via path name is asking for trouble
+    - Use addresses + file IDs (pre-HDF 1.12) or tokens (HDF 1.12+) for that!
+
 * Clinic 2021-03-02
 ** Your questions
 *** [[https://github.com/steven-varga/h5rnd][h5rnd]]
