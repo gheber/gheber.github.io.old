@@ -4,7 +4,7 @@
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
 * Clinic 2021-03-09
-** Your questions (as of 9:00 a.m. Central Time today)
+** Your questions (as of 9:00 a.m. Central Time)
 *** Question 1
 #+begin_quote
 Is there a limit on array size if I save an array as an attribute of a dataset?
@@ -37,7 +37,7 @@ parallel I/O.
 
 - One large dataset vs. many small datasets, which is faster? :: It depends.
   - How do you access the data?
-    - Do you always write read the entire array in the order it was written?
+    - Do you always write/read the entire array in the order it was written?
     - Is it WORM (write once read many)?
       - How and how frequently does it change?
   - How compressible is the data?
