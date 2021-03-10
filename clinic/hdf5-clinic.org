@@ -13,12 +13,16 @@ In terms of the performance, is there any consequence if I save a large amount
 of data into an attribute?
 #+end_quote
 
-- Size limit :: No, not in newer versions (1.8.x+) of HDF5. See [[https://portal.hdfgroup.org/pages/viewpage.action?pageId=48808714][What limits are
-  there in HDF5?]]
+- Size limit :: No, not in newer versions (1.8.x+) of HDF5. See [[https://portal.hdfgroup.org/pages/viewpage.action?pageId=48808714][What limits are there in HDF5?]]
+  - Make sure that downstream applications can handle such attributes (i.e., use
+    HDF5 1.8.x or later)
+  - Remember to tell the library that you want to use the 1.8 or later file
+    format via [[https://portal.hdfgroup.org/display/HDF5/H5F_SET_LIBVER_BOUNDS][~H5Fset_libverbounds~]] (e.g., set ~low~ to ~H5F_LIBVER_V18~)
+  - Also keep an eye on [[https://portal.hdfgroup.org/display/HDF5/H5P_SET_ATTR_PHASE_CHANGE][~H5Pset_attr_phase_change~]] (Consider setting ~max_compact~ to 0.)
 - Performance :: It depends. (...on what you mean by /performance/)
   - Attributes have a different function (from datasets) in HDF5
     - They "decorate" other objects - application metadata
-  - There values are treated as atomic units, i.e., you will always write and
+  - Their values are treated as atomic units, i.e., you will always write and
     read the entire "large" value.
     - In other words, you lose partial I/O
     - Several layouts available for datasets are not supported with attributes
