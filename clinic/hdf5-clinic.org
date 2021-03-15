@@ -3,6 +3,74 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-03-16
+** Your questions
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/webinar-announcement-hermes-a-distributed-buffering-system-for-heterogeneous-storage-hierarchies/8269][Webinar Announcement: Hermes – A Distributed Buffering System for
+  Heterogeneous Storage Hierarchies]]
+- [[https://forum.hdfgroup.org/t/hsds-version-0-6-3-released/8270][HSDS version 0.6.3 released]]
+  - Grab the latest image on Docker Hub =hdfgroup/hsds:v0.6.3=!
+*** Forum
+**** [[https://forum.hdfgroup.org/t/multithreaded-writing-to-a-single-file-in-c/8264][Multithreaded writing to a single file in C++ ]]
+- Beware of non-thread-safe wrappers or language bindings!
+- Compiling the C library with =--enable-threadsafe= is only the first step
+**** [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Reference Manual in Doxygen]]
+- Making good progress; see [[https://github.com/HDFGroup/hdf5/tree/doxygen2][GitHub]] and [[https://hdf5.io/develop/index.html][preview]]
+- What do you think?
+- In which order should existing content be migrated? [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Chime in!]]
+  - [[https://portal.hdfgroup.org/display/knowledge][HDF Knowledge Base]]?
+- Examples:
+  - [[https://hdf5.io/develop/api-compat-macros.html][API Compatibility Macros]]
+  - [[https://hdf5.io/develop/_t_n_m_d_c.html][Metadata Caching in HDF5]]
+  - [[https://hdf5.io/develop/_f_m_t.html][File Format Specification]]
+**** [[https://forum.hdfgroup.org/t/h5i-get-name-call-is-very-slow-for-hdf5-file-5-gb/8246][~H5Iget_name~ call is very slow for HDF5 file > 5 GB]]
+- [[https://portal.hdfgroup.org/display/HDF5/H5I_GET_NAME][~H5Iget_nname~]] constructs /an/ HDF5 path name given an object identifier
+  - _Use Case_: You are in a corner of an application where all you've got is a
+    handle (identifier) and you would like to render something meaningful to
+    humans.
+- It's not so much the file size but the number and arrangement of objects that
+  makes ~H5Iget_name~ slow
+  - See the [[https://portal.hdfgroup.org/display/HDF5/h5stat][=h5stat=]] output the user provided!
+- What contributes to ~H5Iget_name~ being slow?
+  - The path names are not stored in an HDF5 file (except in symbolic links...)
+    and are created on-demand
+  - In general, HDF5 /arrangements/ are not trees, not even directed graphs, but
+    directed multi-graphs
+    - A node can be the target of multiple edges (including from the same source
+      node)
+    - Certain nodes (groups) can be source and target of an edge
+- *Take-Home-Message:*Unless you are certain that your HDF5 arrangement is a
+  tree, you are skating on thin ice with path names!
+  - Trying to uniquely identify objects via path name is asking for trouble
+    - Use addresses + file IDs (pre-HDF 1.12) or tokens (HDF 1.12+) for that!
+
+** Tips & tricks
+*** How to open an HDF5 in append mode?
+
+To be clear, there is no =H5F*= call that behaves like an append call. But we
+can mimic one as follows:
+
+*Credits:* Werner Benger
+
+#+begin_src C -n
+
+hid = H5Fcreate(filename, H5F_ACC_EXCL|H5F_ACC_SWMR_WRITE, fcpl_id, fapl_id);
+if (hid < 0)
+  {
+    hid = H5Fopen(filename, H5F_ACC_RDWR|H5F_ACC_SWMR_WRITE, fapl_id);
+  }
+
+if (hid < 0)
+  // something's going on...
+
+#+end_src
+
+- If the file exists ~H5Fcreate~ will fail and ~H5Fopen~ with ~H5F_ACC_RDWR~
+  will kick in.
+  - If the file is not an HDF5 file, both will fail.
+- If the file does not exist, ~H5Fcreate~ will do its job.
+
 * Clinic 2021-03-09
 ** Your questions (as of 9:00 a.m. Central Time)
 *** Question 1
