@@ -5,6 +5,9 @@
 
 * Clinic 2021-03-16
 ** Your questions
+
+???
+
 ** Last week's highlights
 *** Announcements
 - [[https://forum.hdfgroup.org/t/webinar-announcement-hermes-a-distributed-buffering-system-for-heterogeneous-storage-hierarchies/8269][Webinar Announcement: Hermes – A Distributed Buffering System for
@@ -25,7 +28,7 @@
   - [[https://hdf5.io/develop/_t_n_m_d_c.html][Metadata Caching in HDF5]]
   - [[https://hdf5.io/develop/_f_m_t.html][File Format Specification]]
 **** [[https://forum.hdfgroup.org/t/h5i-get-name-call-is-very-slow-for-hdf5-file-5-gb/8246][~H5Iget_name~ call is very slow for HDF5 file > 5 GB]]
-- [[https://portal.hdfgroup.org/display/HDF5/H5I_GET_NAME][~H5Iget_nname~]] constructs /an/ HDF5 path name given an object identifier
+- [[https://portal.hdfgroup.org/display/HDF5/H5I_GET_NAME][~H5Iget_name~]] constructs /an/ HDF5 path name given an object identifier
   - _Use Case_: You are in a corner of an application where all you've got is a
     handle (identifier) and you would like to render something meaningful to
     humans.
@@ -44,6 +47,12 @@
   tree, you are skating on thin ice with path names!
   - Trying to uniquely identify objects via path name is asking for trouble
     - Use addresses + file IDs (pre-HDF 1.12) or tokens (HDF 1.12+) for that!
+- Quincey points out that
+  - The library caches metadata that can accelerate ~H5Iget_name~
+  - But there are other complications
+    - For example, you can have "anonymous" objects (objects that haven't
+    been linked to groups in the file. i.e., no path yet)
+    - Another source of trouble are objects that have been unlinked
 
 ** Tips & tricks
 *** How to open an HDF5 in append mode?
