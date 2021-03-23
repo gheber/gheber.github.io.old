@@ -41,6 +41,78 @@
   - Write a (logically) correct program first and then optimize performance!
 
 ** Tips & tricks
+*** Large (> 64 KiB) HDF5 attributes
+
+#+begin_src python
+
+import h5py, numpy as np
+
+with h5py.File('my.h5', 'w', libver='latest') as file:
+    file.attrs['random[1024]'] = np.random.random(1024)
+    file.attrs['random[1048576]'] = np.random.random(1024*1024)
+
+#+end_src
+
+The =h5dump= output looks like this:
+
+#+begin_example
+
+gerd@guix ~/scratch/run$ h5dump -pBH my.h5
+HDF5 "my.h5" {
+SUPER_BLOCK {
+   SUPERBLOCK_VERSION 3
+   FREELIST_VERSION 0
+   SYMBOLTABLE_VERSION 0
+   OBJECTHEADER_VERSION 0
+   OFFSET_SIZE 8
+   LENGTH_SIZE 8
+   BTREE_RANK 16
+   BTREE_LEAF 4
+   ISTORE_K 32
+   FILE_SPACE_STRATEGY H5F_FSPACE_STRATEGY_FSM_AGGR
+   FREE_SPACE_PERSIST FALSE
+   FREE_SPACE_SECTION_THRESHOLD 1
+   FILE_SPACE_PAGE_SIZE 4096
+   USER_BLOCK {
+      USERBLOCK_SIZE 0
+   }
+}
+GROUP "/" {
+   ATTRIBUTE "random[1024]" {
+      DATATYPE  H5T_IEEE_F64LE
+      DATASPACE  SIMPLE { ( 1024 ) / ( 1024 ) }
+   }
+   ATTRIBUTE "random[1048576]" {
+      DATATYPE  H5T_IEEE_F64LE
+      DATASPACE  SIMPLE { ( 1048576 ) / ( 1048576 ) }
+   }
+}
+}
+
+#+end_example
+
+The ~libver='latest'~ keyword is critical. Running without produces this error:
+
+#+begin_example
+
+gerd@guix ~/scratch/run$ python3 large_attribute.py
+Traceback (most recent call last):
+  File "large_attribute.py", line 6, in <module>
+    file.attrs['random[1048576]'] = np.random.random(1024*1024)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "/home/gerd/.guix-profile/lib/python3.8/site-packages/h5py/_hl/attrs.py", line 100, in __setitem__
+    self.create(name, data=value)
+  File "/home/gerd/.guix-profile/lib/python3.8/site-packages/h5py/_hl/attrs.py", line 201, in create
+    attr = h5a.create(self._id, self._e(tempname), htype, space)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5a.pyx", line 47, in h5py.h5a.create
+RuntimeError: Unable to create attribute (object header message is too large)
+
+#+end_example
+
+~libver=('v108', 'v108')~ also works. (=v108= corresponds to HDF5 1.8.x).
 
 * Clinic 2021-03-16
 ** Your questions
