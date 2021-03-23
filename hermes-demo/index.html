@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-03-22 Mon 19:44 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hermes Demo (10 min)</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Gerd Heber" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Hermes Demo (10 min)</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgdd6c6e2">Hermes Docker Container(s)</a></li>
+<li><a href="#org1002f01">Demo 1 - Hermes Basics</a>
+<ul>
+<li><a href="#org31f3a3a">Outline</a></li>
+<li><a href="#org6749585">Boilerplate</a></li>
+<li><a href="#orgb25740b">Hermes <code>main</code></a></li>
+<li><a href="#org29a2a53">C++ <code>main</code></a></li>
+<li><a href="#org05a285a">Do it</a></li>
+<li><a href="#orgc0013d6">Sample results</a></li>
+</ul>
+</li>
+<li><a href="#orgeb0f4e6">Demo 2 - The UNIX STDIO Adapter</a></li>
+<li><a href="#orgd09012b">Appendix</a>
+<ul>
+<li><a href="#org28f9de4"><code>hermes.conf</code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdd6c6e2" class="outline-2">
+<h2 id="orgdd6c6e2">Hermes Docker Container(s)</h2>
+<div class="outline-text-2" id="text-orgdd6c6e2">
+<p>
+Most painless way to get started w/ Hermes:
+<a href="https://hub.docker.com/repository/docker/hdfgroup/hermes">https://hub.docker.com/repository/docker/hdfgroup/hermes</a>
+</p>
+
+<p>
+Make sure you allow the container to use a generous amount of shared memory, and
+mount all the volumes you'd like to find in the container.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">
+docker run --name hermes_container --shm-size 1G <span style="color: #008000;">\</span>
+       -v /mnt/hd:/hd -v /mnt/sdcard:/sdcard <span style="color: #008000;">\</span>
+       --it --entrypoint /bin/bash 5239038d60f1
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1002f01" class="outline-2">
+<h2 id="org1002f01">Demo 1 - Hermes Basics</h2>
+<div class="outline-text-2" id="text-org1002f01">
+</div>
+<div id="outline-container-org31f3a3a" class="outline-3">
+<h3 id="org31f3a3a">Outline</h3>
+<div class="outline-text-3" id="text-org31f3a3a">
+<p>
+This is what a "native" Hermes app. looks like, currently.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+&lt;&lt;boilerplate&gt;&gt;
+
+<span style="color: #6434A3;">void</span> hermes_app_main(<span style="color: #6434A3;">int</span>* <span style="color: #BA36A5;">argcp</span>, <span style="color: #6434A3;">char</span>*** <span style="color: #BA36A5;">argvp</span>,
+                     <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">shared_ptr</span>&lt;<span style="color: #D0372D;">hapi</span>::Hermes&gt; <span style="color: #0000FF;">const</span>&amp; <span style="color: #BA36A5;">hermes</span>)
+{
+  &lt;&lt;hermes-main&gt;&gt;
+}
+
+<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">argc</span>, <span style="color: #6434A3;">char</span> **<span style="color: #BA36A5;">argv</span>)
+{
+  &lt;&lt;cpp-main&gt;&gt;
+}
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6749585" class="outline-3">
+<h3 id="org6749585">Boilerplate</h3>
+<div class="outline-text-3" id="text-org6749585">
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #808080;">#include</span> <span style="color: #008000;">"hermes.h"</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">"bucket.h"</span>
+
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;cassert&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;chrono&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;cstdint&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;iostream&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;thread&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;vector&gt;</span>
+
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;mpi.h&gt;</span>
+
+<span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">hapi</span> = <span style="color: #D0372D;">hermes</span>::api;
+
+<span style="color: #0000FF;">using</span> <span style="color: #0000FF;">namespace</span> <span style="color: #D0372D;">std</span>::<span style="color: #D0372D;">chrono</span>;
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb25740b" class="outline-3">
+<h3 id="orgb25740b">Hermes <code>main</code></h3>
+<div class="outline-text-3" id="text-orgb25740b">
+<p>
+Parse arguments and get our "house number."
+</p>
+
+<p>
+Remember, Hermes does <b>NOT</b> use MPI for communication!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #0000FF;">if</span> (*argcp != 5)
+  exit(-1);
+
+<span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">count</span> = (<span style="color: #6434A3;">size_t</span>) atol((*argvp)[1]);
+assert(count &gt;= 1);
+<span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">size_mib</span> = (<span style="color: #6434A3;">size_t</span>) atol((*argvp)[2]);
+assert(size_mib &gt;= 1);
+<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">strategy</span> = atoi((*argvp)[3]);
+assert(strategy &gt;= 0 &amp;&amp; strategy &lt; 3);
+
+<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">app_rank</span> = hermes-&gt;GetProcessRank();
+<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">app_size</span> = hermes-&gt;GetNumProcesses();
+
+</pre>
+</div>
+
+<p>
+Create a context and pick a default data placement policy.
+</p>
+
+<p>
+Create a shared bucket and a 1 MiB "dummy" blob that we'll place multiple times.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #D0372D;">hapi</span>::<span style="color: #6434A3;">Context</span> <span style="color: #BA36A5;">ctx</span>;
+
+<span style="color: #0000FF;">switch</span> (strategy)
+  {
+  <span style="color: #0000FF;">case</span> 0:
+    ctx.policy = <span style="color: #D0372D;">hapi</span>::<span style="color: #D0372D;">PlacementPolicy</span>::kRandom;
+    <span style="color: #0000FF;">break</span>;
+  <span style="color: #0000FF;">case</span> 1:
+    ctx.policy = <span style="color: #D0372D;">hapi</span>::<span style="color: #D0372D;">PlacementPolicy</span>::kRoundRobin;
+    <span style="color: #0000FF;">break</span>;
+  <span style="color: #0000FF;">case</span> 2:
+    ctx.policy = <span style="color: #D0372D;">hapi</span>::<span style="color: #D0372D;">PlacementPolicy</span>::kMinimizeIoTime;
+    <span style="color: #0000FF;">break</span>;
+  <span style="color: #0000FF;">default</span>:
+    <span style="color: #0000FF;">break</span>;
+  }
+
+<span style="color: #D0372D;">hapi</span>::<span style="color: #6434A3;">Bucket</span> <span style="color: #006699;">shared_bucket</span>(<span style="color: #D0372D;">std</span>::string(<span style="color: #008000;">"Share the bucket!"</span>), hermes, ctx);
+
+<span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">uint8_t</span>&gt; <span style="color: #006699;">MiB</span>(<span style="color: #6434A3;">size_mib</span>*1024*1024);
+<span style="color: #6434A3;">uint8_t</span>* <span style="color: #BA36A5;">data</span> = &amp;MiB[0];
+
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">sleep_duration</span> = <span style="color: #D0372D;">std</span>::<span style="color: #D0372D;">chrono</span>::microseconds(150000);
+hermes-&gt;AppBarrier();
+<span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">start</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now();
+
+</pre>
+</div>
+
+<p>
+Do a bunch of <code>Bucket::Put</code> operations.
+</p>
+
+<p>
+<b>Note:</b> There is a vectorized version of <code>Bucket::Put</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">i</span> = app_rank; i &lt; count; i += app_size)
+  {
+    <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">blob_name</span> = <span style="color: #008000;">".hermes/"</span> + <span style="color: #D0372D;">std</span>::to_string(i);
+    <span style="color: #0000FF;">if</span> (shared_bucket.Put(blob_name, data, MiB.size(), ctx).Failed())
+      <span style="color: #0000FF;">throw</span>(<span style="color: #008000;">"What the Bucket::Put?"</span>);
+    <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">HACK: Give the system a chance to update its view state!</span>
+    <span style="color: #D0372D;">std</span>::<span style="color: #D0372D;">this_thread</span>::sleep_for(sleep_duration);
+  }
+
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">elapsed</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
+<span style="color: #6434A3;">uint64_t</span> <span style="color: #BA36A5;">us</span> = duration_cast&lt;microseconds&gt;(elapsed).count() -
+  count/app_size * sleep_duration.count();
+<span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Bucket-&gt;Put [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
+          &lt;&lt; 1024 * 1024 * size_mib * count / (app_size * us) &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
+
+hermes-&gt;AppBarrier();
+start = <span style="color: #D0372D;">high_resolution_clock</span>::now();
+
+</pre>
+</div>
+
+<p>
+Do a bunch of <code>Bucket::Get</code> operations.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">i</span> = app_rank; i &lt; count; i += app_size)
+  {
+    <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">blob_name</span> = <span style="color: #008000;">".hermes/"</span> + <span style="color: #D0372D;">std</span>::to_string(i);
+    <span style="color: #0000FF;">if</span> (shared_bucket.Get(blob_name, MiB, ctx) != MiB.size())
+      <span style="color: #0000FF;">throw</span>(<span style="color: #008000;">"What the Bucket::Get?"</span>);
+  }
+
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+hermes-&gt;AppBarrier();
+
+elapsed = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
+us = duration_cast&lt;microseconds&gt;(elapsed).count();
+
+<span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Bucket-&gt;Get [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
+          &lt;&lt; 1024 * 1024 * size_mib * count / (app_size * us) &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
+
+shared_bucket.Close(ctx);
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org29a2a53" class="outline-3">
+<h3 id="org29a2a53">C++ <code>main</code></h3>
+<div class="outline-text-3" id="text-org29a2a53">
+<p>
+Make sure we have the right capabilities. Remember that we do <b>NOT</b> use MPI for
+communication. We just use the mechanics to spawn processes.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #0000FF;">try</span>
+  {
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">mpi_threads_provided</span>;
+    MPI_Init_thread(&amp;argc, &amp;argv, MPI_THREAD_MULTIPLE,
+                    &amp;mpi_threads_provided);
+    <span style="color: #0000FF;">if</span> (mpi_threads_provided &lt; MPI_THREAD_MULTIPLE)
+      {
+        <span style="color: #D0372D;">std</span>::cerr &lt;&lt; <span style="color: #008000;">"Didn't receive appropriate MPI threading spec.\n"</span>;
+        <span style="color: #0000FF;">return</span> 1;
+      }
+
+    <span style="color: #6434A3;">char</span> *<span style="color: #BA36A5;">config_file</span> = 0;
+    <span style="color: #0000FF;">if</span> (argc == 5)
+      config_file = argv[argc-1];
+    <span style="color: #0000FF;">else</span>
+      {
+        <span style="color: #D0372D;">std</span>::cerr &lt;&lt; <span style="color: #008000;">"demo &lt;blob_count&gt; &lt;blob_size_mib&gt; "</span>
+                  &lt;&lt; <span style="color: #008000;">"&lt;placement_strategy&gt; &lt;hermes_config&gt; !\n"</span>;
+        exit(-1);
+      }
+
+</pre>
+</div>
+
+<p>
+In Hermes, there are two kinds of processes, processes that execute application
+code and processes that perform Hermes system functions.
+</p>
+
+<p>
+We measure the time application processes spend in <code>hermes-&gt;Finalize</code>, which is
+essentially flushing buffers.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">shared_ptr</span>&lt;<span style="color: #D0372D;">hapi</span>::Hermes&gt; <span style="color: #BA36A5;">hermes</span> = <span style="color: #D0372D;">hapi</span>::InitHermes(config_file);
+
+<span style="color: #0000FF;">if</span> (hermes-&gt;IsApplicationCore())
+  {
+    hermes_app_main(&amp;argc, &amp;argv, hermes);
+
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">app_size</span> = hermes-&gt;GetNumProcesses();
+    <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">start</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now();
+
+    hermes-&gt;Finalize();
+
+    <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">elapsed</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
+    <span style="color: #6434A3;">uint64_t</span> <span style="color: #BA36A5;">us</span> = duration_cast&lt;microseconds&gt;(elapsed).count();
+
+    <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"hermes-&gt;Finalize [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
+              &lt;&lt; (<span style="color: #6434A3;">size_t</span>) (atol(argv[1])*atol(argv[2])*1024*1024 /
+                           (app_size * us)) &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
+  }
+<span style="color: #0000FF;">else</span>
+  hermes-&gt;Finalize();
+
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+    MPI_Finalize();
+  }
+<span style="color: #0000FF;">catch</span> (<span style="color: #0000FF;">const</span> <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">exception</span>&amp; <span style="color: #BA36A5;">e</span>)
+  {
+    <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">" a standard exception was caught, with message '"</span>
+              &lt;&lt; e.what() &lt;&lt; <span style="color: #008000;">"'\n"</span>;
+  }
+
+<span style="color: #0000FF;">return</span> 0;
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org05a285a" class="outline-3">
+<h3 id="org05a285a">Do it</h3>
+<div class="outline-text-3" id="text-org05a285a">
+<pre class="example" id="orge60fcf4">
+
+demo1 &lt;blob_count&gt; &lt;blob_size_mib&gt; &lt;placement_strategy&gt; &lt;hermes_config&gt;
+
+</pre>
+
+<p>
+<span class="underline">Placement strategies</span>:
+</p>
+
+<dl class="org-dl">
+<dt>0</dt><dd>Random placement</dd>
+<dt>1</dt><dd>Round-robin</dd>
+<dt>2</dt><dd>Linear programming</dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-sh">
+mpiexec -n 4 demo 32 4 0 ./hermes.conf 2&gt;&amp;1 | tee stdout.xt | grep <span style="color: #008000;">"\[us\]"</span>
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc0013d6" class="outline-3">
+<h3 id="orgc0013d6">Sample results</h3>
+<div class="outline-text-3" id="text-orgc0013d6">
+<pre class="example" id="org932ed24">
+hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 0 \
+                         ./hermes.conf 2&gt;&amp;1 | tee stdout.xt | grep "\[us\]"
+Bucket-&gt;Put [us] : 109585 : ~408 MB/s
+Bucket-&gt;Put [us] : 283296 : ~157 MB/s
+Bucket-&gt;Put [us] : 295500 : ~151 MB/s
+Bucket-&gt;Get [us] : 14239 : ~3142 MB/s
+Bucket-&gt;Get [us] : 16460 : ~2718 MB/s
+Bucket-&gt;Get [us] : 17578 : ~2545 MB/s
+hermes-&gt;Finalize [us] : 8281338 : ~5 MB/s
+hermes-&gt;Finalize [us] : 8284611 : ~5 MB/s
+hermes-&gt;Finalize [us] : 8282374 : ~5 MB/s
+
+hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 1 \
+                         ./hermes.conf 2&gt;&amp;1 | tee stdout.xt | grep "\[us\]"
+Bucket-&gt;Put [us] : 111854 : ~399 MB/s
+Bucket-&gt;Put [us] : 238306 : ~187 MB/s
+Bucket-&gt;Put [us] : 276623 : ~161 MB/s
+Bucket-&gt;Get [us] : 13842 : ~3232 MB/s
+Bucket-&gt;Get [us] : 14838 : ~3015 MB/s
+Bucket-&gt;Get [us] : 15763 : ~2838 MB/s
+hermes-&gt;Finalize [us] : 7954699 : ~5 MB/s
+hermes-&gt;Finalize [us] : 7955607 : ~5 MB/s
+hermes-&gt;Finalize [us] : 7956513 : ~5 MB/s
+
+hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 2 \
+                         ./hermes.conf 2&gt;&amp;1 | tee stdout.xt | grep "\[us\]"
+Bucket-&gt;Put [us] : 115891 : ~386 MB/s
+Bucket-&gt;Put [us] : 253087 : ~176 MB/s
+Bucket-&gt;Put [us] : 256169 : ~174 MB/s
+Bucket-&gt;Get [us] : 13544 : ~3303 MB/s
+Bucket-&gt;Get [us] : 14853 : ~3012 MB/s
+Bucket-&gt;Get [us] : 15710 : ~2847 MB/s
+hermes-&gt;Finalize [us] : 23256456 : ~1 MB/s
+hermes-&gt;Finalize [us] : 23257266 : ~1 MB/s
+hermes-&gt;Finalize [us] : 23258535 : ~1 MB/s
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeb0f4e6" class="outline-2">
+<h2 id="orgeb0f4e6">Demo 2 - The UNIX STDIO Adapter</h2>
+<div class="outline-text-2" id="text-orgeb0f4e6">
+<p>
+Create a file w/ <code>fopen</code> and write a few bytes w/ <code>fwrite</code>. Hermes intercepts
+the calls and ensures the right things are happening.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;cassert&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;cstdio&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;cstdlib&gt;</span>
+
+<span style="color: #808080;">#include</span> <span style="color: #008000;">"mpi.h"</span>
+
+<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">argc</span>, <span style="color: #6434A3;">char</span>** <span style="color: #BA36A5;">argv</span>)
+{
+  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">HACK: This is an artifact of how we are currently deploying Hermes.</span>
+  MPI_Init(&amp;argc, &amp;argv);
+
+  <span style="color: #6434A3;">FILE</span>* <span style="color: #BA36A5;">fp</span>;
+  assert((fp = fopen(<span style="color: #008000;">"foo.bytes"</span>, <span style="color: #008000;">"w+"</span>)) &gt;= 0);
+
+  <span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">size</span> = 4096;
+  <span style="color: #0000FF;">if</span> (argc == 2)
+    size = (<span style="color: #6434A3;">size_t</span>) atol(argv[1]);
+
+  <span style="color: #6434A3;">unsigned</span> <span style="color: #6434A3;">char</span>* <span style="color: #BA36A5;">buf</span> = (<span style="color: #6434A3;">unsigned</span> <span style="color: #6434A3;">char</span>*) malloc(size);
+  assert(buf != <span style="color: #D0372D;">NULL</span>);
+
+  assert(fwrite(buf, <span style="color: #0000FF;">sizeof</span>(<span style="color: #6434A3;">unsigned</span> <span style="color: #6434A3;">char</span>), size, fp) == size);
+
+  assert(fclose(fp) == 0);
+
+  free(buf);
+
+  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">HACK: Again...</span>
+  MPI_Finalize();
+
+  <span style="color: #0000FF;">return</span> 0;
+}
+
+</pre>
+</div>
+
+<p>
+Run it!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">
+<span style="color: #BA36A5;">LD_PRELOAD</span>=libhermes_stdio.so demo2 $((256*1024*1024)) &gt; stdout.txt 2&gt;&amp;1
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd09012b" class="outline-2">
+<h2 id="orgd09012b">Appendix</h2>
+<div class="outline-text-2" id="text-orgd09012b">
+</div>
+<div id="outline-container-org28f9de4" class="outline-3">
+<h3 id="org28f9de4"><code>hermes.conf</code></h3>
+<div class="outline-text-3" id="text-org28f9de4">
+<pre class="example" id="org54c6fa4">
+num_devices = 4;
+# For now this should be the same as num_devices.
+num_targets = 4;
+
+capacities_mb = {128, 1024, 4096, 4096};
+
+block_sizes_kb = {4, 4, 256, 1024};
+
+num_slabs = {4, 4, 2, 2};
+
+slab_unit_sizes = {
+  {1, 4, 16, 32},
+  {1, 4, 16, 32},
+  {1, 4},
+  {1, 8},
+};
+
+desired_slab_percentages = {
+  {0.25, 0.25, 0.25, 0.25},
+  {0.25, 0.25, 0.25, 0.25},
+  {0.75, 0.25},
+  {0.75, 0.25},
+};
+
+bandwidths_mbps = {6000, 300, 35, 5};
+
+latencies_us = {15, 250000, 500000, 1000000};
+
+# Hermes memory management. The following 4 values should add up to 1.
+# The percentage of Hermes memory to reserve for RAM buffers.
+buffer_pool_arena_percentage = 0.85;
+# The percentage of Hermes memory to reserve for metadata.
+metadata_arena_percentage = 0.04;
+# The percentage of Hermes memory to reserve for data transfers.
+transfer_window_arena_percentage = 0.08;
+# The percentage of Hermes memory to reserve for short term storage.
+transient_arena_percentage = 0.03;
+
+# The maxiumum number of buckets that can be created.
+max_buckets_per_node = 16;
+# The maxiumum number of virtual buckets that can be created.
+max_vbuckets_per_node = 8;
+# The interval in milliseconds at which to update the global system view.
+system_view_state_update_interval_ms = 100;
+
+# The mount point of each device. RAM should be the empty string. For block
+# devices, this is the directory where Hermes will create buffering files. For
+# object storage or cloud targets, this will be a url.
+mount_points = {"", "./", "/hd", "/sdcard"};
+# The mount point of a PFS or object store for swap space, in the event that
+# Hermes buffers become full.
+swap_mount = "/sdcard";
+# The number of times the buffer organizer will attempt to place a blob from
+# swap space into the hierarchy before giving up.
+num_buffer_organizer_retries = 3;
+# Base hostname for the RPC servers.
+rpc_server_base_name = "localhost";
+# RPC server name suffix. This is appended to the the base name plus host
+# number.
+rpc_server_suffix = "";
+# The RPC protocol. This must come from the documentation of the specific RPC
+# library in use.
+rpc_protocol = "ofi+sockets";
+# RPC domain name for verbs transport. Blank for tcp.
+rpc_domain = "";
+# Desired RPC port number.
+rpc_port = 8080;
+# Desired RPC port number for buffer organizer.
+buffer_organizer_port = 8081;
+# An inclusive range of the first and last server numbers. This is a convenience
+# feature for generating long lists of server names. For example, if your
+# servers are called server-1-40g, server-2-40g, server-3-40g, all the way to
+# server-100-40g, then you would set rpc_server_base_name to 'server',
+# rpc_server_suffix to '-40g', and rpc_host_number_range to {1, 100}.
+# TODO(chogan): Support reading server names from file.
+rpc_host_number_range = {0, 0};
+# The number of handler threads for each RPC server.
+rpc_num_threads = 1;
+# The shared memory prefix for the hermes shared memory segment. A user name
+# will be automatically appended.
+buffer_pool_shmem_name = "/hermes_buffer_pool_";
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2021-03-26 Fri 00:00</p>
+<p class="author">Author: Gerd Heber</p>
+<p class="date">Created: 2021-03-22 Mon 19:44</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
