@@ -1,0 +1,502 @@
+#+TITLE: Hermes Demo (10 min)
+#+DATE: [2021-03-26 Fri]
+#+OPTIONS: num:nil
+#+SETUPFILE: ~/org/theme-readtheorg.setup
+
+* Hermes Docker Container(s)
+
+Most painless way to get started w/ Hermes:
+[[https://hub.docker.com/repository/docker/hdfgroup/hermes][https://hub.docker.com/repository/docker/hdfgroup/hermes]]
+
+Make sure you allow the container to use a generous amount of shared memory, and
+mount all the volumes you'd like to find in the container.
+
+#+begin_src sh
+
+docker run --name hermes_container --shm-size 1G \
+       -v /mnt/hd:/hd -v /mnt/sdcard:/sdcard \
+       --it --entrypoint /bin/bash 5239038d60f1
+
+#+end_src
+
+* Demo 1 - Hermes Basics
+** Outline
+
+This is what a "native" Hermes app. looks like, currently.
+
+#+begin_src C++ :noweb noexport
+
+<<boilerplate>>
+
+void hermes_app_main(int* argcp, char*** argvp,
+                     std::shared_ptr<hapi::Hermes> const& hermes)
+{
+  <<hermes-main>>
+}
+
+int main(int argc, char **argv)
+{
+  <<cpp-main>>
+}
+
+#+end_src
+
+** Boilerplate
+
+#+begin_src C++ :noweb-ref boilerplate
+
+#include "hermes.h"
+#include "bucket.h"
+
+#include <cassert>
+#include <chrono>
+#include <cstdint>
+#include <iostream>
+#include <thread>
+#include <vector>
+
+#include <mpi.h>
+
+namespace hapi = hermes::api;
+
+using namespace std::chrono;
+
+#+end_src
+
+** Hermes =main=
+
+Parse arguments and get our "house number."
+
+Remember, Hermes does *NOT* use MPI for communication!
+
+#+begin_src C++ :noweb-ref hermes-main
+
+  if (*argcp != 5)
+    exit(-1);
+
+  size_t count = (size_t) atol((*argvp)[1]);
+  assert(count >= 1);
+  size_t size_mib = (size_t) atol((*argvp)[2]);
+  assert(size_mib >= 1);
+  int strategy = atoi((*argvp)[3]);
+  assert(strategy >= 0 && strategy < 3);
+
+  int app_rank = hermes->GetProcessRank();
+  int app_size = hermes->GetNumProcesses();
+
+ #+end_src
+
+Create a context and pick a default data placement policy.
+
+Create a shared bucket and a 1 MiB "dummy" blob that we'll place multiple times.
+
+#+begin_src C++ :noweb-ref hermes-main
+
+  hapi::Context ctx;
+
+  switch (strategy)
+    {
+    case 0:
+      ctx.policy = hapi::PlacementPolicy::kRandom;
+      break;
+    case 1:
+      ctx.policy = hapi::PlacementPolicy::kRoundRobin;
+      break;
+    case 2:
+      ctx.policy = hapi::PlacementPolicy::kMinimizeIoTime;
+      break;
+    default:
+      break;
+    }
+
+  hapi::Bucket shared_bucket(std::string("Share the bucket!"), hermes, ctx);
+
+  std::vector<uint8_t> MiB(size_mib*1024*1024);
+  uint8_t* data = &MiB[0];
+
+#+end_src
+
+#+begin_src C++ :hidden :noweb-ref hermes-main
+
+  auto sleep_duration = std::chrono::microseconds(150000);
+  hermes->AppBarrier();
+  auto start = high_resolution_clock::now();
+
+  #+end_src
+
+Do a bunch of ~Bucket::Put~ operations.
+
+*Note:* There is a vectorized version of ~Bucket::Put~.
+
+#+begin_src C++ :hidden :noweb-ref hermes-main
+
+  for (size_t i = app_rank; i < count; i += app_size)
+    {
+      std::string blob_name = ".hermes/" + std::to_string(i);
+      if (shared_bucket.Put(blob_name, data, MiB.size(), ctx).Failed())
+        throw("What the Bucket::Put?");
+      // HACK: Give the system a chance to update its view state!
+      std::this_thread::sleep_for(sleep_duration);
+    }
+
+ #+end_src
+
+#+begin_src C++ :hidden :noweb-ref hermes-main
+
+  auto elapsed = high_resolution_clock::now() - start;
+  uint64_t us = duration_cast<microseconds>(elapsed).count() -
+    count/app_size * sleep_duration.count();
+  std::cout << "Bucket->Put [us] : " << us << " : ~"
+            << 1024 * 1024 * size_mib * count / (app_size * us) << " MB/s\n";
+
+  hermes->AppBarrier();
+  start = high_resolution_clock::now();
+
+#+end_src
+
+Do a bunch of ~Bucket::Get~ operations.
+
+#+begin_src C++ :noweb-ref hermes-main
+
+  for (size_t i = app_rank; i < count; i += app_size)
+    {
+      std::string blob_name = ".hermes/" + std::to_string(i);
+      if (shared_bucket.Get(blob_name, MiB, ctx) != MiB.size())
+        throw("What the Bucket::Get?");
+    }
+
+#+end_src
+
+#+begin_src C++ :hidden :noweb-ref hermes-main
+
+  hermes->AppBarrier();
+
+  elapsed = high_resolution_clock::now() - start;
+  us = duration_cast<microseconds>(elapsed).count();
+
+  std::cout << "Bucket->Get [us] : " << us << " : ~"
+            << 1024 * 1024 * size_mib * count / (app_size * us) << " MB/s\n";
+
+  shared_bucket.Close(ctx);
+
+#+end_src
+
+** C++ =main=
+
+Make sure we have the right capabilities. Remember that we do *NOT* use MPI for
+communication. We just use the mechanics to spawn processes.
+
+#+begin_src C++ :noweb-ref cpp-main
+
+  try
+    {
+      int mpi_threads_provided;
+      MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE,
+                      &mpi_threads_provided);
+      if (mpi_threads_provided < MPI_THREAD_MULTIPLE)
+        {
+          std::cerr << "Didn't receive appropriate MPI threading spec.\n";
+          return 1;
+        }
+
+      char *config_file = 0;
+      if (argc == 5)
+        config_file = argv[argc-1];
+      else
+        {
+          std::cerr << "demo <blob_count> <blob_size_mib> "
+                    << "<placement_strategy> <hermes_config> !\n";
+          exit(-1);
+        }
+
+#+end_src
+
+In Hermes, there are two kinds of processes, processes that execute application
+code and processes that perform Hermes system functions.
+
+We measure the time application processes spend in ~hermes->Finalize~, which is
+essentially flushing buffers.
+
+#+begin_src C++ :noweb-ref cpp-main
+
+    std::shared_ptr<hapi::Hermes> hermes = hapi::InitHermes(config_file);
+
+    if (hermes->IsApplicationCore())
+      {
+        hermes_app_main(&argc, &argv, hermes);
+
+        int app_size = hermes->GetNumProcesses();
+        auto start = high_resolution_clock::now();
+
+        hermes->Finalize();
+
+        auto elapsed = high_resolution_clock::now() - start;
+        uint64_t us = duration_cast<microseconds>(elapsed).count();
+
+        std::cout << "hermes->Finalize [us] : " << us << " : ~"
+                  << (size_t) (atol(argv[1])*atol(argv[2])*1024*1024 /
+                               (app_size * us)) << " MB/s\n";
+      }
+    else
+      hermes->Finalize();
+
+#+end_src
+
+#+begin_src C++ :hidden :noweb-ref cpp-main
+
+    MPI_Finalize();
+  }
+catch (const std::exception& e)
+  {
+    std::cout << " a standard exception was caught, with message '"
+              << e.what() << "'\n";
+  }
+
+return 0;
+
+#+end_src
+
+** Do it
+
+#+begin_example
+
+demo1 <blob_count> <blob_size_mib> <placement_strategy> <hermes_config>
+
+#+end_example
+
+_Placement strategies_:
+
+- 0 :: Random placement
+- 1 :: Round-robin
+- 2 :: Linear programming
+
+#+begin_src sh
+
+mpiexec -n 4 demo 32 4 0 ./hermes.conf 2>&1 | tee stdout.xt | grep "\[us\]"
+
+#+end_src
+
+** Sample results
+
+#+begin_example
+hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 0 \
+                         ./hermes.conf 2>&1 | tee stdout.xt | grep "\[us\]"
+Bucket->Put [us] : 109585 : ~408 MB/s
+Bucket->Put [us] : 283296 : ~157 MB/s
+Bucket->Put [us] : 295500 : ~151 MB/s
+Bucket->Get [us] : 14239 : ~3142 MB/s
+Bucket->Get [us] : 16460 : ~2718 MB/s
+Bucket->Get [us] : 17578 : ~2545 MB/s
+hermes->Finalize [us] : 8281338 : ~5 MB/s
+hermes->Finalize [us] : 8284611 : ~5 MB/s
+hermes->Finalize [us] : 8282374 : ~5 MB/s
+
+hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 1 \
+                         ./hermes.conf 2>&1 | tee stdout.xt | grep "\[us\]"
+Bucket->Put [us] : 111854 : ~399 MB/s
+Bucket->Put [us] : 238306 : ~187 MB/s
+Bucket->Put [us] : 276623 : ~161 MB/s
+Bucket->Get [us] : 13842 : ~3232 MB/s
+Bucket->Get [us] : 14838 : ~3015 MB/s
+Bucket->Get [us] : 15763 : ~2838 MB/s
+hermes->Finalize [us] : 7954699 : ~5 MB/s
+hermes->Finalize [us] : 7955607 : ~5 MB/s
+hermes->Finalize [us] : 7956513 : ~5 MB/s
+
+hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 2 \
+                         ./hermes.conf 2>&1 | tee stdout.xt | grep "\[us\]"
+Bucket->Put [us] : 115891 : ~386 MB/s
+Bucket->Put [us] : 253087 : ~176 MB/s
+Bucket->Put [us] : 256169 : ~174 MB/s
+Bucket->Get [us] : 13544 : ~3303 MB/s
+Bucket->Get [us] : 14853 : ~3012 MB/s
+Bucket->Get [us] : 15710 : ~2847 MB/s
+hermes->Finalize [us] : 23256456 : ~1 MB/s
+hermes->Finalize [us] : 23257266 : ~1 MB/s
+hermes->Finalize [us] : 23258535 : ~1 MB/s
+
+#+end_example
+
+* Demo 2 - The UNIX STDIO Adapter
+
+Create a file w/ ~fopen~ and write a few bytes w/ ~fwrite~. Hermes intercepts
+the calls and ensures the right things are happening.
+
+#+begin_src C++ -N :tangle demo2.cc
+
+#include <cassert>
+#include <chrono>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+
+#include "mpi.h"
+
+using namespace std::chrono;
+
+int main(int argc, char** argv)
+{
+  // HACK: This is an artifact of how we are currently deploying Hermes.
+  MPI_Init(&argc, &argv);
+
+  FILE* fp;
+  assert((fp = fopen("foo.bytes", "w+")) != NULL);
+
+  size_t size = 4096;
+  if (argc == 2)
+    size = (size_t) atol(argv[1]);
+
+  unsigned char* buf = (unsigned char*) malloc(size);
+  assert(buf != NULL);
+
+  auto start = high_resolution_clock::now();
+
+  assert(fwrite(buf, sizeof(unsigned char), size, fp) == size);
+
+  auto elapsed = high_resolution_clock::now() - start;
+  uint64_t us1 = duration_cast<microseconds>(elapsed).count();
+
+  assert(fclose(fp) == 0);
+  elapsed = high_resolution_clock::now() - start;
+  uint64_t us2 = duration_cast<microseconds>(elapsed).count();
+
+  std::cout << "fwrite [us] : " << us1 << " : ~" << size / us1 << " MB/s\n";
+  std::cout << "fwrite+fclose [us] : " << us2 << " : ~" << size / us2
+            << " MB/s\n";
+
+  free(buf);
+
+  // HACK: Again...
+  MPI_Finalize();
+
+  return 0;
+}
+
+#+end_src
+
+Run it!
+
+#+begin_src sh
+
+LD_PRELOAD=libhermes_stdio.so demo2 $((2048*1024*1024)) > stdout.txt 2>&1
+
+#+end_src
+
+** Sample results
+
+#+begin_example
+
+hermes@991d97cb00f1:~/source/build$ LD_PRELAOD=libgotcha_stdio.so ./bin/demo2 \
+  $((2048*1024*1024))
+fwrite [us] : 872106 : ~2462 MB/s
+fwrite+fclose [us] : 8557582 : ~250 MB/s
+
+#+end_example
+
+
+* Appendix
+
+** =hermes.conf=
+
+#+begin_example
+num_devices = 4;
+# For now this should be the same as num_devices.
+num_targets = 4;
+
+capacities_mb = {128, 1024, 4096, 4096};
+
+block_sizes_kb = {4, 4, 256, 1024};
+
+num_slabs = {4, 4, 2, 2};
+
+slab_unit_sizes = {
+  {1, 4, 16, 32},
+  {1, 4, 16, 32},
+  {1, 4},
+  {1, 8},
+};
+
+desired_slab_percentages = {
+  {0.25, 0.25, 0.25, 0.25},
+  {0.25, 0.25, 0.25, 0.25},
+  {0.75, 0.25},
+  {0.75, 0.25},
+};
+
+bandwidths_mbps = {6000, 300, 35, 5};
+
+latencies_us = {15, 250000, 500000, 1000000};
+
+# Hermes memory management. The following 4 values should add up to 1.
+# The percentage of Hermes memory to reserve for RAM buffers.
+buffer_pool_arena_percentage = 0.85;
+# The percentage of Hermes memory to reserve for metadata.
+metadata_arena_percentage = 0.04;
+# The percentage of Hermes memory to reserve for data transfers.
+transfer_window_arena_percentage = 0.08;
+# The percentage of Hermes memory to reserve for short term storage.
+transient_arena_percentage = 0.03;
+
+# The maxiumum number of buckets that can be created.
+max_buckets_per_node = 16;
+# The maxiumum number of virtual buckets that can be created.
+max_vbuckets_per_node = 8;
+# The interval in milliseconds at which to update the global system view.
+system_view_state_update_interval_ms = 100;
+
+# The mount point of each device. RAM should be the empty string. For block
+# devices, this is the directory where Hermes will create buffering files. For
+# object storage or cloud targets, this will be a url.
+mount_points = {"", "./", "/hd", "/sdcard"};
+# The mount point of a PFS or object store for swap space, in the event that
+# Hermes buffers become full.
+swap_mount = "/sdcard";
+# The number of times the buffer organizer will attempt to place a blob from
+# swap space into the hierarchy before giving up.
+num_buffer_organizer_retries = 3;
+# Base hostname for the RPC servers.
+rpc_server_base_name = "localhost";
+# RPC server name suffix. This is appended to the the base name plus host
+# number.
+rpc_server_suffix = "";
+# The RPC protocol. This must come from the documentation of the specific RPC
+# library in use.
+rpc_protocol = "ofi+sockets";
+# RPC domain name for verbs transport. Blank for tcp.
+rpc_domain = "";
+# Desired RPC port number.
+rpc_port = 8080;
+# Desired RPC port number for buffer organizer.
+buffer_organizer_port = 8081;
+# An inclusive range of the first and last server numbers. This is a convenience
+# feature for generating long lists of server names. For example, if your
+# servers are called server-1-40g, server-2-40g, server-3-40g, all the way to
+# server-100-40g, then you would set rpc_server_base_name to 'server',
+# rpc_server_suffix to '-40g', and rpc_host_number_range to {1, 100}.
+# TODO(chogan): Support reading server names from file.
+rpc_host_number_range = {0, 0};
+# The number of handler threads for each RPC server.
+rpc_num_threads = 1;
+# The shared memory prefix for the hermes shared memory segment. A user name
+# will be automatically appended.
+buffer_pool_shmem_name = "/hermes_buffer_pool_";
+#+end_example
+
+* =demo1.cc=
+
+#+begin_src C++ -N :noweb yes :tangle demo1.cc
+
+<<boilerplate>>
+
+void hermes_app_main(int* argcp, char*** argvp,
+                     std::shared_ptr<hapi::Hermes> const& hermes)
+{
+  <<hermes-main>>
+}
+
+int main(int argc, char **argv)
+{
+  <<cpp-main>>
+}
+
+#+end_src
