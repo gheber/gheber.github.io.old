@@ -3,6 +3,45 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-03-23
+** Your questions
+???
+
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for abstracts: 1 June 2021
+  - Event: 12-15 October 2021
+- [[https://github.com/hdfgroup/hdf4][HDF4 is on GitHub]]
+- Don't forget to [[https://forum.hdfgroup.org/t/webinar-announcement-hermes-a-distributed-buffering-system-for-heterogeneous-storage-hierarchies/8269][register for the Hermes webinar]] on Friday (03/26)
+*** Forum
+**** [[https://forum.hdfgroup.org/t/how-to-convert-xml-to-hdf5/8279][How to convert XML to HDF5]]
+- There is no /canonical/ conversion path, even if you have an XML schema
+  - XML is simpler because elements are strictly nested
+  - XML can be trickier because of element repetition and the non-obligatory
+    nature of certain elements or attributes
+- Start w/ a scripting language that has XML (parsing) and HDF5 modules
+  - [[https://github.com/akheron/jansson][Jannson]] works well if you prefer C
+- Consider XSLT to simplify first
+**** [[https://forum.hdfgroup.org/t/hdf5dotnet-library/8314][HDF5DotNet library]]
+- It's been out of maintenance for many years
+- _Alternatives_: [[https://www.nuget.org/packages/HDF.PInvoke/][HDF.PInvoke]] (Windows only) and [[https://www.nuget.org/packages/HDF.PInvoke.1.10/][HDF.PInvoke.1.10]] (.NET
+  Standard)
+  - Both are based on HDF5 1.10.x
+- *Note:* We (The HDF Group) are neither C# nor .NET experts. [[https://docs.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke][=PInvoke=]] is about
+  the level of abstraction we can handle. We count on and rely on knowledgeable
+  community members for advice and contributions.
+- There are many interesting community projects, for example, [[https://github.com/Apollo3zehn/HDF5.NET][HDF5.NET]]:
+  - Based on the HDF5 file format spec. & no HDF5 library dependence!
+**** [[https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284][Parallel HDF5 write with irregular size in one dimension]]
+- Many of our examples s..k, and we have to do a lot better
+  - Maybe we created them this way to generate more questions? :-/
+- HDF5 dataspaces are logical, chunks are physical
+  - Write a (logically) correct program first and then optimize performance!
+
+** Tips & tricks
+
 * Clinic 2021-03-16
 ** Your questions
 
