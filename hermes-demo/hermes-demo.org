@@ -84,6 +84,8 @@ Remember, Hermes does *NOT* use MPI for communication!
   int app_rank = hermes->GetProcessRank();
   int app_size = hermes->GetNumProcesses();
 
+  size_t my_count = (count - count%app_size) / app_size;
+
  #+end_src
 
 Create a context and pick a default data placement policy.
@@ -128,7 +130,7 @@ Do a bunch of ~Bucket::Put~ operations.
 
 *Note:* There is a vectorized version of ~Bucket::Put~.
 
-#+begin_src C++ :hidden :noweb-ref hermes-main
+#+begin_src C++ :noweb-ref hermes-main
 
   for (size_t i = app_rank; i < count; i += app_size)
     {
@@ -141,13 +143,13 @@ Do a bunch of ~Bucket::Put~ operations.
 
  #+end_src
 
-#+begin_src C++ :hidden :noweb-ref hermes-main
+#+begin_src C++ :dir hidden :noweb-ref hermes-main
 
   auto elapsed = high_resolution_clock::now() - start;
   uint64_t us = duration_cast<microseconds>(elapsed).count() -
-    count/app_size * sleep_duration.count();
+    my_count * sleep_duration.count();
   std::cout << "Bucket->Put [us] : " << us << " : ~"
-            << 1024 * 1024 * size_mib * count / (app_size * us) << " MB/s\n";
+            << 1024 * 1024 * size_mib * my_count / us << " MB/s\n";
 
   hermes->AppBarrier();
   start = high_resolution_clock::now();
@@ -175,7 +177,7 @@ Do a bunch of ~Bucket::Get~ operations.
   us = duration_cast<microseconds>(elapsed).count();
 
   std::cout << "Bucket->Get [us] : " << us << " : ~"
-            << 1024 * 1024 * size_mib * count / (app_size * us) << " MB/s\n";
+            << 1024 * 1024 * size_mib * my_count / us << " MB/s\n";
 
   shared_bucket.Close(ctx);
 
@@ -386,10 +388,10 @@ LD_PRELOAD=libhermes_stdio.so demo2 $((2048*1024*1024)) > stdout.txt 2>&1
 
 #+begin_example
 
-hermes@991d97cb00f1:~/source/build$ LD_PRELAOD=libgotcha_stdio.so ./bin/demo2 \
-  $((2048*1024*1024))
-fwrite [us] : 872106 : ~2462 MB/s
-fwrite+fclose [us] : 8557582 : ~250 MB/s
+hermes@991d97cb00f1:~/source/build$ LD_PRELAOD=libhermes_stdio.so ./bin/demo2 \
+  $((2048*1024*1024)) 2>&1 | tee stdout.txt | grep "\[us\]"
+fwrite [us] : 405653 : ~5293 MB/s
+fwrite+fclose [us] : 1570303 : ~1367 MB/s
 
 #+end_example
 

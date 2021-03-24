@@ -32,6 +32,8 @@ void hermes_app_main(int* argcp, char*** argvp,
   int app_rank = hermes->GetProcessRank();
   int app_size = hermes->GetNumProcesses();
   
+  size_t my_count = (count - count%app_size) / app_size;
+  
   
   hapi::Context ctx;
   
@@ -73,9 +75,9 @@ void hermes_app_main(int* argcp, char*** argvp,
   
   auto elapsed = high_resolution_clock::now() - start;
   uint64_t us = duration_cast<microseconds>(elapsed).count() -
-    count/app_size * sleep_duration.count();
+    my_count * sleep_duration.count();
   std::cout << "Bucket->Put [us] : " << us << " : ~"
-            << 1024 * 1024 * size_mib * count / (app_size * us) << " MB/s\n";
+            << 1024 * 1024 * size_mib * my_count / us << " MB/s\n";
   
   hermes->AppBarrier();
   start = high_resolution_clock::now();
@@ -95,7 +97,7 @@ void hermes_app_main(int* argcp, char*** argvp,
   us = duration_cast<microseconds>(elapsed).count();
   
   std::cout << "Bucket->Get [us] : " << us << " : ~"
-            << 1024 * 1024 * size_mib * count / (app_size * us) << " MB/s\n";
+            << 1024 * 1024 * size_mib * my_count / us << " MB/s\n";
   
   shared_bucket.Close(ctx);
   

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-03-24 Wed 09:34 -->
+<!-- 2021-03-24 Wed 10:15 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Hermes Demo (10 min)</title>
@@ -229,35 +229,35 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgc788e32">Hermes Docker Container(s)</a></li>
-<li><a href="#orgc16833f">Demo 1 - Hermes Basics</a>
+<li><a href="#org8b1d6dd">Hermes Docker Container(s)</a></li>
+<li><a href="#org6be3787">Demo 1 - Hermes Basics</a>
 <ul>
-<li><a href="#org7493bcf">Outline</a></li>
-<li><a href="#orgfa8d01c">Boilerplate</a></li>
-<li><a href="#org6b76671">Hermes <code>main</code></a></li>
-<li><a href="#orgc0bb84d">C++ <code>main</code></a></li>
-<li><a href="#orged10761">Do it</a></li>
-<li><a href="#org75e71ef">Sample results</a></li>
+<li><a href="#org8e96385">Outline</a></li>
+<li><a href="#org1c2c717">Boilerplate</a></li>
+<li><a href="#org83dd781">Hermes <code>main</code></a></li>
+<li><a href="#org0898872">C++ <code>main</code></a></li>
+<li><a href="#orgd09e021">Do it</a></li>
+<li><a href="#orga846459">Sample results</a></li>
 </ul>
 </li>
-<li><a href="#orgd819b45">Demo 2 - The UNIX STDIO Adapter</a>
+<li><a href="#org7fa4a29">Demo 2 - The UNIX STDIO Adapter</a>
 <ul>
-<li><a href="#org0fbb81d">Sample results</a></li>
+<li><a href="#orgb9a1f56">Sample results</a></li>
 </ul>
 </li>
-<li><a href="#org7d3aa81">Appendix</a>
+<li><a href="#org71b23a4">Appendix</a>
 <ul>
-<li><a href="#orga5d7554"><code>hermes.conf</code></a></li>
+<li><a href="#org094eb6c"><code>hermes.conf</code></a></li>
 </ul>
 </li>
-<li><a href="#org4ce73cb"><code>demo1.cc</code></a></li>
+<li><a href="#org07a888d"><code>demo1.cc</code></a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgc788e32" class="outline-2">
-<h2 id="orgc788e32">Hermes Docker Container(s)</h2>
-<div class="outline-text-2" id="text-orgc788e32">
+<div id="outline-container-org8b1d6dd" class="outline-2">
+<h2 id="org8b1d6dd">Hermes Docker Container(s)</h2>
+<div class="outline-text-2" id="text-org8b1d6dd">
 <p>
 Most painless way to get started w/ Hermes:
 <a href="https://hub.docker.com/repository/docker/hdfgroup/hermes">https://hub.docker.com/repository/docker/hdfgroup/hermes</a>
@@ -279,13 +279,13 @@ docker run -it --name hermes_container --shm-size 1G <span style="color: #008000
 </div>
 </div>
 
-<div id="outline-container-orgc16833f" class="outline-2">
-<h2 id="orgc16833f">Demo 1 - Hermes Basics</h2>
-<div class="outline-text-2" id="text-orgc16833f">
+<div id="outline-container-org6be3787" class="outline-2">
+<h2 id="org6be3787">Demo 1 - Hermes Basics</h2>
+<div class="outline-text-2" id="text-org6be3787">
 </div>
-<div id="outline-container-org7493bcf" class="outline-3">
-<h3 id="org7493bcf">Outline</h3>
-<div class="outline-text-3" id="text-org7493bcf">
+<div id="outline-container-org8e96385" class="outline-3">
+<h3 id="org8e96385">Outline</h3>
+<div class="outline-text-3" id="text-org8e96385">
 <p>
 This is what a "native" Hermes app. looks like, currently.
 </p>
@@ -310,9 +310,9 @@ This is what a "native" Hermes app. looks like, currently.
 </div>
 </div>
 
-<div id="outline-container-orgfa8d01c" class="outline-3">
-<h3 id="orgfa8d01c">Boilerplate</h3>
-<div class="outline-text-3" id="text-orgfa8d01c">
+<div id="outline-container-org1c2c717" class="outline-3">
+<h3 id="org1c2c717">Boilerplate</h3>
+<div class="outline-text-3" id="text-org1c2c717">
 <div class="org-src-container">
 <pre class="src src-C++">
 <span style="color: #808080;">#include</span> <span style="color: #008000;">"hermes.h"</span>
@@ -336,9 +336,9 @@ This is what a "native" Hermes app. looks like, currently.
 </div>
 </div>
 
-<div id="outline-container-org6b76671" class="outline-3">
-<h3 id="org6b76671">Hermes <code>main</code></h3>
-<div class="outline-text-3" id="text-org6b76671">
+<div id="outline-container-org83dd781" class="outline-3">
+<h3 id="org83dd781">Hermes <code>main</code></h3>
+<div class="outline-text-3" id="text-org83dd781">
 <p>
 Parse arguments and get our "house number."
 </p>
@@ -361,6 +361,8 @@ assert(strategy &gt;= 0 &amp;&amp; strategy &lt; 3);
 
 <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">app_rank</span> = hermes-&gt;GetProcessRank();
 <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">app_size</span> = hermes-&gt;GetNumProcesses();
+
+<span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">my_count</span> = (count - count%app_size) / app_size;
 
 </pre>
 </div>
@@ -435,9 +437,9 @@ Do a bunch of <code>Bucket::Put</code> operations.
 <pre class="src src-C++">
 <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">elapsed</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
 <span style="color: #6434A3;">uint64_t</span> <span style="color: #BA36A5;">us</span> = duration_cast&lt;microseconds&gt;(elapsed).count() -
-  count/app_size * sleep_duration.count();
+  my_count * sleep_duration.count();
 <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Bucket-&gt;Put [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
-          &lt;&lt; 1024 * 1024 * size_mib * count / (app_size * us) &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
+          &lt;&lt; 1024 * 1024 * size_mib * my_count / us &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
 
 hermes-&gt;AppBarrier();
 start = <span style="color: #D0372D;">high_resolution_clock</span>::now();
@@ -469,7 +471,7 @@ elapsed = <span style="color: #D0372D;">high_resolution_clock</span>::now() - st
 us = duration_cast&lt;microseconds&gt;(elapsed).count();
 
 <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Bucket-&gt;Get [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
-          &lt;&lt; 1024 * 1024 * size_mib * count / (app_size * us) &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
+          &lt;&lt; 1024 * 1024 * size_mib * my_count / us &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
 
 shared_bucket.Close(ctx);
 
@@ -478,9 +480,9 @@ shared_bucket.Close(ctx);
 </div>
 </div>
 
-<div id="outline-container-orgc0bb84d" class="outline-3">
-<h3 id="orgc0bb84d">C++ <code>main</code></h3>
-<div class="outline-text-3" id="text-orgc0bb84d">
+<div id="outline-container-org0898872" class="outline-3">
+<h3 id="org0898872">C++ <code>main</code></h3>
+<div class="outline-text-3" id="text-org0898872">
 <p>
 Make sure we have the right capabilities. Remember that we do <b>NOT</b> use MPI for
 communication. We just use the mechanics to spawn processes.
@@ -565,10 +567,10 @@ essentially flushing buffers.
 </div>
 </div>
 
-<div id="outline-container-orged10761" class="outline-3">
-<h3 id="orged10761">Do it</h3>
-<div class="outline-text-3" id="text-orged10761">
-<pre class="example" id="org33840d3">
+<div id="outline-container-orgd09e021" class="outline-3">
+<h3 id="orgd09e021">Do it</h3>
+<div class="outline-text-3" id="text-orgd09e021">
+<pre class="example" id="org8d9474c">
 
 demo1 &lt;blob_count&gt; &lt;blob_size_mib&gt; &lt;placement_strategy&gt; &lt;hermes_config&gt;
 
@@ -593,10 +595,10 @@ mpiexec -n 4 demo 32 4 0 ./hermes.conf 2&gt;&amp;1 | tee stdout.xt | grep <span 
 </div>
 </div>
 
-<div id="outline-container-org75e71ef" class="outline-3">
-<h3 id="org75e71ef">Sample results</h3>
-<div class="outline-text-3" id="text-org75e71ef">
-<pre class="example" id="orgd7fefcc">
+<div id="outline-container-orga846459" class="outline-3">
+<h3 id="orga846459">Sample results</h3>
+<div class="outline-text-3" id="text-orga846459">
+<pre class="example" id="org6cc3331">
 hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 0 \
                          ./hermes.conf 2&gt;&amp;1 | tee stdout.xt | grep "\[us\]"
 Bucket-&gt;Put [us] : 109585 : ~408 MB/s
@@ -638,9 +640,9 @@ hermes-&gt;Finalize [us] : 23258535 : ~1 MB/s
 </div>
 </div>
 
-<div id="outline-container-orgd819b45" class="outline-2">
-<h2 id="orgd819b45">Demo 2 - The UNIX STDIO Adapter</h2>
-<div class="outline-text-2" id="text-orgd819b45">
+<div id="outline-container-org7fa4a29" class="outline-2">
+<h2 id="org7fa4a29">Demo 2 - The UNIX STDIO Adapter</h2>
+<div class="outline-text-2" id="text-org7fa4a29">
 <p>
 Create a file w/ <code>fopen</code> and write a few bytes w/ <code>fwrite</code>. Hermes intercepts
 the calls and ensures the right things are happening.
@@ -711,15 +713,15 @@ Run it!
 </div>
 </div>
 
-<div id="outline-container-org0fbb81d" class="outline-3">
-<h3 id="org0fbb81d">Sample results</h3>
-<div class="outline-text-3" id="text-org0fbb81d">
-<pre class="example" id="org31b7b67">
+<div id="outline-container-orgb9a1f56" class="outline-3">
+<h3 id="orgb9a1f56">Sample results</h3>
+<div class="outline-text-3" id="text-orgb9a1f56">
+<pre class="example" id="org30d7584">
 
-hermes@991d97cb00f1:~/source/build$ LD_PRELAOD=libgotcha_stdio.so ./bin/demo2 \
-  $((2048*1024*1024))
-fwrite [us] : 872106 : ~2462 MB/s
-fwrite+fclose [us] : 8557582 : ~250 MB/s
+hermes@991d97cb00f1:~/source/build$ LD_PRELAOD=libhermes_stdio.so ./bin/demo2 \
+  $((2048*1024*1024)) 2&gt;&amp;1 | tee stdout.txt | grep "\[us\]"
+fwrite [us] : 405653 : ~5293 MB/s
+fwrite+fclose [us] : 1570303 : ~1367 MB/s
 
 </pre>
 </div>
@@ -727,14 +729,14 @@ fwrite+fclose [us] : 8557582 : ~250 MB/s
 </div>
 
 
-<div id="outline-container-org7d3aa81" class="outline-2">
-<h2 id="org7d3aa81">Appendix</h2>
-<div class="outline-text-2" id="text-org7d3aa81">
+<div id="outline-container-org71b23a4" class="outline-2">
+<h2 id="org71b23a4">Appendix</h2>
+<div class="outline-text-2" id="text-org71b23a4">
 </div>
-<div id="outline-container-orga5d7554" class="outline-3">
-<h3 id="orga5d7554"><code>hermes.conf</code></h3>
-<div class="outline-text-3" id="text-orga5d7554">
-<pre class="example" id="org5739ac1">
+<div id="outline-container-org094eb6c" class="outline-3">
+<h3 id="org094eb6c"><code>hermes.conf</code></h3>
+<div class="outline-text-3" id="text-org094eb6c">
+<pre class="example" id="orgfc39346">
 
 # The number of buffering tiers available. For example, RAM, NVMe, burst
 # buffer, and parallel file system would be 4 tiers.
@@ -839,9 +841,9 @@ buffer_pool_shmem_name = "/hermes_buffer_pool_";
 </div>
 </div>
 
-<div id="outline-container-org4ce73cb" class="outline-2">
-<h2 id="org4ce73cb"><code>demo1.cc</code></h2>
-<div class="outline-text-2" id="text-org4ce73cb">
+<div id="outline-container-org07a888d" class="outline-2">
+<h2 id="org07a888d"><code>demo1.cc</code></h2>
+<div class="outline-text-2" id="text-org07a888d">
 <div class="org-src-container">
 <pre class="src src-C++"><span class="linenr">  1: </span>
 <span class="linenr">  2: </span>
@@ -879,134 +881,136 @@ buffer_pool_shmem_name = "/hermes_buffer_pool_";
 <span class="linenr"> 34: </span>  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">app_rank</span> = hermes-&gt;GetProcessRank();
 <span class="linenr"> 35: </span>  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">app_size</span> = hermes-&gt;GetNumProcesses();
 <span class="linenr"> 36: </span>
-<span class="linenr"> 37: </span>
-<span class="linenr"> 38: </span>  <span style="color: #D0372D;">hapi</span>::<span style="color: #6434A3;">Context</span> <span style="color: #BA36A5;">ctx</span>;
+<span class="linenr"> 37: </span>  <span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">my_count</span> = (count - count%app_size) / app_size;
+<span class="linenr"> 38: </span>
 <span class="linenr"> 39: </span>
-<span class="linenr"> 40: </span>  <span style="color: #0000FF;">switch</span> (strategy)
-<span class="linenr"> 41: </span>    {
-<span class="linenr"> 42: </span>    <span style="color: #0000FF;">case</span> 0:
-<span class="linenr"> 43: </span>      ctx.policy = <span style="color: #D0372D;">hapi</span>::<span style="color: #D0372D;">PlacementPolicy</span>::kRandom;
-<span class="linenr"> 44: </span>      <span style="color: #0000FF;">break</span>;
-<span class="linenr"> 45: </span>    <span style="color: #0000FF;">case</span> 1:
-<span class="linenr"> 46: </span>      ctx.policy = <span style="color: #D0372D;">hapi</span>::<span style="color: #D0372D;">PlacementPolicy</span>::kRoundRobin;
-<span class="linenr"> 47: </span>      <span style="color: #0000FF;">break</span>;
-<span class="linenr"> 48: </span>    <span style="color: #0000FF;">case</span> 2:
-<span class="linenr"> 49: </span>      ctx.policy = <span style="color: #D0372D;">hapi</span>::<span style="color: #D0372D;">PlacementPolicy</span>::kMinimizeIoTime;
-<span class="linenr"> 50: </span>      <span style="color: #0000FF;">break</span>;
-<span class="linenr"> 51: </span>    <span style="color: #0000FF;">default</span>:
+<span class="linenr"> 40: </span>  <span style="color: #D0372D;">hapi</span>::<span style="color: #6434A3;">Context</span> <span style="color: #BA36A5;">ctx</span>;
+<span class="linenr"> 41: </span>
+<span class="linenr"> 42: </span>  <span style="color: #0000FF;">switch</span> (strategy)
+<span class="linenr"> 43: </span>    {
+<span class="linenr"> 44: </span>    <span style="color: #0000FF;">case</span> 0:
+<span class="linenr"> 45: </span>      ctx.policy = <span style="color: #D0372D;">hapi</span>::<span style="color: #D0372D;">PlacementPolicy</span>::kRandom;
+<span class="linenr"> 46: </span>      <span style="color: #0000FF;">break</span>;
+<span class="linenr"> 47: </span>    <span style="color: #0000FF;">case</span> 1:
+<span class="linenr"> 48: </span>      ctx.policy = <span style="color: #D0372D;">hapi</span>::<span style="color: #D0372D;">PlacementPolicy</span>::kRoundRobin;
+<span class="linenr"> 49: </span>      <span style="color: #0000FF;">break</span>;
+<span class="linenr"> 50: </span>    <span style="color: #0000FF;">case</span> 2:
+<span class="linenr"> 51: </span>      ctx.policy = <span style="color: #D0372D;">hapi</span>::<span style="color: #D0372D;">PlacementPolicy</span>::kMinimizeIoTime;
 <span class="linenr"> 52: </span>      <span style="color: #0000FF;">break</span>;
-<span class="linenr"> 53: </span>    }
-<span class="linenr"> 54: </span>
-<span class="linenr"> 55: </span>  <span style="color: #D0372D;">hapi</span>::<span style="color: #6434A3;">Bucket</span> <span style="color: #BA36A5;">shared_bucket</span>(<span style="color: #D0372D;">std</span>::string(<span style="color: #008000;">"Share the bucket!"</span>), hermes, ctx);
+<span class="linenr"> 53: </span>    <span style="color: #0000FF;">default</span>:
+<span class="linenr"> 54: </span>      <span style="color: #0000FF;">break</span>;
+<span class="linenr"> 55: </span>    }
 <span class="linenr"> 56: </span>
-<span class="linenr"> 57: </span>  <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">uint8_t</span>&gt; <span style="color: #BA36A5;">MiB</span>(size_mib*1024*1024);
-<span class="linenr"> 58: </span>  <span style="color: #6434A3;">uint8_t</span>* <span style="color: #BA36A5;">data</span> = &amp;MiB[0];
-<span class="linenr"> 59: </span>
-<span class="linenr"> 60: </span>
-<span class="linenr"> 61: </span>  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">sleep_duration</span> = <span style="color: #D0372D;">std</span>::<span style="color: #D0372D;">chrono</span>::microseconds(150000);
-<span class="linenr"> 62: </span>  hermes-&gt;AppBarrier();
-<span class="linenr"> 63: </span>  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">start</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now();
-<span class="linenr"> 64: </span>
-<span class="linenr"> 65: </span>
-<span class="linenr"> 66: </span>  <span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">i</span> = app_rank; i &lt; count; i += app_size)
-<span class="linenr"> 67: </span>    {
-<span class="linenr"> 68: </span>      <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">blob_name</span> = <span style="color: #008000;">".hermes/"</span> + <span style="color: #D0372D;">std</span>::to_string(i);
-<span class="linenr"> 69: </span>      <span style="color: #0000FF;">if</span> (shared_bucket.Put(blob_name, data, MiB.size(), ctx).Failed())
-<span class="linenr"> 70: </span>        <span style="color: #0000FF;">throw</span>(<span style="color: #008000;">"What the Bucket::Put?"</span>);
-<span class="linenr"> 71: </span>      <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">HACK: Give the system a chance to update its view state!</span>
-<span class="linenr"> 72: </span>      <span style="color: #D0372D;">std</span>::<span style="color: #D0372D;">this_thread</span>::sleep_for(sleep_duration);
-<span class="linenr"> 73: </span>    }
-<span class="linenr"> 74: </span>
-<span class="linenr"> 75: </span>
-<span class="linenr"> 76: </span>  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">elapsed</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
-<span class="linenr"> 77: </span>  <span style="color: #6434A3;">uint64_t</span> <span style="color: #BA36A5;">us</span> = duration_cast&lt;microseconds&gt;(elapsed).count() -
-<span class="linenr"> 78: </span>    count/app_size * sleep_duration.count();
-<span class="linenr"> 79: </span>  <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Bucket-&gt;Put [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
-<span class="linenr"> 80: </span>            &lt;&lt; 1024 * 1024 * size_mib * count / (app_size * us) &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
-<span class="linenr"> 81: </span>
-<span class="linenr"> 82: </span>  hermes-&gt;AppBarrier();
-<span class="linenr"> 83: </span>  start = <span style="color: #D0372D;">high_resolution_clock</span>::now();
-<span class="linenr"> 84: </span>
-<span class="linenr"> 85: </span>
-<span class="linenr"> 86: </span>  <span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">i</span> = app_rank; i &lt; count; i += app_size)
-<span class="linenr"> 87: </span>    {
-<span class="linenr"> 88: </span>      <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">blob_name</span> = <span style="color: #008000;">".hermes/"</span> + <span style="color: #D0372D;">std</span>::to_string(i);
-<span class="linenr"> 89: </span>      <span style="color: #0000FF;">if</span> (shared_bucket.Get(blob_name, MiB, ctx) != MiB.size())
-<span class="linenr"> 90: </span>        <span style="color: #0000FF;">throw</span>(<span style="color: #008000;">"What the Bucket::Get?"</span>);
-<span class="linenr"> 91: </span>    }
-<span class="linenr"> 92: </span>
-<span class="linenr"> 93: </span>
-<span class="linenr"> 94: </span>  hermes-&gt;AppBarrier();
+<span class="linenr"> 57: </span>  <span style="color: #D0372D;">hapi</span>::<span style="color: #6434A3;">Bucket</span> <span style="color: #BA36A5;">shared_bucket</span>(<span style="color: #D0372D;">std</span>::string(<span style="color: #008000;">"Share the bucket!"</span>), hermes, ctx);
+<span class="linenr"> 58: </span>
+<span class="linenr"> 59: </span>  <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">vector</span>&lt;<span style="color: #6434A3;">uint8_t</span>&gt; <span style="color: #BA36A5;">MiB</span>(size_mib*1024*1024);
+<span class="linenr"> 60: </span>  <span style="color: #6434A3;">uint8_t</span>* <span style="color: #BA36A5;">data</span> = &amp;MiB[0];
+<span class="linenr"> 61: </span>
+<span class="linenr"> 62: </span>
+<span class="linenr"> 63: </span>  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">sleep_duration</span> = <span style="color: #D0372D;">std</span>::<span style="color: #D0372D;">chrono</span>::microseconds(150000);
+<span class="linenr"> 64: </span>  hermes-&gt;AppBarrier();
+<span class="linenr"> 65: </span>  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">start</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now();
+<span class="linenr"> 66: </span>
+<span class="linenr"> 67: </span>
+<span class="linenr"> 68: </span>  <span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">i</span> = app_rank; i &lt; count; i += app_size)
+<span class="linenr"> 69: </span>    {
+<span class="linenr"> 70: </span>      <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">blob_name</span> = <span style="color: #008000;">".hermes/"</span> + <span style="color: #D0372D;">std</span>::to_string(i);
+<span class="linenr"> 71: </span>      <span style="color: #0000FF;">if</span> (shared_bucket.Put(blob_name, data, MiB.size(), ctx).Failed())
+<span class="linenr"> 72: </span>        <span style="color: #0000FF;">throw</span>(<span style="color: #008000;">"What the Bucket::Put?"</span>);
+<span class="linenr"> 73: </span>      <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">HACK: Give the system a chance to update its view state!</span>
+<span class="linenr"> 74: </span>      <span style="color: #D0372D;">std</span>::<span style="color: #D0372D;">this_thread</span>::sleep_for(sleep_duration);
+<span class="linenr"> 75: </span>    }
+<span class="linenr"> 76: </span>
+<span class="linenr"> 77: </span>
+<span class="linenr"> 78: </span>  <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">elapsed</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
+<span class="linenr"> 79: </span>  <span style="color: #6434A3;">uint64_t</span> <span style="color: #BA36A5;">us</span> = duration_cast&lt;microseconds&gt;(elapsed).count() -
+<span class="linenr"> 80: </span>    my_count * sleep_duration.count();
+<span class="linenr"> 81: </span>  <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Bucket-&gt;Put [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
+<span class="linenr"> 82: </span>            &lt;&lt; 1024 * 1024 * size_mib * my_count / us &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
+<span class="linenr"> 83: </span>
+<span class="linenr"> 84: </span>  hermes-&gt;AppBarrier();
+<span class="linenr"> 85: </span>  start = <span style="color: #D0372D;">high_resolution_clock</span>::now();
+<span class="linenr"> 86: </span>
+<span class="linenr"> 87: </span>
+<span class="linenr"> 88: </span>  <span style="color: #0000FF;">for</span> (<span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">i</span> = app_rank; i &lt; count; i += app_size)
+<span class="linenr"> 89: </span>    {
+<span class="linenr"> 90: </span>      <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">string</span> <span style="color: #BA36A5;">blob_name</span> = <span style="color: #008000;">".hermes/"</span> + <span style="color: #D0372D;">std</span>::to_string(i);
+<span class="linenr"> 91: </span>      <span style="color: #0000FF;">if</span> (shared_bucket.Get(blob_name, MiB, ctx) != MiB.size())
+<span class="linenr"> 92: </span>        <span style="color: #0000FF;">throw</span>(<span style="color: #008000;">"What the Bucket::Get?"</span>);
+<span class="linenr"> 93: </span>    }
+<span class="linenr"> 94: </span>
 <span class="linenr"> 95: </span>
-<span class="linenr"> 96: </span>  elapsed = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
-<span class="linenr"> 97: </span>  us = duration_cast&lt;microseconds&gt;(elapsed).count();
-<span class="linenr"> 98: </span>
-<span class="linenr"> 99: </span>  <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Bucket-&gt;Get [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
-<span class="linenr">100: </span>            &lt;&lt; 1024 * 1024 * size_mib * count / (app_size * us) &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
-<span class="linenr">101: </span>
-<span class="linenr">102: </span>  shared_bucket.Close(ctx);
+<span class="linenr"> 96: </span>  hermes-&gt;AppBarrier();
+<span class="linenr"> 97: </span>
+<span class="linenr"> 98: </span>  elapsed = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
+<span class="linenr"> 99: </span>  us = duration_cast&lt;microseconds&gt;(elapsed).count();
+<span class="linenr">100: </span>
+<span class="linenr">101: </span>  <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"Bucket-&gt;Get [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
+<span class="linenr">102: </span>            &lt;&lt; 1024 * 1024 * size_mib * my_count / us &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
 <span class="linenr">103: </span>
-<span class="linenr">104: </span>}
+<span class="linenr">104: </span>  shared_bucket.Close(ctx);
 <span class="linenr">105: </span>
-<span class="linenr">106: </span><span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">argc</span>, <span style="color: #6434A3;">char</span> **<span style="color: #BA36A5;">argv</span>)
-<span class="linenr">107: </span>{
-<span class="linenr">108: </span>
-<span class="linenr">109: </span>  <span style="color: #0000FF;">try</span>
-<span class="linenr">110: </span>    {
-<span class="linenr">111: </span>      <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">mpi_threads_provided</span>;
-<span class="linenr">112: </span>      MPI_Init_thread(&amp;argc, &amp;argv, MPI_THREAD_MULTIPLE,
-<span class="linenr">113: </span>                      &amp;mpi_threads_provided);
-<span class="linenr">114: </span>      <span style="color: #0000FF;">if</span> (mpi_threads_provided &lt; MPI_THREAD_MULTIPLE)
-<span class="linenr">115: </span>        {
-<span class="linenr">116: </span>          <span style="color: #D0372D;">std</span>::cerr &lt;&lt; <span style="color: #008000;">"Didn't receive appropriate MPI threading spec.\n"</span>;
-<span class="linenr">117: </span>          <span style="color: #0000FF;">return</span> 1;
-<span class="linenr">118: </span>        }
-<span class="linenr">119: </span>
-<span class="linenr">120: </span>      <span style="color: #6434A3;">char</span> *<span style="color: #BA36A5;">config_file</span> = 0;
-<span class="linenr">121: </span>      <span style="color: #0000FF;">if</span> (argc == 5)
-<span class="linenr">122: </span>        config_file = argv[argc-1];
-<span class="linenr">123: </span>      <span style="color: #0000FF;">else</span>
-<span class="linenr">124: </span>        {
-<span class="linenr">125: </span>          <span style="color: #D0372D;">std</span>::cerr &lt;&lt; <span style="color: #008000;">"demo &lt;blob_count&gt; &lt;blob_size_mib&gt; "</span>
-<span class="linenr">126: </span>                    &lt;&lt; <span style="color: #008000;">"&lt;placement_strategy&gt; &lt;hermes_config&gt; !\n"</span>;
-<span class="linenr">127: </span>          exit(-1);
-<span class="linenr">128: </span>        }
-<span class="linenr">129: </span>
-<span class="linenr">130: </span>
-<span class="linenr">131: </span>  <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">shared_ptr</span>&lt;<span style="color: #D0372D;">hapi</span>::Hermes&gt; <span style="color: #BA36A5;">hermes</span> = <span style="color: #D0372D;">hapi</span>::InitHermes(config_file);
+<span class="linenr">106: </span>}
+<span class="linenr">107: </span>
+<span class="linenr">108: </span><span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>(<span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">argc</span>, <span style="color: #6434A3;">char</span> **<span style="color: #BA36A5;">argv</span>)
+<span class="linenr">109: </span>{
+<span class="linenr">110: </span>
+<span class="linenr">111: </span>  <span style="color: #0000FF;">try</span>
+<span class="linenr">112: </span>    {
+<span class="linenr">113: </span>      <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">mpi_threads_provided</span>;
+<span class="linenr">114: </span>      MPI_Init_thread(&amp;argc, &amp;argv, MPI_THREAD_MULTIPLE,
+<span class="linenr">115: </span>                      &amp;mpi_threads_provided);
+<span class="linenr">116: </span>      <span style="color: #0000FF;">if</span> (mpi_threads_provided &lt; MPI_THREAD_MULTIPLE)
+<span class="linenr">117: </span>        {
+<span class="linenr">118: </span>          <span style="color: #D0372D;">std</span>::cerr &lt;&lt; <span style="color: #008000;">"Didn't receive appropriate MPI threading spec.\n"</span>;
+<span class="linenr">119: </span>          <span style="color: #0000FF;">return</span> 1;
+<span class="linenr">120: </span>        }
+<span class="linenr">121: </span>
+<span class="linenr">122: </span>      <span style="color: #6434A3;">char</span> *<span style="color: #BA36A5;">config_file</span> = 0;
+<span class="linenr">123: </span>      <span style="color: #0000FF;">if</span> (argc == 5)
+<span class="linenr">124: </span>        config_file = argv[argc-1];
+<span class="linenr">125: </span>      <span style="color: #0000FF;">else</span>
+<span class="linenr">126: </span>        {
+<span class="linenr">127: </span>          <span style="color: #D0372D;">std</span>::cerr &lt;&lt; <span style="color: #008000;">"demo &lt;blob_count&gt; &lt;blob_size_mib&gt; "</span>
+<span class="linenr">128: </span>                    &lt;&lt; <span style="color: #008000;">"&lt;placement_strategy&gt; &lt;hermes_config&gt; !\n"</span>;
+<span class="linenr">129: </span>          exit(-1);
+<span class="linenr">130: </span>        }
+<span class="linenr">131: </span>
 <span class="linenr">132: </span>
-<span class="linenr">133: </span>  <span style="color: #0000FF;">if</span> (hermes-&gt;IsApplicationCore())
-<span class="linenr">134: </span>    {
-<span class="linenr">135: </span>      hermes_app_main(&amp;argc, &amp;argv, hermes);
-<span class="linenr">136: </span>
-<span class="linenr">137: </span>      <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">app_size</span> = hermes-&gt;GetNumProcesses();
-<span class="linenr">138: </span>      <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">start</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now();
-<span class="linenr">139: </span>
-<span class="linenr">140: </span>      hermes-&gt;Finalize();
+<span class="linenr">133: </span>  <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">shared_ptr</span>&lt;<span style="color: #D0372D;">hapi</span>::Hermes&gt; <span style="color: #BA36A5;">hermes</span> = <span style="color: #D0372D;">hapi</span>::InitHermes(config_file);
+<span class="linenr">134: </span>
+<span class="linenr">135: </span>  <span style="color: #0000FF;">if</span> (hermes-&gt;IsApplicationCore())
+<span class="linenr">136: </span>    {
+<span class="linenr">137: </span>      hermes_app_main(&amp;argc, &amp;argv, hermes);
+<span class="linenr">138: </span>
+<span class="linenr">139: </span>      <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">app_size</span> = hermes-&gt;GetNumProcesses();
+<span class="linenr">140: </span>      <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">start</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now();
 <span class="linenr">141: </span>
-<span class="linenr">142: </span>      <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">elapsed</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
-<span class="linenr">143: </span>      <span style="color: #6434A3;">uint64_t</span> <span style="color: #BA36A5;">us</span> = duration_cast&lt;microseconds&gt;(elapsed).count();
-<span class="linenr">144: </span>
-<span class="linenr">145: </span>      <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"hermes-&gt;Finalize [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
-<span class="linenr">146: </span>                &lt;&lt; (<span style="color: #6434A3;">size_t</span>) (atol(argv[1])*atol(argv[2])*1024*1024 /
-<span class="linenr">147: </span>                             (app_size * us)) &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
-<span class="linenr">148: </span>    }
-<span class="linenr">149: </span>  <span style="color: #0000FF;">else</span>
-<span class="linenr">150: </span>    hermes-&gt;Finalize();
-<span class="linenr">151: </span>
-<span class="linenr">152: </span>
-<span class="linenr">153: </span>      MPI_Finalize();
-<span class="linenr">154: </span>    }
-<span class="linenr">155: </span>  <span style="color: #0000FF;">catch</span> (<span style="color: #0000FF;">const</span> <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">exception</span>&amp; <span style="color: #BA36A5;">e</span>)
-<span class="linenr">156: </span>    {
-<span class="linenr">157: </span>      <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">" a standard exception was caught, with message '"</span>
-<span class="linenr">158: </span>                &lt;&lt; e.what() &lt;&lt; <span style="color: #008000;">"'\n"</span>;
-<span class="linenr">159: </span>    }
-<span class="linenr">160: </span>
-<span class="linenr">161: </span>  <span style="color: #0000FF;">return</span> 0;
+<span class="linenr">142: </span>      hermes-&gt;Finalize();
+<span class="linenr">143: </span>
+<span class="linenr">144: </span>      <span style="color: #0000FF;">auto</span> <span style="color: #BA36A5;">elapsed</span> = <span style="color: #D0372D;">high_resolution_clock</span>::now() - start;
+<span class="linenr">145: </span>      <span style="color: #6434A3;">uint64_t</span> <span style="color: #BA36A5;">us</span> = duration_cast&lt;microseconds&gt;(elapsed).count();
+<span class="linenr">146: </span>
+<span class="linenr">147: </span>      <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">"hermes-&gt;Finalize [us] : "</span> &lt;&lt; us &lt;&lt; <span style="color: #008000;">" : ~"</span>
+<span class="linenr">148: </span>                &lt;&lt; (<span style="color: #6434A3;">size_t</span>) (atol(argv[1])*atol(argv[2])*1024*1024 /
+<span class="linenr">149: </span>                             (app_size * us)) &lt;&lt; <span style="color: #008000;">" MB/s\n"</span>;
+<span class="linenr">150: </span>    }
+<span class="linenr">151: </span>  <span style="color: #0000FF;">else</span>
+<span class="linenr">152: </span>    hermes-&gt;Finalize();
+<span class="linenr">153: </span>
+<span class="linenr">154: </span>
+<span class="linenr">155: </span>      MPI_Finalize();
+<span class="linenr">156: </span>    }
+<span class="linenr">157: </span>  <span style="color: #0000FF;">catch</span> (<span style="color: #0000FF;">const</span> <span style="color: #D0372D;">std</span>::<span style="color: #6434A3;">exception</span>&amp; <span style="color: #BA36A5;">e</span>)
+<span class="linenr">158: </span>    {
+<span class="linenr">159: </span>      <span style="color: #D0372D;">std</span>::cout &lt;&lt; <span style="color: #008000;">" a standard exception was caught, with message '"</span>
+<span class="linenr">160: </span>                &lt;&lt; e.what() &lt;&lt; <span style="color: #008000;">"'\n"</span>;
+<span class="linenr">161: </span>    }
 <span class="linenr">162: </span>
-<span class="linenr">163: </span>}
+<span class="linenr">163: </span>  <span style="color: #0000FF;">return</span> 0;
 <span class="linenr">164: </span>
+<span class="linenr">165: </span>}
+<span class="linenr">166: </span>
 </pre>
 </div>
 </div>
@@ -1015,7 +1019,7 @@ buffer_pool_shmem_name = "/hermes_buffer_pool_";
 <div id="postamble" class="status">
 <p class="date">Date: 2021-03-26 Fri 00:00</p>
 <p class="author">Author: Gerd Heber</p>
-<p class="date">Created: 2021-03-24 Wed 09:34</p>
+<p class="date">Created: 2021-03-24 Wed 10:15</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
