@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-03-23 Tue 08:43 -->
+<!-- 2021-03-24 Wed 09:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Hermes Demo (10 min)</title>
@@ -229,35 +229,35 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org925f477">Hermes Docker Container(s)</a></li>
-<li><a href="#org4d40fbd">Demo 1 - Hermes Basics</a>
+<li><a href="#orgc788e32">Hermes Docker Container(s)</a></li>
+<li><a href="#orgc16833f">Demo 1 - Hermes Basics</a>
 <ul>
-<li><a href="#org155efe8">Outline</a></li>
-<li><a href="#org9d6650c">Boilerplate</a></li>
-<li><a href="#orga011599">Hermes <code>main</code></a></li>
-<li><a href="#org6bed406">C++ <code>main</code></a></li>
-<li><a href="#org017c697">Do it</a></li>
-<li><a href="#org65fb2f8">Sample results</a></li>
+<li><a href="#org7493bcf">Outline</a></li>
+<li><a href="#orgfa8d01c">Boilerplate</a></li>
+<li><a href="#org6b76671">Hermes <code>main</code></a></li>
+<li><a href="#orgc0bb84d">C++ <code>main</code></a></li>
+<li><a href="#orged10761">Do it</a></li>
+<li><a href="#org75e71ef">Sample results</a></li>
 </ul>
 </li>
-<li><a href="#org6fe4ecf">Demo 2 - The UNIX STDIO Adapter</a>
+<li><a href="#orgd819b45">Demo 2 - The UNIX STDIO Adapter</a>
 <ul>
-<li><a href="#org269af60">Sample results</a></li>
+<li><a href="#org0fbb81d">Sample results</a></li>
 </ul>
 </li>
-<li><a href="#orga28cdf9">Appendix</a>
+<li><a href="#org7d3aa81">Appendix</a>
 <ul>
-<li><a href="#orgd2cf84d"><code>hermes.conf</code></a></li>
+<li><a href="#orga5d7554"><code>hermes.conf</code></a></li>
 </ul>
 </li>
-<li><a href="#orgebd166d"><code>demo1.cc</code></a></li>
+<li><a href="#org4ce73cb"><code>demo1.cc</code></a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org925f477" class="outline-2">
-<h2 id="org925f477">Hermes Docker Container(s)</h2>
-<div class="outline-text-2" id="text-org925f477">
+<div id="outline-container-orgc788e32" class="outline-2">
+<h2 id="orgc788e32">Hermes Docker Container(s)</h2>
+<div class="outline-text-2" id="text-orgc788e32">
 <p>
 Most painless way to get started w/ Hermes:
 <a href="https://hub.docker.com/repository/docker/hdfgroup/hermes">https://hub.docker.com/repository/docker/hdfgroup/hermes</a>
@@ -270,22 +270,22 @@ mount all the volumes you'd like to find in the container.
 
 <div class="org-src-container">
 <pre class="src src-sh">
-docker run --name hermes_container --shm-size 1G <span style="color: #008000;">\</span>
+docker run -it --name hermes_container --shm-size 1G <span style="color: #008000;">\</span>
        -v /mnt/hd:/hd -v /mnt/sdcard:/sdcard <span style="color: #008000;">\</span>
-       --it --entrypoint /bin/bash 5239038d60f1
+       --entrypoint /bin/bash 5239038d60f1
 
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4d40fbd" class="outline-2">
-<h2 id="org4d40fbd">Demo 1 - Hermes Basics</h2>
-<div class="outline-text-2" id="text-org4d40fbd">
+<div id="outline-container-orgc16833f" class="outline-2">
+<h2 id="orgc16833f">Demo 1 - Hermes Basics</h2>
+<div class="outline-text-2" id="text-orgc16833f">
 </div>
-<div id="outline-container-org155efe8" class="outline-3">
-<h3 id="org155efe8">Outline</h3>
-<div class="outline-text-3" id="text-org155efe8">
+<div id="outline-container-org7493bcf" class="outline-3">
+<h3 id="org7493bcf">Outline</h3>
+<div class="outline-text-3" id="text-org7493bcf">
 <p>
 This is what a "native" Hermes app. looks like, currently.
 </p>
@@ -310,9 +310,9 @@ This is what a "native" Hermes app. looks like, currently.
 </div>
 </div>
 
-<div id="outline-container-org9d6650c" class="outline-3">
-<h3 id="org9d6650c">Boilerplate</h3>
-<div class="outline-text-3" id="text-org9d6650c">
+<div id="outline-container-orgfa8d01c" class="outline-3">
+<h3 id="orgfa8d01c">Boilerplate</h3>
+<div class="outline-text-3" id="text-orgfa8d01c">
 <div class="org-src-container">
 <pre class="src src-C++">
 <span style="color: #808080;">#include</span> <span style="color: #008000;">"hermes.h"</span>
@@ -336,9 +336,9 @@ This is what a "native" Hermes app. looks like, currently.
 </div>
 </div>
 
-<div id="outline-container-orga011599" class="outline-3">
-<h3 id="orga011599">Hermes <code>main</code></h3>
-<div class="outline-text-3" id="text-orga011599">
+<div id="outline-container-org6b76671" class="outline-3">
+<h3 id="org6b76671">Hermes <code>main</code></h3>
+<div class="outline-text-3" id="text-org6b76671">
 <p>
 Parse arguments and get our "house number."
 </p>
@@ -478,9 +478,9 @@ shared_bucket.Close(ctx);
 </div>
 </div>
 
-<div id="outline-container-org6bed406" class="outline-3">
-<h3 id="org6bed406">C++ <code>main</code></h3>
-<div class="outline-text-3" id="text-org6bed406">
+<div id="outline-container-orgc0bb84d" class="outline-3">
+<h3 id="orgc0bb84d">C++ <code>main</code></h3>
+<div class="outline-text-3" id="text-orgc0bb84d">
 <p>
 Make sure we have the right capabilities. Remember that we do <b>NOT</b> use MPI for
 communication. We just use the mechanics to spawn processes.
@@ -565,10 +565,10 @@ essentially flushing buffers.
 </div>
 </div>
 
-<div id="outline-container-org017c697" class="outline-3">
-<h3 id="org017c697">Do it</h3>
-<div class="outline-text-3" id="text-org017c697">
-<pre class="example" id="orgb077e7a">
+<div id="outline-container-orged10761" class="outline-3">
+<h3 id="orged10761">Do it</h3>
+<div class="outline-text-3" id="text-orged10761">
+<pre class="example" id="org33840d3">
 
 demo1 &lt;blob_count&gt; &lt;blob_size_mib&gt; &lt;placement_strategy&gt; &lt;hermes_config&gt;
 
@@ -593,10 +593,10 @@ mpiexec -n 4 demo 32 4 0 ./hermes.conf 2&gt;&amp;1 | tee stdout.xt | grep <span 
 </div>
 </div>
 
-<div id="outline-container-org65fb2f8" class="outline-3">
-<h3 id="org65fb2f8">Sample results</h3>
-<div class="outline-text-3" id="text-org65fb2f8">
-<pre class="example" id="org9cb2f2a">
+<div id="outline-container-org75e71ef" class="outline-3">
+<h3 id="org75e71ef">Sample results</h3>
+<div class="outline-text-3" id="text-org75e71ef">
+<pre class="example" id="orgd7fefcc">
 hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 0 \
                          ./hermes.conf 2&gt;&amp;1 | tee stdout.xt | grep "\[us\]"
 Bucket-&gt;Put [us] : 109585 : ~408 MB/s
@@ -638,9 +638,9 @@ hermes-&gt;Finalize [us] : 23258535 : ~1 MB/s
 </div>
 </div>
 
-<div id="outline-container-org6fe4ecf" class="outline-2">
-<h2 id="org6fe4ecf">Demo 2 - The UNIX STDIO Adapter</h2>
-<div class="outline-text-2" id="text-org6fe4ecf">
+<div id="outline-container-orgd819b45" class="outline-2">
+<h2 id="orgd819b45">Demo 2 - The UNIX STDIO Adapter</h2>
+<div class="outline-text-2" id="text-orgd819b45">
 <p>
 Create a file w/ <code>fopen</code> and write a few bytes w/ <code>fwrite</code>. Hermes intercepts
 the calls and ensures the right things are happening.
@@ -711,10 +711,10 @@ Run it!
 </div>
 </div>
 
-<div id="outline-container-org269af60" class="outline-3">
-<h3 id="org269af60">Sample results</h3>
-<div class="outline-text-3" id="text-org269af60">
-<pre class="example" id="orgcb28b82">
+<div id="outline-container-org0fbb81d" class="outline-3">
+<h3 id="org0fbb81d">Sample results</h3>
+<div class="outline-text-3" id="text-org0fbb81d">
+<pre class="example" id="org31b7b67">
 
 hermes@991d97cb00f1:~/source/build$ LD_PRELAOD=libgotcha_stdio.so ./bin/demo2 \
   $((2048*1024*1024))
@@ -727,24 +727,36 @@ fwrite+fclose [us] : 8557582 : ~250 MB/s
 </div>
 
 
-<div id="outline-container-orga28cdf9" class="outline-2">
-<h2 id="orga28cdf9">Appendix</h2>
-<div class="outline-text-2" id="text-orga28cdf9">
+<div id="outline-container-org7d3aa81" class="outline-2">
+<h2 id="org7d3aa81">Appendix</h2>
+<div class="outline-text-2" id="text-org7d3aa81">
 </div>
-<div id="outline-container-orgd2cf84d" class="outline-3">
-<h3 id="orgd2cf84d"><code>hermes.conf</code></h3>
-<div class="outline-text-3" id="text-orgd2cf84d">
-<pre class="example" id="orgd8ec872">
+<div id="outline-container-orga5d7554" class="outline-3">
+<h3 id="orga5d7554"><code>hermes.conf</code></h3>
+<div class="outline-text-3" id="text-orga5d7554">
+<pre class="example" id="org5739ac1">
+
+# The number of buffering tiers available. For example, RAM, NVMe, burst
+# buffer, and parallel file system would be 4 tiers.
 num_devices = 4;
+
 # For now this should be the same as num_devices.
 num_targets = 4;
 
+# The maximum buffering capacity in MiB of each device.
 capacities_mb = {128, 1024, 4096, 4096};
 
+# The size of the smallest available buffer in KiB. In general this should be
+# the page size of your system for byte addressable storage, and the block
+# size of the storage device for block addressable storage.
 block_sizes_kb = {4, 4, 256, 1024};
 
+# The number of different buffers a device should have.
 num_slabs = {4, 4, 2, 2};
 
+# The number of blocks (the size of which is chosen in block_sizes_kb) that
+# each device should contain for each slab (controlled by num_slabs). This
+# allows for precise control of the distibution of buffer sizes.
 slab_unit_sizes = {
   {1, 4, 16, 32},
   {1, 4, 16, 32},
@@ -752,6 +764,8 @@ slab_unit_sizes = {
   {1, 8},
 };
 
+# The percentage of buffering capacity per device to allocate for each slab.
+# Each row should add up to 1.
 desired_slab_percentages = {
   {0.25, 0.25, 0.25, 0.25},
   {0.25, 0.25, 0.25, 0.25},
@@ -759,8 +773,12 @@ desired_slab_percentages = {
   {0.75, 0.25},
 };
 
+# The maximum theoretical bandwidth (as advertised by the manufacturer) in
+# MiB/sec. of each device.
 bandwidths_mbps = {6000, 300, 35, 5};
 
+# The latency in microseconds of each device (as advertised by the
+# manufactuerer).
 latencies_us = {15, 250000, 500000, 1000000};
 
 # Hermes memory management. The following 4 values should add up to 1.
@@ -821,9 +839,9 @@ buffer_pool_shmem_name = "/hermes_buffer_pool_";
 </div>
 </div>
 
-<div id="outline-container-orgebd166d" class="outline-2">
-<h2 id="orgebd166d"><code>demo1.cc</code></h2>
-<div class="outline-text-2" id="text-orgebd166d">
+<div id="outline-container-org4ce73cb" class="outline-2">
+<h2 id="org4ce73cb"><code>demo1.cc</code></h2>
+<div class="outline-text-2" id="text-org4ce73cb">
 <div class="org-src-container">
 <pre class="src src-C++"><span class="linenr">  1: </span>
 <span class="linenr">  2: </span>
@@ -997,7 +1015,7 @@ buffer_pool_shmem_name = "/hermes_buffer_pool_";
 <div id="postamble" class="status">
 <p class="date">Date: 2021-03-26 Fri 00:00</p>
 <p class="author">Author: Gerd Heber</p>
-<p class="date">Created: 2021-03-23 Tue 08:43</p>
+<p class="date">Created: 2021-03-24 Wed 09:34</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
