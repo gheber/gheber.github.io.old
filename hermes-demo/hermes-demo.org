@@ -20,6 +20,12 @@ docker run -it --name hermes_container --shm-size 1G \
 #+end_src
 
 * Demo 1 - Hermes Basics
+** Goal
+
+Demonstrate how to create a bucket and write (~Bucket::Put~) a sequence of blobs
+of a given size using a specified placement strategy, and read (~Bucket::Get~)
+them back.
+
 ** Outline
 
 This is what a "native" Hermes app. looks like, currently.
@@ -320,6 +326,12 @@ hermes->Finalize [us] : 23258535 : ~1 MB/s
 #+end_example
 
 * Demo 2 - The UNIX STDIO Adapter
+
+** Goal
+
+Demonstrate the use of the UNIX STDIO adapter by intercepting =fopen=, =fwrite=, and =fclose=.
+
+** Code
 
 Create a file w/ ~fopen~ and write a few bytes w/ ~fwrite~. Hermes intercepts
 the calls and ensures the right things are happening.

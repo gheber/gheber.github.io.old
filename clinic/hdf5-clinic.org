@@ -664,7 +664,7 @@ multiple operations combined.
   - Assuming we are dealing with a correct program
   - Special case w/ multiple processes: Single Writer Multiple Reader
 - Isolation (serialization) :: Even though operations execute concurrently, it
-appears to each operation, OP, that others executed either before OP or after
+  appears to each operation, OP, that others executed either before OP or after
   OP, but not both.
   - Supported in HDF5? **No.**
   - Depends on concurrency scenario and requires special configuration (e.g.,
