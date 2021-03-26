@@ -280,14 +280,14 @@ _Placement strategies_:
 
 #+begin_src sh
 
-mpiexec -n 4 demo 32 4 0 ./hermes.conf 2>&1 | tee stdout.xt | grep "\[us\]"
+mpiexec -n 4 demo1 32 4 0 ./hermes.conf 2>&1 | tee stdout.xt | grep "\[us\]"
 
 #+end_src
 
 ** Sample results
 
 #+begin_example
-hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 0 \
+hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo1 32 4 0 \
                          ./hermes.conf 2>&1 | tee stdout.xt | grep "\[us\]"
 Bucket->Put [us] : 109585 : ~408 MB/s
 Bucket->Put [us] : 283296 : ~157 MB/s
@@ -299,7 +299,7 @@ hermes->Finalize [us] : 8281338 : ~5 MB/s
 hermes->Finalize [us] : 8284611 : ~5 MB/s
 hermes->Finalize [us] : 8282374 : ~5 MB/s
 
-hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 1 \
+hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo1 32 4 1 \
                          ./hermes.conf 2>&1 | tee stdout.xt | grep "\[us\]"
 Bucket->Put [us] : 111854 : ~399 MB/s
 Bucket->Put [us] : 238306 : ~187 MB/s
@@ -311,7 +311,7 @@ hermes->Finalize [us] : 7954699 : ~5 MB/s
 hermes->Finalize [us] : 7955607 : ~5 MB/s
 hermes->Finalize [us] : 7956513 : ~5 MB/s
 
-hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo 32 4 2 \
+hermes@d69a3f7ab649:~$ mpiexec -n 4 ./source/build/bin/demo1 32 4 2 \
                          ./hermes.conf 2>&1 | tee stdout.xt | grep "\[us\]"
 Bucket->Put [us] : 115891 : ~386 MB/s
 Bucket->Put [us] : 253087 : ~176 MB/s
