@@ -3,6 +3,49 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-03-30
+** Your questions
+
+???
+
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/2021-ecp-community-bof-days/8346][HDF5 Community BOF]] at ECP
+  - Today at 3:00 PM Eastern Time(!)
+- [[https://www.nuget.org/packages/HDF5.NET][Alpha 4 release]] of [[https://github.com/Apollo3zehn/HDF5.NET][HDF5.NET]]
+    - Based on the HDF5 file format spec. & no HDF5 library dependence!
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for abstracts: 1 June 2021
+  - Event: 12-15 October 2021
+*** Forum
+**** [[https://forum.hdfgroup.org/t/how-can-attributes-of-an-existing-object-be-modified/8319][How can attributes of an existing object be modified?]]
+- There are several different "namespaces" in HDF5
+- Examples:
+  - Global (=file-level) path names
+  - Per object attribute names
+  - Per compound type field names
+  - Etc.
+- Some have constraints such as reserved characters, character encoding, length,
+  etc.
+- Most importantly, they are disjoint and /don't mix/
+  - Disambiguation would be too costly, if not impossible
+**** [[https://forum.hdfgroup.org/t/hdf5dotnet-library/8314][HDF5DotNet library]]
+- There's perhaps a place for wrappers of the HDF5 C-API and and independent .NET native (=full-managed) solution (e.g., [[https://github.com/Apollo3zehn/HDF5.NET][HDF5.NET]])
+- [[http://swig.org/][SWIG]] (Simplified Wrapper and Interface Generator) has come a long way
+  - Should that be the path forward for [[https://github.com/HDFGroup/HDF.PInvoke][HDF.PInvoke]]
+  - We need greater automation and (.NET) platform independence
+  - Focus on testing
+  - Any thoughts/comments?
+** Tips & tricks
+*** The "mystery" of the HDF5 file format
+- The specification published [[https://portal.hdfgroup.org/display/HDF5/File+Format+Specification][here]] can seem overwhelming. Part of the problem is
+  that you are seeing at least three versions layered on top of each other.
+- The [[https://hdf5.io/develop/_f_m_t1.html][first (?) version]] was a lot simpler, and has all the core ideas
+- Once you've digested that, you are ready for the [[https://hdf5.io/develop/_s_p_e_c.html][other versions]] and consider
+  writing your own (de-)serializer
+- Don't get carried away: only a tiny fraction of the HDF5 library's code deals
+  w/ serialization
 * Clinic 2021-03-23
 ** Your questions
 ???
