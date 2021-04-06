@@ -5,19 +5,35 @@
 
 * Clinic 2021-03-30
 ** Your questions
-
-???
+*** Question 1
+We have observed that reading a dataset with variable-length ASCII strings and
+setting the read mem. type to =H5T_C_S1 (size=H5T_VARIABLE /
+cset=H5T_CSET_UTF8)=, produces an error with =“H5T.c line 4893 in
+H5T__path_find_real(): no appropriate function for conversion path”=. However,
+if we read first another dataset of the same file that contains UTF8 strings and
+then the same dataset with ASCII strings, no errors are returned whatsoever and
+the content seems to be retrieved. Is this an expected behaviour, or are we
+missing something?
+- As a side note, the same situation can be replicated by setting the cset to
+  =H5T_CSET_ASCII= and opening first the ASCII-based dataset before the
+  UTF8-dataset, or any other combination, as long as the first call succeeded
+  (e.g., opening the ASCII dataset with =cset=H5T_CSET_ASCII=, then opening the
+  same ASCII dataset with =cset=H5T_CSET_UTF8= also seems to work).
+- Tested using HDF5 v1.10.7, v1.12.0, and manually compiling the most recent
+  commit on the official GitHub repository. The code was compiled with GCC
+  9.3.0 + HPE-MPI v2.22, but no MPI file access property was given (i.e., using
+  =H5P_DEFAULT= to avoid MPI-IO).
+- Further information: https://github.com/HDFGroup/hdf5/issues/544
 
 ** Last week's highlights
 *** Announcements
-- [[https://forum.hdfgroup.org/t/2021-ecp-community-bof-days/8346][HDF5 Community BOF]] at ECP
-  - Today at 3:00 PM Eastern Time(!)
 - [[https://www.nuget.org/packages/HDF5.NET][Alpha 4 release]] of [[https://github.com/Apollo3zehn/HDF5.NET][HDF5.NET]]
     - Based on the HDF5 file format spec. & no HDF5 library dependence!
 - [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
   - Format: "Paper and Presentation" or "Presentation"
   - Deadline for abstracts: 1 June 2021
   - Event: 12-15 October 2021
+
 *** Forum
 **** [[https://forum.hdfgroup.org/t/how-can-attributes-of-an-existing-object-be-modified/8319][How can attributes of an existing object be modified?]]
 - There are several different "namespaces" in HDF5
@@ -37,15 +53,31 @@
   - We need greater automation and (.NET) platform independence
   - Focus on testing
   - Any thoughts/comments?
+
+**** [[https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284][Parallel HDF5 write with irregular size in one dimension]]
+- Posted an example that shows how different ranks can write varying amounts of
+  data to a chunked dataset in parallel. Some ranks don't write any data. The
+  chunk size is chosen arbitrarily.
 ** Tips & tricks
 *** The "mystery" of the HDF5 file format
 - The specification published [[https://portal.hdfgroup.org/display/HDF5/File+Format+Specification][here]] can seem overwhelming. Part of the problem is
   that you are seeing at least three versions layered on top of each other.
-- The [[https://hdf5.io/develop/_f_m_t1.html][first (?) version]] was a lot simpler, and has all the core ideas
-- Once you've digested that, you are ready for the [[https://hdf5.io/develop/_s_p_e_c.html][other versions]] and consider
+- The [[https://hdf5.io/develop/_f_m_t1.html][first (?) release]] was a lot simpler, and has all the core ideas
+- Once you've digested that, you are ready for the [[https://hdf5.io/develop/_s_p_e_c.html][other releases]] and consider
   writing your own (de-)serializer
 - Don't get carried away: only a tiny fraction of the HDF5 library's code deals
   w/ serialization
+** Coming soon
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- Will take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
+Let us know!
+
+* Clinic 2021-03-30
+Canceled because of ECP event.
 * Clinic 2021-03-23
 ** Your questions
 ???
