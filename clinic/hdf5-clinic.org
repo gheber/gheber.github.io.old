@@ -3,7 +3,7 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
-* Clinic 2021-03-30
+* Clinic 2021-04-06
 ** Your questions
 *** Question 1
 We have observed that reading a dataset with variable-length ASCII strings and
