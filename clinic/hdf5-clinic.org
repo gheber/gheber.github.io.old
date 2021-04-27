@@ -3,6 +3,203 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-04-27
+** Your questions
+
+** Last week's highlights
+*** Announcements
+- ECP BOF Day slides are [[https://www.hdfgroup.org/wp-content/uploads/2021/04/ECP-HDF5-Comm-BOF-All-Slides.pdf][available]]
+- Part 2 of  [[https://forum.hdfgroup.org/t/webinar-announcement-hdf5-application-tuning-there-is-more-than-one-way-to-skin-a-cat-fish-part-2/8387][HDF5 Application Tuning]]
+  - April 30, 11:00 AM Central
+  - This time it's about HDF5 library performance variability
+- [[https://forum.hdfgroup.org/t/webinar-announcement-h5coro-the-hdf5-cloud-optimized-read-only-library/8429][H5Coro: The HDF5 Cloud-Optimized Read-Only Library]]
+    - May 14, 11:00 AM Central
+    -  Looking at ways to efficiently access HDF5 files residing in AWS S3
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for abstracts: 1 June 2021
+  - Event: 12-15 October 2021
+*** Forum
+**** [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Doxygen-based RM merged to =develop=]]
+- Pull requests welcome
+- Feedback on life cycle intros wanted, e.g., [[http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/group___h5_a.html][H5A]], [[http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/group___h5_d.html][H5D]], [[http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/group___h5_f.html][H5F]]
+**** [[https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284][Parallel HDF5 write with irregular size in one dimension]]
+- Rob Latham confirmed an [[https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284/10][issue]] in Darshan's HDF5 module
+**** [[https://forum.hdfgroup.org/t/how-to-use-h5ocopy-to-copy-a-group-with-hard-links/8443][How to use H5ocopy to copy a group with hard links]]
+- I don't understand it: are we copying groups or links (or both)?
+** Tips, tricks, & insights
+**** The =h5stat= tool
+
+#+begin_example
+Usage: h5stat [OPTIONS] file
+
+      OPTIONS
+     -h, --help            Print a usage message and exit
+     -V, --version         Print version number and exit
+     -f, --file            Print file information
+     -F, --filemetadata    Print file space information for file's metadata
+     -g, --group           Print group information
+     -l N, --links=N       Set the threshold for the # of links when printing
+                           information for small groups.  N is an integer greater
+                           than 0.  The default threshold is 10.
+     -G, --groupmetadata   Print file space information for groups' metadata
+     -d, --dset            Print dataset information
+     -m N, --dims=N        Set the threshold for the dimension sizes when printing
+                           information for small datasets.  N is an integer greater
+                           than 0.  The default threshold is 10.
+     -D, --dsetmetadata    Print file space information for datasets' metadata
+     -T, --dtypemetadata   Print datasets' datatype information
+     -A, --attribute       Print attribute information
+     -a N, --numattrs=N    Set the threshold for the # of attributes when printing
+                           information for small # of attributes.  N is an integer greater
+                           than 0.  The default threshold is 10.
+     -s, --freespace       Print free space information
+     -S, --summary         Print summary of file space information
+     --enable-error-stack  Prints messages from the HDF5 error stack as they occur
+     --s3-cred=<cred>      Access file on S3, using provided credential
+                           <cred> :: (region,id,key)
+                           If <cred> == "(,,)", no authentication is used.
+     --hdfs-attrs=<attrs>  Access a file on HDFS with given configuration
+                           attributes.
+                           <attrs> :: (<namenode name>,<namenode port>,
+                                       <kerberos cache path>,<username>,
+                                       <buffer size>)
+                           If an attribute is empty, a default value will be
+                           used.
+#+end_example
+
+Let's see this in action:
+
+#+begin_example
+File information
+        # of unique groups: 718
+        # of unique datasets: 351
+        # of unique named datatypes: 4
+        # of unique links: 353
+        # of unique other: 0
+        Max. # of links to object: 701
+        Max. # of objects in group: 350
+File space information for file metadata (in bytes):
+        Superblock: 48
+        Superblock extension: 0
+        User block: 0
+        Object headers: (total/unused)
+                Groups: 156725/16817
+                Datasets(exclude compact data): 129918/538
+                Datatypes: 1474/133
+        Groups:
+                B-tree/List: 21656
+                Heap: 33772
+        Attributes:
+                B-tree/List: 0
+                Heap: 0
+        Chunked datasets:
+                Index: 138
+        Datasets:
+                Heap: 0
+        Shared Messages:
+                Header: 0
+                B-tree/List: 0
+                Heap: 0
+        Free-space managers:
+                Header: 0
+                Amount of free space: 0
+Small groups (with 0 to 9 links):
+        # of groups with 0 link(s): 1
+        # of groups with 1 link(s): 710
+        # of groups with 2 link(s): 1
+        # of groups with 3 link(s): 2
+        # of groups with 4 link(s): 1
+        # of groups with 5 link(s): 1
+        Total # of small groups: 716
+Group bins:
+        # of groups with 0 link: 1
+        # of groups with 1 - 9 links: 715
+        # of groups with 100 - 999 links: 2
+        Total # of groups: 718
+Dataset dimension information:
+        Max. rank of datasets: 1
+        Dataset ranks:
+                # of dataset with rank 1: 351
+1-D Dataset information:
+        Max. dimension size of 1-D datasets: 736548
+        Small 1-D datasets (with dimension sizes 0 to 9):
+                # of datasets with dimension sizes 1: 1
+                Total # of small datasets: 1
+        1-D Dataset dimension bins:
+                # of datasets with dimension size 1 - 9: 1
+                # of datasets with dimension size 100000 - 999999: 350
+                Total # of datasets: 351
+Dataset storage information:
+        Total raw data size: 9330522
+        Total external raw data size: 0
+Dataset layout information:
+        Dataset layout counts[COMPACT]: 0
+        Dataset layout counts[CONTIG]: 0
+        Dataset layout counts[CHUNKED]: 351
+        Dataset layout counts[VIRTUAL]: 0
+        Number of external files : 0
+Dataset filters information:
+        Number of datasets with:
+                NO filter: 1
+                GZIP filter: 0
+                SHUFFLE filter: 350
+                FLETCHER32 filter: 0
+                SZIP filter: 0
+                NBIT filter: 0
+                SCALEOFFSET filter: 0
+                USER-DEFINED filter: 350
+Dataset datatype information:
+        # of unique datatypes used by datasets: 4
+        Dataset datatype #0:
+                Count (total/named) = (1/1)
+                Size (desc./elmt) = (60/64)
+        Dataset datatype #1:
+                Count (total/named) = (347/0)
+                Size (desc./elmt) = (14/1)
+        Dataset datatype #2:
+                Count (total/named) = (2/0)
+                Size (desc./elmt) = (14/2)
+        Dataset datatype #3:
+                Count (total/named) = (1/1)
+                Size (desc./elmt) = (79/12)
+        Total dataset datatype count: 351
+Small # of attributes (objects with 1 to 10 attributes):
+        # of objects with 1 attributes: 1
+        # of objects with 2 attributes: 551
+        # of objects with 3 attributes: 147
+        # of objects with 4 attributes: 2
+        # of objects with 5 attributes: 4
+        # of objects with 6 attributes: 1
+        Total # of objects with small # of attributes: 706
+Attribute bins:
+        # of objects with 1 - 9 attributes: 706
+        Total # of objects with attributes: 706
+        Max. # of attributes to objects: 6
+Free-space persist: FALSE
+Free-space section threshold: 1 bytes
+Small size free-space sections (< 10 bytes):
+        Total # of small size sections: 0
+Free-space section bins:
+        Total # of sections: 0
+File space management strategy: H5F_FSPACE_STRATEGY_FSM_AGGR
+File space page size: 4096 bytes
+Summary of file space information:
+  File metadata: 343731 bytes
+  Raw data: 9330522 bytes
+  Amount/Percent of tracked free space: 0 bytes/0.0%
+  Unaccounted space: 5582 bytes
+Total space: 9679835 bytes
+#+end_example
+
+** Coming soon
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- We'll take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
+Let us know!
 * Clinic 2021-04-20
 ** Your questions
 ** Last week's highlights
