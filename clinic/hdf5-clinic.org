@@ -5,6 +5,16 @@
 
 * Clinic 2021-04-27
 ** Your questions
+*** Question 1
+
+#+begin_quote
+Last week you mentioned that one might use the Fortran version of the HDF5
+library from C/C++ when working with column-major data.  Could you say more
+about this? Is the difference simply how the arguments to the library functions
+are interpreted (e.g ~H5Screate~, ~H5Sselect_hyperslab~) are interpreted, or is it
+possible to discern from the file itself whether the data is column-major or
+row-major?
+#+end_quote
 
 ** Last week's highlights
 *** Announcements
