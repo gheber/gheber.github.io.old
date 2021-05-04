@@ -5,9 +5,11 @@
 
 * Clinic 2021-05-04
 ** Your Questions
+???
 
 ** Last week's highlights
 *** Announcements
+- [[https://www.youtube.com/watch?v=JEnYLWpBjso][Recording of last week's webinar]]
 - [[https://forum.hdfgroup.org/t/webinar-announcement-h5coro-the-hdf5-cloud-optimized-read-only-library/8429][H5Coro: The HDF5 Cloud-Optimized Read-Only Library]]
     - May 14, 11:00 AM Central
     -  Looking at ways to efficiently access HDF5 files residing in AWS S3
@@ -15,6 +17,7 @@
   - Format: "Paper and Presentation" or "Presentation"
   - Deadline for abstracts: 1 June 2021
   - Event: 12-15 October 2021
+
 *** Forum
 **** [[https://forum.hdfgroup.org/t/how-to-use-h5ocopy-to-copy-a-group-with-hard-links/8443][How to use H5ocopy to copy a group with hard links]]
 - [[https://portal.hdfgroup.org/display/HDF5/H5O_COPY][~H5Ocopy~]] vs. [[https://portal.hdfgroup.org/display/HDF5/H5L_COPY][~H5Lcopy~]]
