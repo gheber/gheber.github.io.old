@@ -3,6 +3,91 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-05-04
+** Your Questions
+
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/webinar-announcement-h5coro-the-hdf5-cloud-optimized-read-only-library/8429][H5Coro: The HDF5 Cloud-Optimized Read-Only Library]]
+    - May 14, 11:00 AM Central
+    -  Looking at ways to efficiently access HDF5 files residing in AWS S3
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for abstracts: 1 June 2021
+  - Event: 12-15 October 2021
+*** Forum
+**** [[https://forum.hdfgroup.org/t/how-to-use-h5ocopy-to-copy-a-group-with-hard-links/8443][How to use H5ocopy to copy a group with hard links]]
+- [[https://portal.hdfgroup.org/display/HDF5/H5O_COPY][~H5Ocopy~]] vs. [[https://portal.hdfgroup.org/display/HDF5/H5L_COPY][~H5Lcopy~]]
+- [[https://portal.hdfgroup.org/display/HDF5/H5P_SET_COPY_OBJECT][~H5Pset_copy_object~]]
+
+** Tips, tricks, & insights
+*** What is =H5S_ALL= all about?
+
+#+begin_src C
+
+    {
+        __label__ fail_update, fail_fspace, fail_dset, fail_file;
+        hid_t file, dset, fspace;
+
+        unsigned mode           = H5F_ACC_RDWR;
+        char     file_name[]    = "d1.h5";
+        char     dset_name[]    = "σύνολο/δεδομένων";
+        int      new_elts[6][2] = {{-1, 1}, {-2, 2}, {-3, 3}, {-4, 4},
+                                   {-5, 5}, {-6, 6}};
+
+        if ((file = H5Fopen(file_name, mode, H5P_DEFAULT))
+            == H5I_INVALID_HID) {
+            ret_val = EXIT_FAILURE;
+            goto fail_file;
+        }
+        if ((dset = H5Dopen2(file, dset_name, H5P_DEFAULT))
+            == H5I_INVALID_HID) {
+            ret_val = EXIT_FAILURE;
+            goto fail_dset;
+        }
+        // get the dataset's dataspace
+        if ((fspace = H5Dget_space(dset)) == H5I_INVALID_HID) {
+            ret_val = EXIT_FAILURE;
+            goto fail_fspace;
+        }
+        // select the first 5 elements in odd positions
+        if (H5Sselect_hyperslab(fspace, H5S_SELECT_SET,
+                                (hsize_t[]){1},
+                                (hsize_t[]){2},
+                                (hsize_t[]){5},
+                                NULL) < 0) {
+            ret_val = EXIT_FAILURE;
+            goto fail_update;
+        }
+
+        // (implicitly) select and write the first 5 elements of the second
+        // column of NEW_ELTS
+        if (H5Dwrite(dset, H5T_NATIVE_INT, H5S_ALL, fspace, H5P_DEFAULT,
+                     new_elts) < 0)
+            ret_val = EXIT_FAILURE;
+
+fail_update:
+        H5Sclose(fspace);
+fail_fspace:
+        H5Dclose(dset);
+fail_dset:
+        H5Fclose(file);
+fail_file:;
+    }
+
+#+end_src
+
+** Coming soon
+*** Fixed- vs. variable-length string performance cage match
+- Contributed by Steven (Canada Dry) Varga
+- You don't want to miss that one!
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- We'll take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
+Let us know!
 * Clinic 2021-04-27
 ** Your questions
 *** Question 1
