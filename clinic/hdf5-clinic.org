@@ -23,6 +23,7 @@
 - Much better performance according to the post
 - Maybe support as a dynamic plugin?
 **** [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Reference Manual in Doxygen]]
+- [[http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/index.html][Current version]]
 - Interesting discussion around docs-like-code and maintenance
 - There are [[https://documentation.divio.com/][different kinds of documentation]]
   - Tasks, concepts, reference (DITAA)
@@ -38,7 +39,9 @@
 - Fixed in HDFql 2.4.0
 ** Tips, tricks, & insights
 *** Fixed- vs. variable-length string performance cage match
+- Trigger: [[https://forum.hdfgroup.org/t/writing-and-reading-variable-length-std-string-in-compound-data-type/8455][Writing and reading variable length std::string in compound data type]]
 - Contributed by Steven (Canada Dry) Varga
+- [[https://github.com/steven-varga/HDFGroup-mailinglist/tree/master/non-pod-struct-2021-apr-29][GitHub link]]
 
 ** Coming soon
 *** What happens to open HDF5 handles/IDs when your program ends?
