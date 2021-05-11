@@ -3,6 +3,51 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-05-11
+** Your Questions
+???
+
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/webinar-announcement-h5coro-the-hdf5-cloud-optimized-read-only-library/8429][H5Coro: The HDF5 Cloud-Optimized Read-Only Library]]
+    - May 14, 11:00 AM Central
+    -  Looking at ways to efficiently access HDF5 files residing in AWS S3
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for abstracts: 1 June 2021
+  - Event: 12-15 October 2021
+
+*** Forum
+**** [[https://forum.hdfgroup.org/t/zlib-ng-works-with-hdf5/8477][Zlib-ng works with HDF5]]
+- New =zlib= implementation appears to work w/ HDF5
+- Much better performance according to the post
+- Maybe support as a dynamic plugin?
+**** [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Reference Manual in Doxygen]]
+- Interesting discussion around docs-like-code and maintenance
+- There are [[https://documentation.divio.com/][different kinds of documentation]]
+  - Tasks, concepts, reference (DITAA)
+  - Tutorials, how-to guides, explanation, reference (Divio)
+**** [[https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104][~H5Idec_ref~ hangs]]
+- Showing an example of MPI ranks doing independent writes to different datasets
+  w/ MPI-IO VFD
+**** [[https://forum.hdfgroup.org/t/hdf5-infinite-loop-closing-library-v1-10-6/8468][HDF5: infinite loop closing library (v1.10.6)]]
+- We covered file close degrees in clinic no. 10 on [2021-04-20 Tue]
+**** [[https://forum.hdfgroup.org/t/hdfql-2-3-0-release-with-excel-import-export-support/8132][HDFql 2.3.0 Release (with EXCEL import/export support!)]]
+- Bugfix for Java =ArrayIndexOutOfBoundsException= when registering a zero
+  element byte array
+- Fixed in HDFql 2.4.0
+** Tips, tricks, & insights
+*** Fixed- vs. variable-length string performance cage match
+- Contributed by Steven (Canada Dry) Varga
+
+** Coming soon
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- We'll take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
+Let us know!
 * Clinic 2021-05-04
 ** Your Questions
 ???
