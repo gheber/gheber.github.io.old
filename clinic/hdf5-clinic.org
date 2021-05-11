@@ -5,7 +5,11 @@
 
 * Clinic 2021-05-11
 ** Your Questions
-???
+- Where is the page that I'm showing?
+- How did we prepare the webinar radial diagrams?
+  - Using Python's =plotly= module
+  - [[https://medium.com/@abhishekdas.nitc/nightingale-plots-in-python-using-plotly-da42bc18d15d][Here's a nice article]] to get you started.
+  - We'll include a few scripts w/ [[https://github.com/HDFGroup/hdf5-iotest][HDF5 I/O test]] in the future
 
 ** Last week's highlights
 *** Announcements
