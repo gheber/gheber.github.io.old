@@ -3,6 +3,59 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-05-18
+** Your Questions
+
+???
+
+** Last week's highlights
+*** Announcements
+- Recording of [[https://www.youtube.com/watch?v=RuBKDW4TNO4][H5Coro: The HDF5 Cloud-Optimized Read-Only Library]] available
+- [[https://forum.hdfgroup.org/t/webinar-announcement-the-hermes-buffering-system-take-two/8493][The Hermes Buffering System - Take Two]]
+  - May 28, 2021 11:00 a.m. CDT
+  - [[https://zoom.us/meeting/register/tJEtcuivqT4iH9CLyprQ23WhuZWjwIjslfoy][Registration]]
+  - [[https://www.youtube.com/watch?v=KJdXMqfRmS4][Previous Webinar Recording]]
+  - [[https://github.com/HDFGroup/hermes][Hermes on GitHub]]
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for abstracts: 1 June 2021
+  - Event: 12-15 October 2021
+*** Forum
+**** [[https://forum.hdfgroup.org/t/hdf5-udf-2-0-released-udf-signing-trust-profiles-python-bindings-and-more/8486][HDF5-UDF 2.0 released: UDF signing, trust profiles, Python bindings, and more! ]]
+- UDF signing
+- Library API
+  - Python bindings (i.e., manageable from Jupyter notebook)
+- Source code storage
+- [[https://github.com/lucasvr/hdf5-udf][GitHub]]
+**** [[https://forum.hdfgroup.org/t/zlib-ng-works-with-hdf5/8477][Zlib-ng works with HDF5]]
+- More anecdotal evidence of performance improvements
+- Begs a maintenance question: Should we/ can we support multiple
+  implementations of the same filter?
+**** [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Reference Manual in Doxygen]]
+- [[http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/_r_m.html][Current version]]
+- Life cycle entries - are they helpful?
+- To be included in HDF5 1.12.1
+** Tips, tricks, & insights
+*** When should you consider using chunked layout for a dataset?
+"Consider" means that you should also consider /alternatives/. None of the items
+listed below mandates chunked layout.
+**** Considerations
+- I would like to use a compression or other filter w/ my data
+- I cannot know/estimate the data size in advance
+- I need the ability to append data indefinitely
+- My read/write pattern is such that contiguous layout would reduce performance
+**** Caveats
+- What's a good chunk size?
+- Is my chunk cache the right size?
+- Compound types?
+- Variable-length datatypes?
+- Are there edge chunks?
+****  Experimentation
+- *Don't waste your time writing a lot of code!*
+  - Use a tool such as =h5repack=
+  - Use intuitive and boilerplate-free language bindings for Python, Julia, or
+    C++ that exist thanks to the HDF community
+** Coming soon
 * Clinic 2021-05-11
 ** Your Questions
 - Where is the page that I'm showing?
