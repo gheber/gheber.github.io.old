@@ -3,6 +3,136 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-05-25
+** Your Questions
+
+- Does =h5repack= have any impact on reading?
+  - Yes, the read performance of a re-packed HDF5 file could be better or worse
+    (or about the same).
+- Is there any difference in reading a variable/field if it is compressed or
+  un-compressed? (This question came in at the end of our May 18 session.)
+  - Yes
+  - [[https://portal.hdfgroup.org/display/HDF5/HDF5+Data+Flow+Pipeline+for+H5Dread][HDF5 Data Flow Pipeline for =H5Dread= ]]
+- Do you have recommendations for setting Figure of Merit (FOM) to
+  measure/capture I/O improvements? Any consideration based on current
+  supercomputers/hybrid systems, # of files used, kind of I/O (e.g. different
+  for read than for write), HDF5 versions, HDF5 features, if using SSDs/Burst
+  buffers, etc. What would be a good sample of FOM to follow?
+  - Baseline, metric
+  - Large number of combinations? Perhaps polar diagrams? See [[https://www.youtube.com/watch?v=JEnYLWpBjso][this webinar]]
+    around 15:18.
+
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/webinar-announcement-the-hermes-buffering-system-take-two/8493][The Hermes Buffering System - Take Two]] was *POSTPONED*
+  - Stay tuned for a re-announcement
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for abstracts: 1 June 2021
+  - Event: 12-15 October 2021
+*** Forum
+**** [[https://forum.hdfgroup.org/t/zstd-filter-plugin-dictionary-training/8401][Zstd filter plugin & dictionary training]]
+- [[http://develop.hdf5.info/group___h5_z.html][H5Z life cycle]]
+** Tips, tricks, & insights
+
+*** =h5repack= - Getting stuff done w/o writing a lot of code
+Sanity check:
+#+begin_src sh :results output
+h5repack --help
+#+end_src
+The output should look like this:
+#+begin_example
+usage: h5repack [OPTIONS] file1 file2
+  file1                    Input HDF5 File
+  file2                    Output HDF5 File
+  OPTIONS
+   -h, --help              Print a usage message and exit
+   -v, --verbose           Verbose mode, print object information
+   -V, --version           Print version number and exit
+   -n, --native            Use a native HDF5 type when repacking
+   --enable-error-stack    Prints messages from the HDF5 error stack as they
+                           occur
+   -L, --latest            Use latest version of file format
+                           This option will take precedence over the options
+                           --low and --high
+   --low=BOUND             The low bound for library release versions to use
+                           when creating objects in the file
+                           (default is H5F_LIBVER_EARLIEST)
+   --high=BOUND            The high bound for library release versions to use
+                           when creating objects in the file
+                           (default is H5F_LIBVER_LATEST)
+   --merge                 Follow external soft link recursively and merge data
+   --prune                 Do not follow external soft links and remove link
+   --merge --prune         Follow external link, merge data and remove dangling link
+   -c L1, --compact=L1     Maximum number of links in header messages
+   -d L2, --indexed=L2     Minimum number of links in the indexed format
+   -s S[:F], --ssize=S[:F] Shared object header message minimum size
+   -m M, --minimum=M       Do not apply the filter to datasets smaller than M
+   -e E, --file=E          Name of file E with the -f and -l options
+   -u U, --ublock=U        Name of file U with user block data to be added
+   -b B, --block=B         Size of user block to be added
+   -M A, --metadata_block_size=A  Metadata block size for H5Pset_meta_block_size
+   -t T, --threshold=T     Threshold value for H5Pset_alignment
+   -a A, --alignment=A     Alignment value for H5Pset_alignment
+   -q Q, --sort_by=Q       Sort groups and attributes by index Q
+   -z Z, --sort_order=Z    Sort groups and attributes by order Z
+   -f FILT, --filter=FILT  Filter type
+   -l LAYT, --layout=LAYT  Layout type
+   -S FS_STRATEGY, --fs_strategy=FS_STRATEGY  File space management strategy for
+                           H5Pset_file_space_strategy
+   -P FS_PERSIST, --fs_persist=FS_PERSIST  Persisting or not persisting free-
+                           space for H5Pset_file_space_strategy
+   -T FS_THRESHOLD, --fs_threshold=FS_THRESHOLD   Free-space section threshold
+                           for H5Pset_file_space_strategy
+   -G FS_PAGESIZE, --fs_pagesize=FS_PAGESIZE   File space page size for
+                           H5Pset_file_space_page_size
+...
+#+end_example
+There's a lot of stuff to chew over, but let's focus on the examples:
+#+begin_example
+...
+
+Examples of use:
+
+1) h5repack -v -f GZIP=1 file1 file2
+
+   GZIP compression with level 1 to all objects
+
+2) h5repack -v -f dset1:SZIP=8,NN file1 file2
+
+   SZIP compression with 8 pixels per block and NN coding method to object dset1
+
+3) h5repack -v -l dset1,dset2:CHUNK=20x10 -f dset3,dset4,dset5:NONE file1 file2
+
+   Chunked layout, with a layout size of 20x10, to objects dset1 and dset2
+   and remove filters to objects dset3, dset4, dset5
+
+4) h5repack -L -c 10 -s 20:dtype file1 file2
+
+   Using latest file format with maximum compact group size of 10 and
+   minimum shared datatype size of 20
+
+5) h5repack -f SHUF -f GZIP=1 file1 file2
+
+   Add both filters SHUF and GZIP in this order to all datasets
+
+6) h5repack -f UD=307,0,1,9 file1 file2
+
+   Add bzip2 filter to all datasets
+
+7) h5repack --low=0 --high=1 file1 file2
+
+   Set low=H5F_LIBVER_EARLIEST and high=H5F_LIBVER_V18 via
+   H5Pset_libver_bounds() when creating the repacked file, file2
+#+end_example
+
+** Coming soon
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- We'll take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
 * Clinic 2021-05-18
 ** Your Questions
 
