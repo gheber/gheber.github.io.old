@@ -34,7 +34,6 @@
 **** [[https://forum.hdfgroup.org/t/zstd-filter-plugin-dictionary-training/8401][Zstd filter plugin & dictionary training]]
 - [[http://develop.hdf5.info/group___h5_z.html][H5Z life cycle]]
 ** Tips, tricks, & insights
-
 *** =h5repack= - Getting stuff done w/o writing a lot of code
 Sanity check:
 #+begin_src sh :results output
@@ -125,6 +124,81 @@ Examples of use:
    Set low=H5F_LIBVER_EARLIEST and high=H5F_LIBVER_V18 via
    H5Pset_libver_bounds() when creating the repacked file, file2
 #+end_example
+
+Let's create some test data and play!
+
+#+begin_src C
+
+#include "hdf5.h"
+
+#include <assert.h>
+#include <stdlib.h>
+
+#define SIZE 1024*1024
+
+int main()
+{
+  int ret_val = EXIT_SUCCESS;
+
+  hid_t file, fspace, dset;
+
+  double* data = (double*) malloc(SIZE*sizeof(double));
+
+  if ((file = H5Fcreate("foo.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT)) ==
+      H5I_INVALID_HID) {
+    ret_val = EXIT_FAILURE;
+    goto fail_file;
+  }
+
+  if ((fspace = H5Screate_simple(1, (hsize_t[]){ SIZE }, NULL)) ==
+      H5I_INVALID_HID) {
+    ret_val = EXIT_FAILURE;
+    goto fail_fspace;
+  }
+
+  if ((dset = H5Dcreate(file, "sequential", H5T_IEEE_F64LE, fspace,
+                        H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT)) ==
+      H5I_INVALID_HID) {
+    ret_val = EXIT_FAILURE;
+    goto fail_dset;
+  }
+
+  for (size_t i = 0; i < SIZE; ++i)
+    data[i] = (double)i;
+
+  if (H5Dwrite(dset, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, data)
+      < 0)
+    ret_val = EXIT_FAILURE;
+
+  H5Dclose(dset);
+
+  if ((dset = H5Dcreate(file, "random", H5T_IEEE_F64LE, fspace, H5P_DEFAULT,
+                        H5P_DEFAULT, H5P_DEFAULT)) == H5I_INVALID_HID) {
+    ret_val = EXIT_FAILURE;
+    goto fail_dset;
+  }
+  for (size_t i = 0; i < SIZE; ++i)
+    data[i] = (double)rand()/(double)RAND_MAX;
+
+  if (H5Dwrite(dset, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, data)
+      < 0)
+        ret_val = EXIT_FAILURE;
+
+  H5Dclose(dset);
+
+fail_dset:
+  H5Sclose(fspace);
+fail_fspace:
+  H5Fclose(file);
+fail_file:
+  free(data);
+
+  assert(ret_val == EXIT_SUCCESS);
+
+  return ret_val;
+}
+
+#+end_src
 
 ** Coming soon
 *** What happens to open HDF5 handles/IDs when your program ends?
