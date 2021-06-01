@@ -15,6 +15,7 @@
     - ...  (incomplete list! - Run =h5dump --help=!)
   - Yes, the read performance of a re-packed HDF5 file could be better or worse
     (or about the same).
+
 - Is there any difference in reading a variable/field if it is compressed or
   un-compressed? (This question came in at the end of our May 18 session.)
   - Assuming loss-less compression, no, in terms of value
@@ -22,6 +23,7 @@
     - Potential reduction in I/O bandwidth
     - Pathology: the data size increases as a result of compression
   - [[https://portal.hdfgroup.org/display/HDF5/HDF5+Data+Flow+Pipeline+for+H5Dread][HDF5 Data Flow Pipeline for =H5Dread= ]]
+
 - Do you have recommendations for setting Figure of Merit (FOM) to
   measure/capture I/O improvements? Any consideration based on current
   supercomputers/hybrid systems, # of files used, kind of I/O (e.g. different
@@ -44,7 +46,7 @@
   - What small changes would make a big difference in your HDF5 workflow?
 ** Tips, tricks, & insights
 *** Jam-packed HDF5 Files - The HDF5 User Block
-- "Keep things together." - mantra
+- "Keeping things together." - mantra
   - Metadata and data
   - Stuff - a zip file of ancillary (non-HDF5) data, documentation, etc.
   - "HDF5 can be on the inside or the outside"
