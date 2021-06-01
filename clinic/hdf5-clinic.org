@@ -3,6 +3,126 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-06-01
+** Your Questions
+
+- Does =h5repack= have any impact on reading?
+  - What can =h5repack= do for you?
+    - Reclaim unused file space
+    - (Down-)Upgrade file format features
+    - Change dataset layout
+    - (Un-)Compress  datasets
+    - ...  (incomplete list! - Run =h5dump --help=!)
+  - Yes, the read performance of a re-packed HDF5 file could be better or worse
+    (or about the same).
+- Is there any difference in reading a variable/field if it is compressed or
+  un-compressed? (This question came in at the end of our May 18 session.)
+  - Assuming loss-less compression, no, in terms of value
+  - Yes, most likely, because (de-)compression requires CPU-cycles
+    - Potential reduction in I/O bandwidth
+    - Pathology: the data size increases as a result of compression
+  - [[https://portal.hdfgroup.org/display/HDF5/HDF5+Data+Flow+Pipeline+for+H5Dread][HDF5 Data Flow Pipeline for =H5Dread= ]]
+- Do you have recommendations for setting Figure of Merit (FOM) to
+  measure/capture I/O improvements? Any consideration based on current
+  supercomputers/hybrid systems, # of files used, kind of I/O (e.g. different
+  for read than for write), HDF5 versions, HDF5 features, if using SSDs/Burst
+  buffers, etc. What would be a good sample of FOM to follow?
+  - Baseline, metric (file size, throughput, IOPs)
+  - Large number of combinations? Perhaps polar diagrams? See [[https://www.youtube.com/watch?v=JEnYLWpBjso][this webinar]]
+    around 15:18.
+
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for abstracts: 1 June 2021
+  - Event: 12-15 October 2021
+*** Forum
+**** [[https://forum.hdfgroup.org/t/hdf5-udf-runs-on-macos/8527][HDF5-UDF runs on macOS!]]
+- *Caveat:* [[https://www.gnu.org/proprietary/malware-apple.en.html][Apple's Operating Systems Are Malware]] says [[https://www.gnu.org/][FSF]]
+****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
+  - What small changes would make a big difference in your HDF5 workflow?
+** Tips, tricks, & insights
+*** Jam-packed HDF5 Files - The HDF5 User Block
+- "Keep things together." - mantra
+  - Metadata and data
+  - Stuff - a zip file of ancillary (non-HDF5) data, documentation, etc.
+  - "HDF5 can be on the inside or the outside"
+- User block :: Reserved space at the beginning of an HDF5 file
+  - Fixed size 2^N  bytes, min. size 512 KiB
+  - Ignored by the HDF5 library
+- Tooling [[https://portal.hdfgroup.org/display/HDF5/h5jam+-+h5unjam][=h5jam=, =h5unjam=]]
+
+  #+begin_example
+
+  usage: h5jam -i <in_file.h5> -u <in_user_file> [-o <out_file.h5>] [--clobber]
+
+Adds user block to front of an HDF5 file and creates a new concatenated file.
+
+OPTIONS
+  -i in_file.h5    Specifies the input HDF5 file.
+  -u in_user_file  Specifies the file to be inserted into the user block.
+                   Can be any file format except an HDF5 format.
+  -o out_file.h5   Specifies the output HDF5 file.
+                   If not specified, the user block will be concatenated in
+                   place to the input HDF5 file.
+  --clobber        Wipes out any existing user block before concatenating
+                   the given user block.
+                   The size of the new user block will be the larger of;
+                    - the size of existing user block in the input HDF5 file
+                    - the size of user block required by new input user file
+                   (size = 512 x 2N,  N is positive integer.)
+
+  -h               Prints a usage message and exits.
+  -V               Prints the HDF5 library version and exits.
+
+Exit Status:
+   0   Succeeded.
+   >0  An error occurred.
+
+  #+end_example
+
+  #+begin_example
+
+usage: h5unjam -i <in_file.h5>  [-o <out_file.h5> ] [-u <out_user_file> | --delete]
+
+Splits user file and HDF5 file into two files: user block data and HDF5 data.
+
+OPTIONS
+  -i in_file.h5   Specifies the HDF5 as input.  If the input HDF5 file
+                  contains no user block, exit with an error message.
+  -o out_file.h5  Specifies output HDF5 file without a user block.
+                  If not specified, the user block will be removed from the
+                  input HDF5 file.
+  -u out_user_file
+                  Specifies the output file containing the data from the
+                  user block.
+                  Cannot be used with --delete option.
+  --delete        Remove the user block from the input HDF5 file. The content
+                  of the user block is discarded.
+                  Cannot be used with the -u option.
+
+  -h              Prints a usage message and exits.
+  -V              Prints the HDF5 library version and exits.
+
+  If neither --delete nor -u is specified, the user block from the input file
+  will be displayed to stdout.
+
+Exit Status:
+  0      Succeeded.
+  >0    An error occurred.
+
+    #+end_example
+
+- Let's try this!
+
+** Coming soon
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- We'll take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
 * Clinic 2021-05-25
 ** Your Questions
 
