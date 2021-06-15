@@ -5,7 +5,9 @@
 
 * Clinic 2021-06-15
 ** Your Questions
-???
+- CacheVOL
+  - How to use local storage?
+  - [[https://www.youtube.com/watch?v=KJdXMqfRmS4][Hermes webinar]]
 ** Last week's highlights
 *** Announcements
 - [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
