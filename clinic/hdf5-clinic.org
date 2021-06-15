@@ -3,6 +3,164 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-06-15
+** Your Questions
+???
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for presentation abstracts: [2021-08-01 Sun]
+  - Event: 12-15 October 2021
+- [[https://forum.hdfgroup.org/t/hdf5-1-12-1-6-rc2-source-available-for-testing/8583][HDF5 1.12.1-6-rc2 source available for testing]]
+  - You can help!
+*** Forum
+****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
+- What small changes would make a big difference in your HDF5 workflow?
+- Chime in!
+**** [[https://forum.hdfgroup.org/t/issue-unlocking-hdf5-file/8552][Issue unlocking HDF5 file?]]
+**** [[https://forum.hdfgroup.org/t/access-to-miscellaneous-dataset-information-get-size-of-compressed-dataset/8582][Access to ‘miscellaneous dataset information’/get size of compressed dataset]]
+- Aleksandar's =h5py= example:
+  #+begin_src python
+
+  import h5py
+
+  def comp_ratio(name, obj):
+      if isinstance(obj, h5py.Dataset) and obj.chunks is not None:
+          dcpl = obj.id.get_create_plist()
+          if dcpl.get_nfilters():
+              stor_size = obj.id.get_storage_size()
+              if stor_size != 0:
+                  ratio = float(obj.nbytes) / float(stor_size)
+                  print(f'Compression ratio for "{obj.name}": {ratio}')
+
+
+  fname = 'example.h5'
+  with h5py.File(fname, mode='r') as h5f:
+      h5f.visititems(comp_ratio)
+
+  #+end_src
+
+** Tips, tricks, & insights
+*** File Locking (Dana Robinson)
+**** Outline
+
+The basic file locking algorithm is simple:
+ - On opening the file, we place the lock as described below. This is true for
+   /all/ file opens, not just SWMR (Single Write Multiple Readers).
+ - For SWMR writers, this lock is removed after we flush the file's superblock.
+ - All other processes will hold the lock until the file is closed or
+   =H5Fstart_swmr_write()= is called.
+
+**** Architecture
+
+File locking is handled in the native HDF5 virtual object layer (VOL) connector,
+so other VOL connectors (REST, etc.) don't do any locking.
+
+File locking is handled at the library level, not the virtual file level
+(VFL). Virtual file drivers (VFDs) do have to provide an implementation of the
+lock and unlock VFD operations for file locking to work, though. If a VFD
+doesn't provide a lock operation, file locking will be ignored when using that
+VFD. Most of the VFDs provided with the library are based on the POSIX SEC2 VFD
+(the default on all platforms, including Windows) and provide the locking I've
+described.
+
+The stdio VFD only uses =flock(2)= when it's available, it ignores file locking
+when it's not (e.g., on Windows). This is because the stdio VFD is a demo VFD
+that uses very little of the library's helper functions and macros and that's
+where the flock/fcntl/fail code lies.
+
+The MPI-IO VFD, as you might expect, ignores file locking.
+
+**** SWMR
+
+The =H5Fstart_swmr_write()= API call will unlock the file after it flushes
+everything in memory.
+
+Related to the OS-level locking algorithm, if the file was opened by a SWMR
+writer (either by using the =H5F_ACC_SWMR_WRITE= flag at create/open or via
+=H5Fstart_swmr_write()=) it will have its superblock marked as such. This mark
+will prevent readers from opening the file unless they open it with the
+=H5F_ACC_SWMR_READ= flag.
+
+HDF5 1.8.x and earlier do not understand this version of the superblock and will
+return an error code when trying to open the file. This mark is cleared when the
+file is closed. If the writer crashes, you can remove the mark using the
+=h5clear= tool provided with the library.
+
+**** UNIX/Linux, Non-Windows
+
+Compile time option:
+
+#+begin_example
+  --enable-file-locking=(yes|no|best-effort)
+                          Sets the default for whether or not to use file
+                          locking when opening files. Can be overridden with
+                          the HDF5_USE_FILE_LOCKING environment variable and
+                          the H5Pset_file_locking() API call. best-effort
+                          attempts to use file locking but does not fail when
+                          file locks have been disabled on the file system
+                          (useful with Lustre). [default=best-effort]
+#+end_example
+
+ You can disable all file locking at runtime by setting an environment variable
+ named =HDF5_USE_FILE_LOCKING= to the string ="FALSE"=.
+
+We preferentially use =flock(2)= in POSIX-like environments where it's
+available. If that is not available, we fall back on =fcntl(2)=. If that is not
+found and not best effort, the lock operation uses an internal function that
+simply *fails*.
+
+With =flock(2)=, we use =LOCK_EX= with read/write permissions and =LOCK_SH= with
+read-only. Both are combined with =LOCK_NB= to create non-blocking locks.
+
+With =fcntl(2)=, we lock the entire file. We use =F_WRLCK= with read/write
+permissions and =F_RDLCK= with read-only.
+
+**** Windows
+
+There is no locking on Windows systems since the Windows POSIX layer doesn't
+support that. File locking on Windows is just a no-op (as opposed to failing, as
+we do when neither =flock(2)= nor =fcntl(2)= are found). We'd need a a virtual
+file driver based on Win32 API calls to handle file locking on Windows.
+
+Windows uses the POSIX VFD as the default driver. We do not (yet) have a VFD
+that uses Win32 API calls like =CreateFile()=. The POSIX layer in Windows is
+incomplete, however, and does not include =flock(2)= or =fcntl(2)= so we simply
+skip file locking there for the time being.
+
+See below for an update!
+
+**** Summary
+
+File locking is only implemented to help prevent users from accessing files when
+SWMR write ordering is not turned on (or when we're doing the superblock
+marking). It's not inherent to the SWMR algorithm, which is lock-free and
+instead based on write ordering.
+
+**** Hot off the press
+
+In the 1.12.1-6-rc2 release notes, we find this entry:
+
+#+begin_example
+
+• File locking updates:
+
+File locks now work on Windows
+Adds BEST_EFFORT value to HDF5_USE_FILE_LOCKING environment variable
+Adds H5Pset/get_file_locking() API calls
+Adds --enable-file-locking=(yes|no|best-effort) option to Autotools
+Adds HDF5_USE_FILE_LOCKING and HDF5_IGNORE_DISABLED_FILE_LOCKS to CMake
+
+#+end_example
+
+** Coming soon
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- We'll take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
 * Clinic 2021-06-08
 ** Your Questions
 ???
