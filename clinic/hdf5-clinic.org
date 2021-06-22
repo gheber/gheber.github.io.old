@@ -9,7 +9,7 @@
   storage on an HPC system?
   - Complexity is hidden from users
   - Use in conjunction w/ Async VOL
-  -  Data migration to and from the remote storage is performed in the background
+  - Data migration to and from the remote storage is performed in the background
   - Developed by NERSC w/ Huihuo Zheng as the lead developer
   - No official release yet
   - See this [[https://www.exascaleproject.org/wp-content/uploads/2021/01/ECP-HDF5-Comm-BOF-All-Slides.pdf][ECP BoF presentation]] (around slide 29)
@@ -18,6 +18,12 @@
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
 ** Last week's highlights
 *** Announcements
+- [[https://forum.hdfgroup.org/t/european-hdf-users-group-hug-summer-2021-july-7-8-2021/8632][European HDF Users Group (HUG) Summer 2021 July 7-8, 2021]]
+  - [[https://www.hdfgroup.org/hug/europeanhug21/propose-a-presentation/][Propose a presentation]]–let us know you’re interested as soon as possible.
+  - [[https://www.hdfgroup.org/hug/europeanhug21/submit-your-abstract/][Finalize your presentation]] by sending in your abstract by June 30
+  - [[https://www.hdfgroup.org/hug/europeanhug21/submit-your-slide-deck-and-other-materials/][Submit your PPT]] and other materials by July 6
+  - [[https://zoom.us/meeting/register/tJUpde6srTwqGtPry8kfJthku8Eg2JZDrv28][Attendee and Speaker Registration]]
+
 - [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
   - Format: "Paper and Presentation" or "Presentation"
   - Deadline for presentation abstracts: [2021-08-01 Sun]
