@@ -35,7 +35,7 @@
 *** How do I use a newer HDF5 file format?
 - Versions
   - HDF5 library
- - File format specification
+  - File format specification
 - HDF5 library /forward- and backward-compatibility/
   - Backward :: The latest version of the library can read HDF5 files created
     with all earlier library versions
