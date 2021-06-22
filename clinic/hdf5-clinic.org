@@ -3,6 +3,48 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-06-22
+** Your Questions
+- Q :: What is the CacheVOL and what can I do with it? How can I use node-local
+  storage on an HPC system?
+  - Complexity is hidden from users
+  - Use in conjunction w/ Async VOL
+  -  Data migration to and from the remote storage is performed in the background
+  - Developed by NERSC w/ Huihuo Zheng as the lead developer
+  - No official release yet
+  - See this [[https://www.exascaleproject.org/wp-content/uploads/2021/01/ECP-HDF5-Comm-BOF-All-Slides.pdf][ECP BoF presentation]] (around slide 29)
+  - [[https://github.com/hpc-io/vol-cache][GitHub]]
+  - [[https://github.com/HDFGroup/hdf-spack][Spack integration]]
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for presentation abstracts: [2021-08-01 Sun]
+  - Event: 12-15 October 2021
+- [[https://forum.hdfgroup.org/t/hdf5-udf-2-1-released-with-support-for-windows-and-macos/8631][HDF5-UDF 2.1 released – with support for Windows and macOS!]]
+*** Forum
+****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
+- What small changes would make a big difference in your HDF5 workflow?
+- Chime in!
+**** [[https://forum.hdfgroup.org/t/hdf5-performance/8622][HDF5 Performance]]
+- Slowdown w/ a lot of attributes (10K, 100K, ...)
+- Slight improvement w/ a low-level fix (see below)
+- The customer is always right, but maybe this is not such a good idea
+** Tips, tricks, & insights
+*** How do I use a newer HDF5 file format?
+
+#+begin_src C
+
+#+end_src
+
+** Coming soon
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- We'll take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
 * Clinic 2021-06-15
 ** Your Questions
 - CacheVOL
