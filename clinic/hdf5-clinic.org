@@ -33,8 +33,67 @@
 - The customer is always right, but maybe this is not such a good idea
 ** Tips, tricks, & insights
 *** How do I use a newer HDF5 file format?
+- Versions
+  - HDF5 library
+ - File format specification
+- HDF5 library /forward- and backward-compatibility/
+  - Backward :: The latest version of the library can read HDF5 files created
+    with all earlier library versions
+  - Forward :: A given version of the library can read all (objects in) HDF5
+    files created by later versions as long as they are compatible with this
+    version.
+- By default, newer HDF5 library versions use settings compatible with the
+  earliest library version
 
 #+begin_src C
+
+#include "hdf5.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+  __label__ fail_fapl, fail_file;
+  int ret_val = EXIT_SUCCESS;
+  hid_t fapl, file;
+
+  {
+    unsigned maj, min, rel;
+    if (H5get_libversion(&maj, &min, &rel) < 0) {
+      ret_val = EXIT_FAILURE;
+      goto fail_fapl;
+    }
+    printf("Welcome to HDF5 %d.%d.%d!\n", maj, min, rel);
+  }
+
+  if ((fapl = H5Pcreate(H5P_FILE_ACCESS)) < 0) {
+    ret_val = EXIT_FAILURE;
+    goto fail_fapl;
+  }
+
+  // bracket the range of LIBRARY VERSIONS for object creation and access,
+  // e.g., min. vers. 1.8, max. version current
+  if (H5Pset_libver_bounds(fapl, H5F_LIBVER_V18, H5F_LIBVER_LATEST) < 0) {
+    ret_val = EXIT_FAILURE;
+    goto fail_file;
+  }
+
+  if ((file = H5Fcreate("my.h5", H5F_ACC_TRUNC, H5P_DEFAULT, fapl)) < 0) {
+    ret_val = EXIT_FAILURE;
+    goto fail_file;
+  }
+
+  // do something useful w/ FILE
+
+  H5Fclose(file);
+
+ fail_file:
+  H5Pclose(fapl);
+ fail_fapl:;
+
+  return ret_val;
+}
 
 #+end_src
 
