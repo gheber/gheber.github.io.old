@@ -3,6 +3,85 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-06-29
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+
+** Last week's highlights
+*** Announcements
+- [[https://forum.hdfgroup.org/t/european-hdf-users-group-hug-summer-2021-july-7-8-2021/8632][European HDF Users Group (HUG) Summer 2021 July 7-8, 2021]]
+  - [[https://www.hdfgroup.org/hug/europeanhug21/propose-a-presentation/][Propose a presentation]]–let us know you’re interested as soon as possible.
+  - [[https://www.hdfgroup.org/hug/europeanhug21/submit-your-abstract/][Finalize your presentation]] by sending in your abstract by June 30
+  - [[https://www.hdfgroup.org/hug/europeanhug21/submit-your-slide-deck-and-other-materials/][Submit your PPT]] and other materials by July 6
+  - [[https://zoom.us/meeting/register/tJUpde6srTwqGtPry8kfJthku8Eg2JZDrv28][Attendee and Speaker Registration]]
+
+- [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+  - Format: "Paper and Presentation" or "Presentation"
+  - Deadline for presentation abstracts: [2021-08-01 Sun]
+  - Event: 12-15 October 2021
+*** Forum
+****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
+- What small changes would make a big difference in your HDF5 workflow?
+- Chime in!
+**** [[https://forum.hdfgroup.org/t/hdf5-performance/8622][HDF5 Performance]]
+- User is seeing decent performance w/ packet tables =H5PT=
+- Issue w/ deleting links (?)
+**** [[https://forum.hdfgroup.org/t/local-hsds-performance-vs-local-hdf5-files/8652][Local HSDS performance vs local HDF5 files]]
+**** [[https://forum.hdfgroup.org/t/hdfview-should-default-to-read-only-open/4584][HDFView should default to read-only open]]
+- Yes!
+- Too many options? Sloppy testing?
+**** [[https://forum.hdfgroup.org/t/hdf-port-to-rust/8639][HDF - port to Rust]]
+- Not a bad idea: a BIG job
+- Perhaps not a replacement for the C implementation (How many systems have a
+  Rust compiler?)
+- I understand that that's not the point, but there are reasonably mature [[https://github.com/aldanor/hdf5-rust][Rust
+  language bindings for HDF5]]
+
+** Tips, tricks, & insights
+*** How do I delete an HDF5 item?
+- HDF5 item = something a user created and that gets stored in an HDF5 file
+****  High-level view
+- Attributes - [[https://portal.hdfgroup.org/display/HDF5/H5A_DELETE][=H5Adelete*=]]
+- Objects (groups, datasets, named datatypes) - [[https://portal.hdfgroup.org/display/HDF5/H5L_DELETE][=H5Ldelete*=]]
+**** Low-level view
+- Objects are /reference-counted/ (in the object OHDR in the file!)
+- A positive reference count means the object is considered /in-use/ or
+    referenced
+- A zero reference count signals to the HDF5 library free space availability
+- If that free space can be used or reclaimed depends on several factors
+  - Position of the gap (middle of the file, end of the file)
+  - Intervening file closure
+  - Library version free-space management and tracking support
+  - Virtual File Driver support
+- A detailed description of file space management (including free space) can be
+  found in [[https://support.hdfgroup.org/HDF5/docNewFeatures/FileSpace/RFC-Paged_Aggregation.pdf][this RFC]]
+- Highlights:
+  - Pre-HDF5 1.10.x
+    - Free space info is *not* persisted across file open/close epochs
+      - Typical symptom: deleting an object in another epoch will not reduce
+        file size
+    - Use =h5stat= to discover the amount of free-/unused space
+    - =h5repack= is the cheapest way to recover unused space
+      - May not be practical for large files
+  - HDF5 1.10.x+
+    - Free space info can be persisted across file open/close epochs
+      - Needs to be enabled in file creation property list
+      - Set threshold on smallest quanta to be tracked
+      - Combine with paged allocation!
+- The story too involved for most users
+- Summary
+  - Don't create (in the file) what you don't need
+  - Use =h5stat= to assess and =h5repack= to reclaim free space: don't obsess
+    over a few KB!
+  - If you really want to get into file space management, use HDF5 1.10.x+ and
+    come back next time with a _question_!
+** Coming soon
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- We'll take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
 * Clinic 2021-06-22
 ** Your Questions
 - Q :: What is the CacheVOL and what can I do with it? How can I use node-local
