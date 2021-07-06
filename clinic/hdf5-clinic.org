@@ -3,6 +3,99 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-07-06
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+
+** Last week's highlights
+*** Announcements
+**** [[https://forum.hdfgroup.org/t/european-hdf-users-group-hug-summer-2021-july-7-8-2021/8632][European HDF Users Group (HUG) Summer 2021 July 7-8, 2021]]
+- [[https://zoom.us/meeting/register/tJUpde6srTwqGtPry8kfJthku8Eg2JZDrv28][Register for tomorrow's event!]]
+**** [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+- Format: "Paper and Presentation" or "Presentation"
+- Deadline for presentation abstracts: [2021-08-01 Sun]
+- Event: 12-15 October 2021
+**** [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Reference Manual in Doxygen]]
+- New permanent home for HDF5 documentation
+- [[https://docs.hdfgroup.org/hdf5/develop/][https://docs.hdfgroup.org/hdf5/develop/]]
+- [[https://docs.hdfgroup.org/hdf5/v1_12/][https://docs.hdfgroup.org/hdf5/v1_12/]]
+*** Forum
+****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
+- What small changes would make a big difference in your HDF5 workflow?
+- Chime in!
+**** [[https://forum.hdfgroup.org/t/problems-with-hdf5-and-swmr-on-nfs-mounted-network-disk/8672][Problems with HDF5 and SWMR on NFS mounted network disk]]
+- Current SWMR implementation depends on POSIX write semantics (esp. order
+  preservation)
+- NFS & co. don't do that
+- VFD SWMR might change that
+**** [[https://forum.hdfgroup.org/t/save-related-data/8680][Save related data]]
+
+** Tips, tricks, & insights
+*** HDF5 ecosystem: HDFql
+- HDFql = Hierarchical Data Format query language
+- High-level and /declarative/
+- SQL is the gold standard for simplicity and power
+  - Adapted to HDF5
+- A single /guest/ language (HDFql) for multiple /host/ languages (C, C++, Java,
+  Python, C#, Fortran, R)
+- Seamless parallelism (multiple cores, MPI)
+**** Example
+- Host language: Fortran
+- Find all datasets existing in an HDF5 file named =data.h5= that start with
+  =temperature= and are of data type =float=
+- For each dataset found, print its name and read its data
+- Write the data into a file named =output.txt= in an ascending order
+- Each value (belonging to the data) is written in a new line using a UNIX-based
+  end of line (EOL) terminator
+
+#+begin_src fortran
+PROGRAM Example
+  USE HDFql
+  INTEGER :: state
+  state = hdfql_execute(“USE FILE data.h5”)
+  state = hdfql_execute(
+    "SHOW DATASET LIKE **/^temperature WHERE DATA TYPE == FLOAT")
+  DO WHILE(hdfql_cursor_next() .EQ. HDFQL_SUCCESS)
+    WRITE(*, *) "Dataset found: ", hdfql_cursor_get_char()
+    state = hdfql_execute(
+      "SELECT FROM " // hdfql_cursor_get_char() //
+       " ORDER ASC INTO UNIX FILE output.txt SPLIT 1")
+  END DO
+  state = hdfql_execute(“CLOSE FILE”)
+END PROGRAM
+#+end_src
+
+#+begin_src sql
+
+CREATE FILE my_file.h5
+
+CREATE FILE experiment.h5 IN PARALLEL
+
+CREATE GROUP countries
+
+CREATE DATASET values AS FLOAT(20, 40) ENABLE ZLIB
+
+INSERT INTO measurements VALUES FROM EXCEL FILE values.xlsx
+
+INSERT INTO dset(0:::1) VALUES FROM MEMORY 0
+
+SHOW ATTRIBUTE group2 LIKE **/1|3
+
+#+end_src
+
+- Links
+  - [[https://www.hdfql.com/][HDFql home]]
+    - Binaries for Linux, Windows, and macOS
+  - [[https://www.hdfql.com/examples/][HDFql examples]]
+  - [[https://www.hdfql.com/resources/LICENSE.txt][HDFql license]]
+
+** Coming soon
+*** What happens to open HDF5 handles/IDs when your program ends?
+- Suggested by Quincey Koziol (LBNL)
+- We'll take it in pieces
+  - Current behavior
+  - How async I/O changes  that picture
+*** Other topics of interest?
 * Clinic 2021-06-29
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
