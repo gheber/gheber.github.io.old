@@ -49,10 +49,11 @@
   end of line (EOL) terminator
 
 #+begin_src fortran
+
 PROGRAM Example
   USE HDFql
   INTEGER :: state
-  state = hdfql_execute(“USE FILE data.h5”)
+  state = hdfql_execute("USE FILE data.h5")
   state = hdfql_execute(
     "SHOW DATASET LIKE **/^temperature WHERE DATA TYPE == FLOAT")
   DO WHILE(hdfql_cursor_next() .EQ. HDFQL_SUCCESS)
@@ -61,8 +62,9 @@ PROGRAM Example
       "SELECT FROM " // hdfql_cursor_get_char() //
        " ORDER ASC INTO UNIX FILE output.txt SPLIT 1")
   END DO
-  state = hdfql_execute(“CLOSE FILE”)
+  state = hdfql_execute("CLOSE FILE")
 END PROGRAM
+
 #+end_src
 
 #+begin_src sql
