@@ -3,6 +3,59 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-07-13
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+
+** Last week's highlights
+*** HUG 2021 Europe
+- The presentations from the European HUG 2021 event are now available on [[https://www.youtube.com/watch?v=NRS8oV7T9BE&list=PLPyhR4PdEeGbiXGJ4ykBf3JEw6to8rmB3][YouTube]]
+*** Announcements
+**** [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+- Format: "Paper and Presentation" or "Presentation"
+- Deadline for presentation abstracts: [2021-08-01 Sun]
+- Event: 12-15 October 2021
+*** Forum
+**** [[https://forum.hdfgroup.org/t/hdf5-specs-unclear-b-tree-v2-and-fractal-heap/8723][HDF5 specs unclear: B-tree v2 and fractal heap ]]
+- There was a lot of interest in accessing HDF5 files directly, i.e., w/o the
+  HDF5 library
+- Good clarity test for the [[https://docs.hdfgroup.org/hdf5/develop/_f_m_t3.html][file format spec]].
+- Someone is extending the [[https://github.com/jjhelmus/pyfive][=pyfive=]] pure Python HDF5 reader and asked for heap
+  ID clarification
+
+**** [[https://forum.hdfgroup.org/t/building-rest-vol-on-windows-10/8654][Building REST VOL on Windows 10]]
+- REST VOL = access HSDS via the HDF5 library, converts HDF5 library calls into
+  RESTful requests (and back)
+- Requires =libcurl= and massaging the linker flags
+
+**** [[https://forum.hdfgroup.org/t/file-storage-on-aws-s3/8715][File storage on AWS S3]]
+- Where did the data go?
+- The documentation can be found [[https://github.com/HDFGroup/hsds/blob/master/docs/design/obj_store_schema/obj_store_schema_v2.md][here]]
+
+**** [[https://forum.hdfgroup.org/t/migrating-pandas-and-local-hf5-to-hsds/8721][Migrating pandas and local HF5 to HSDS ]]
+- Using [[https://www.digitalocean.com/products/spaces/][DigitalOcean and spaces]] instead of AWS S3
+- Using [[https://pandas.pydata.org/][=pandas=]]
+  - Will that work?
+
+**** [[https://forum.hdfgroup.org/t/local-hsds-performance-vs-local-hdf5-files/8652][Local HSDS performance vs local HDF5 files]]
+- User observed a 10x slowdown for reads
+- What to expect?
+  - Several sources for slowdown (e.g., compression, IPC)
+- John Ready is working on a comprehensive performance test suite
+
+**** [[https://forum.hdfgroup.org/t/start-list-of-vol-plugins/8714][Start list of VOL plugins?]]
+- [[https://portal.hdfgroup.org/display/support/Registered+VOL+Connectors][List of VOL Connectors Registered with The HDF Group]]
+
+**** [[https://forum.hdfgroup.org/t/h5diff-and-ignoring-attributes/8553][h5diff and ignoring attributes]]
+- Now in HDF5 =develop= as =--exclude-attribute= option for =h5diff=
+
+****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
+- What small changes would make a big difference in your HDF5 workflow?
+- Chime in!
+** Tips, tricks, & insights
+*** HDF5 documentation updates
+- [[http://docs.hdfgroup.org.s3-website.us-east-2.amazonaws.com/hdf5/develop/index.html][docs.hdfgroup.org/hdf5/develop/]]
+
 * Clinic 2021-07-06
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
