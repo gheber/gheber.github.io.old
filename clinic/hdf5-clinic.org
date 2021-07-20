@@ -7,6 +7,11 @@
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
 
+- Q ::   Named types, what are the benefits?
+  - A :: Documentation and convenience. You don't have to (re-)create the
+    datatype over and over. Just open it and pass the handle to attribute and
+    dataset creations!
+
 ** Last week's highlights
 *** Announcements
 **** [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
@@ -29,6 +34,7 @@
 ****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
 - What small changes would make a big difference in your HDF5 workflow?
 - Chime in!
+
 ** Tips, tricks, & insights
 *** HDF5 File Images
 - Use cases
