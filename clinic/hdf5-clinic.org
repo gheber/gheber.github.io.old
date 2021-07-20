@@ -3,6 +3,76 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-07-20
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+
+** Last week's highlights
+*** Announcements
+**** [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+- Format: "Paper and Presentation" or "Presentation"
+- Deadline for presentation abstracts: [2021-08-01 Sun]
+- Event: 12-15 October 2021
+*** Forum
+**** [[https://forum.hdfgroup.org/t/migrating-pandas-and-local-hf5-to-hsds/8721][Migrating pandas and local HF5 to HSDS ]]
+- John Readey posted a nice comment referencing an article that shows how to map
+  pandas dataframes to HDF5 via =h5py=
+- The same will also work w/ =h5pyd=
+**** [[https://forum.hdfgroup.org/t/local-hsds-performance-vs-local-hdf5-files/8652][Local HSDS performance vs local HDF5 files]]
+- Interesting exchange of benchmark results
+- Data (response) preparation in HSDS seems to be slow
+- The big question is why HSDS is sending data at a 10x lower rate than a
+  vanilla REST API (339 MB/s versus 4,384 MB/s)
+**** [[https://forum.hdfgroup.org/t/mpi-io-file-info-actually-used/8751][MPI-IO file info actually used]]
+- The ~MPI_Info~ object returned by ~H5Pget_fapl_mpio~ does not return the full
+   set of hints seen by MPI
+****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
+- What small changes would make a big difference in your HDF5 workflow?
+- Chime in!
+** Tips, tricks, & insights
+*** HDF5 File Images
+- Use cases
+  - In-memory I/O
+  - Share HDF5 data between processes w/o a file system
+  - Transmit HDF5 data packets over a network
+- See also Vijay Kartik's (DESY) [[https://youtu.be/E3bIeFw02dc][presentation]] and [[https://www.hdfgroup.org/wp-content/uploads/2021/07/VijayKartik_HDF5_Serialization.pdf][slides]] from HUG 2021 Europe
+- Starting point: HDF5 core VFD
+  - Replace the file (logical byte sequence) with a memory buffer
+  - ~read~, ~write~ -> ~memcpy~
+- HDF5 file images generalize that concept
+  - Memory buffer + management interface (callbacks)
+  - Reference: [[https://docs.hdfgroup.org/hdf5/rfc/HDF5FileImageOperations.pdf][HDF5 File Image Operations]]
+- HDF5 file images can be exchanged between processes via IPC (shared memory
+  segment) or a TCP connection
+- See section 4 (Examples) in the reference
+
+ #+begin_example
++++ Process A +++                          +++ Process B +++
+
+<Open and construct the desired file       hid_t file_;
+with the Core file driver>
+
+H5Fflush(fid);
+size = H5Fget_file_image(fid, NULL, 0);
+buffer_ptr = malloc(size);
+H5Fget_file_image(fid, buffer_ptr, size);
+
+<transmit size>                           <receive size>
+                                          buffer_ptr = malloc(size)
+<transmit *buffer_ptr>                    <receive image in *buffer_ptr>
+free(buffer_ptr);
+<close core file>                         file_id = H5LTopen_file_image
+                                                    (
+                                                     buf,
+                                                     buf_len,
+                                                     H5LT_FILE_IMAGE_DONT_COPY
+                                                    );
+
+                                          <read data from file, then close.
+                                           note that the Core file driver
+                                           will discard the buffer on close>
+  #+end_example
+
 * Clinic 2021-07-13
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
