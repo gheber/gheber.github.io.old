@@ -12,8 +12,9 @@
   are wondering where the problem lies. - Sean Freeman
 - A :: Nothing comes to mind that's related to that, but it might be good to
     see what MPI and MPI I/O backend the user is using, since we've had issues
-    with ROMIO in the past for example. - Jordan Henderson
-
+    with ROMIO in the past for example. - [[mailto:jhenderson@hdfgroup.org][Jordan Henderson]]
+    - HPE MPT from SGI, not using ROMIO
+    - Maybe an MVE?
 ** Last week's highlights
 *** Announcements
 **** [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
