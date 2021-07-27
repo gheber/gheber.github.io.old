@@ -3,6 +3,62 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-07-27
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+
+- Q :: Is there any experience using HDF5 for MPI output with compression on a
+  progressively striped Lustre system? We’re seeing some file corruption and we
+  are wondering where the problem lies. - Sean Freeman
+- A :: Nothing comes to mind that's related to that, but it might be good to
+    see what MPI and MPI I/O backend the user is using, since we've had issues
+    with ROMIO in the past for example. - Jordan Henderson
+
+** Last week's highlights
+*** Announcements
+**** [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
+- Format: "Paper and Presentation" or "Presentation"
+- Deadline for presentation abstracts: [2021-08-01 Sun]
+- Event: 12-15 October 2021
+**** [[https://docs.hdfgroup.org/hdf5/develop/_r_f_c.html][HDF5 RFCs]]
+- All RFCs in one place
+*** Forum
+**** [[https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104][H5i_dec_ref hangs]]
+- Parallel HDF5 "misbehavior" can be subtle
+- [[https://portal.hdfgroup.org/display/HDF5/Collective+Calling+Requirements+in+Parallel+HDF5+Applications][Collective Calling Requirements in Parallel HDF5 Applications]]
+  - Allocation time, fill behavior, etc., are less visible, but included
+  - Always ask if an operation has the potential to create any "metadata
+    disparity?"
+**** [[https://forum.hdfgroup.org/t/how-to-read-a-utf-8-string/6125][How to read a UTF-8 string]]
+- =H5T_CSET_UTF8= for character encoding
+- The is currently a subtle bug in string handling [[https://github.com/HDFGroup/hdf5/issues/544][Inconsistent behaviour with variable-length strings and character encoding #544]]
+  - ASCII is a proper subset of UTF-8 with byte-identical encodings
+  - The HDF5 library is blissfully ignorant about that...
+**** [[https://forum.hdfgroup.org/t/when-should-mpi-barrier-be-used-when-using-parallel-hdf5/8761][When should MPI barrier be used when using Parallel HDF5?]]
+- Only if you want to achieve a certain consistency semantics ("processes
+  communicating through a file")
+  - See [[https://docs.hdfgroup.org/hdf5/rfc/RFC%20PHDF5%20Consistency%20Semantics%20MC%20120328.docx.pdf][Enabling a Strict Consistency Semantics Model in Parallel HDF5]]
+****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
+- What small changes would make a big difference in your HDF5 workflow?
+- Chime in!
+** Tips, tricks, & insights
+*** User-defined Properties
+- *Use case:* You want to pass property list-like things (dictionaries) around,
+  your language doesn't have dictionaries, and you don't want to re-invent the
+  wheel
+  - You want to stay close to the "HDF5 way of doing things"
+- See [[https://docs.hdfgroup.org/hdf5/develop/group___g_p_l_o_a.html][General Property List Operations (Advanced)]]
+- You can define your own property list classes w/ pre-defined or "permanent"
+  properties
+- You can insert "temporary" (= non-permanent) properties into any property list
+- *WARNING:* Permanent or temporary, /none/ of this is persisted in the HDF5
+  file!
+  - These property lists (and properties) get copied between APIs provided
+    you've implemented the necessary callbacks
+  - Depending on the property value types, make sure you implement proper
+    resource management, or memory leaks might occur
+- It's an esoteric/advanced/infrequently used feature, but might be just what
+  you need in certain circumstances
 * Clinic 2021-07-20
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
