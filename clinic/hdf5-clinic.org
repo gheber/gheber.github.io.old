@@ -25,14 +25,34 @@
 *** What is SWMR & what's new w/ VFD SWMR?
 - SWMR = Single Writer Multiple Readers
 - Use case: "Process collaboration w/o communication"
-
+  - Read from an HDF5 file that is actively being written
+  - "w/o communication"  = no inter-process communication (IPC) required
+- That's a big ask!
+  - How do we ensure that the readers don't read invalid, inconsistent, or corrupt data?
+  - How do we ensure that readers eventually see updates?
+    - Can we bound that delay?
+  - Does this require any special HW/SW support?
 - Initial release in HDF5 1.10.0 (March 30 2016)
 
 **** Limitations of the first implementation
+- No support for new items, e.g., objects, attributes, etc., no deletion
+  - Dataset append only
+- Reliance on strict write ordering and atomic write guarantee as per POSIX semantics
+  - Many file systems don't do that, e.g., NFS
+- Implementation touches most parts of the HDF5 library: high maintenance cost
 
-**** What SWMR VFD brings
+**** What VFD SWMR brings
+- Arbitrary item and object creation/deletion
+- Configurable bound (maximum time) between write and read
+- Easier to maintain because of VFD-level implementation
+- Relaxed storage requirements, i.e., the implementation can be modified to support NFS or object stores
 
-**** Limitations of the new implementation
+**** How is it done?
+- Writer generates periodic snapshots of metadata at points when it's known to be in a consistent state
+  - These snapshot live outside the HDF5 file proper
+- Readers' MD requests are satisfied from snapshots or unchanged MD in the HDF5 file
+- Devil's in the detail, e.g., to guarantee time between write and read, we need to bound the maximum size of MD changes and use page buffering
+  - See the [[https://docs.hdfgroup.org/hdf5/rfc/VFD_SWMR_RFC_191027.pdf][RFC]] for the details
 
 * Clinic 2021-08-03
 ** Your Questions
