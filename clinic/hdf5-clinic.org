@@ -3,6 +3,37 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-08-10
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+
+** Last week's highlights
+*** Announcements
+**** [[https://forum.hdfgroup.org/t/the-highly-scalable-data-service-hsds-is-now-available-on-microsoft-azure/8830][The Highly Scalable Data Service (HSDS) is now available on Microsoft Azure]]
+- Get started in the [[https://azuremarketplace.microsoft.com/en-us/marketplace/apps/thehdfgroup1616725197741.hsdsazurevm?tab=overview][Azure Marketplace]]
+**** [[https://forum.hdfgroup.org/t/vfd-swmr-beta-1-release/8824][VFD SWMR beta 1 release]]
+- [[https://github.com/HDFGroup/hdf5/tree/feature/vfd_swmr_beta_1][GitHub branch]]
+- [[https://www.youtube.com/watch?v=QDoKuJojkGI][The movie]]
+- [[https://docs.hdfgroup.org/hdf5/rfc/VFD_SWMR_RFC_191027.pdf][The VFD SWMR RFC]]
+*** Forum
+- [[https://forum.hdfgroup.org/t/problem-compiling-hdf5-using-cmake-with-hdf5-enable-parallel/8823][Problem compiling HDF5 using CMake with =HDF5_ENABLE_PARALLEL=]]
+  * Affects HDF5 1.12.1
+  * Discovered by Jan-Willem Blokland & turns out to be a goof-up in our CMake
+    files
+  - Fixed in [[https://github.com/HDFGroup/hdf5/pull/843][PR #843]]
+** Tips, tricks, & insights
+*** What is SWMR & what's new w/ VFD SWMR?
+- SWMR = Single Writer Multiple Readers
+- Use case: "Process collaboration w/o communication"
+
+- Initial release in HDF5 1.10.0 (March 30 2016)
+
+**** Limitations of the first implementation
+
+**** What SWMR VFD brings
+
+**** Limitations of the new implementation
+
 * Clinic 2021-08-03
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
