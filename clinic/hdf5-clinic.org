@@ -3,6 +3,74 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-08-17
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+
+** Last week's highlights
+*** Announcements
+**** [[https://forum.hdfgroup.org/t/new-compression-plugin-based-on-snappy-cuda/8848][New compression plugin based on Snappy-CUDA]]
+- A new (de-)compression filter plugin using [[https://github.com/google/snappy][Google's Snappy]] algorithm
+- It runs on GPUs
+- By Mr. HDF5-UDF (Lucas C. Villa Real)
+
+*** Forum
+**** [[https://forum.hdfgroup.org/t/alignment-of-direct-write-chunks/8851][Alignment of Direct Write Chunks]]
+- Store large 1D datasets across multiple HDF5 file
+- Receive compressed chunks w/ fixed number of samples/chunk
+- Want to use direct chunk write
+- *Problem:* Chunks may contain /boundary chunks/ containing samples that belong
+   to different datasets in different files
+- *Sub-optimal solution:* Decompress the chunk, separate the samples, & use some
+  kind of masking value on the next dataset
+- Better solution?
+
+** Tips, tricks, & insights
+*** Virtual Datasets (VDS)
+- Logically, HDF5 datasets have a shape (rank or dimensionality) and an element
+  type
+- Physically, HDF5 datasets have a layout (in a logical HDF5 file): contiguous,
+  chunked, compact, /virtual/
+- A virtual dataset is an HDF5 dataset of virtual layout (- duh!)
+- *Virtual layout:* some or all of the dataset's elements are stored in
+  constituent datasets in the same or other HDF5 files, including other virtual
+  datasets(!)
+- Like any HDF5 dataset, HDF5 datasets of virtual layout have a shape
+  (a.k.a. dataspace) and an element type (a.k.a datatype)
+- Virtual datasets are constructed by specifying how selections(!) on
+  constituent datasets /map/ to regions in the virtual dataset's dataspace
+- Main API call: [[https://docs.hdfgroup.org/hdf5/develop/group___d_c_p_l.html#gadec895092dbbedb94f85d9cacf8924f5][~H5Pset_virtual~]]
+  #+begin_src C -n
+
+  herr_t H5Pset_virtual(hid_t	      vds_dcpl_id,   // VDS creation properties
+                        hid_t       vds_dspace_id, // VDS dataspace
+                        const char* src_file_name, // source file path
+                        const char* src_dset_name, // source dataset path
+                        hid_t       src_space_id); // source dataspace select.
+
+  #+end_src
+- Sometimes multiple calls to ~H5Pset_virtual~ are necessary, but there's
+  support for ~printf~-style format strings to describe multiple source files & datasets
+- Typically, a VDS is just a piece of (HDF5-)metadata
+- How does that lead to a better solution? /Use VDS to correct for data
+  acquisition artifacts!/
+- Two approaches
+  1. Write the "boundary chunk" to both datasets/files
+  2. Write the "boundary chunk" to only one dataset/file
+- In either case, we use VDS as a mechanism to construct the correct
+  (time-delineated) datasets
+- Main practical differences between 1. and 2.:
+  - Unless the data is WORM (write-once/read-many), there is a potential
+    coherence problem in 1. because we have two copies of the halo data
+  - When accessing a dataset whose boundary chunk ended up in another file,
+    under 2., the HDF5 library has to open another file and dataset, and locate
+    the chunk
+- The canonical VDS reference is [[https://docs.hdfgroup.org/hdf5/rfc/HDF5-VDS-requirements-use-cases-2014-12-10.pdf][RFC: HDF5 Virtual Dataset]]
+  - Good source of use cases and examples
+  - Not everything described in the RFC was implemented, e.g., datatype
+    conversion
+  - ~h5py~ has a nice [[https://docs.h5py.org/en/stable/vds.html][interface for VDS]]
+
 * Clinic 2021-08-10
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
