@@ -6,6 +6,15 @@
 * Clinic 2021-08-17
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+- Q :: Are there or should there be special considerations when preserving HDF-5
+  files for future use? I support a research data repository at University of
+  Michigan and we occasionally receive these files (also netCDF and HDF-5
+  created by MATLAB).
+  - HDF5 feature use
+    - Relative paths
+  - Metadata
+    - Faceted search, catalog, digest
+    - Check sums
 
 ** Last week's highlights
 *** Announcements
