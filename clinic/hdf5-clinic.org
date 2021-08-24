@@ -3,6 +3,104 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-08-24
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+
+** Last week's highlights
+*** Announcements
+- I didn't see any
+
+*** Forum
+**** [[https://forum.hdfgroup.org/t/append-to-compound-dataset/8885][Append to compound dataset]]
+- It is tempting to think about 1D compound datasets as tables
+**** [[https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230][Reference Manual in Doxygen]]
+- [[https://docs.hdfgroup.org/hdf5/develop/group___h5_z.html][RM H5Z]]
+- Don't let Word & co. pollute your documentation!
+  - It's  not someone else being evil, it's us acting like fools!
+
+** Tips, tricks, & insights
+*** HDF5 Compound Datasets and (Relational) Tables: Don't be fooled!
+- [[https://forum.hdfgroup.org/t/append-to-compound-dataset/8885][Append to compound dataset]]
+- 'Row' as in 'table row' or 'matrix row' share the same spelling, but that's
+  where the similarity ends!
+  - HDF5 datasets are *not* tables
+
+#+begin_src C
+
+#include "hdf5.h"
+
+#include <stdlib.h>
+
+int main()
+{
+  __label__ fail_file, fail_dspace, fail_dset, fail_extent;
+
+  int retval = EXIT_SUCCESS;
+
+  hid_t file, dspace, dcpl, dset;
+
+  if ((file = H5Fcreate("foo.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT)) ==
+      H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_file;
+  }
+
+  // create a 1D dataspace of indefinite extent, initial extent 0 (elements)
+  if ((dspace = H5Screate_simple(1, (hsize_t[]){0}, (hsize_t[]){H5S_UNLIMITED}))
+      == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_dspace;
+  }
+
+  // allocate space in the file in batches of 1024 dataset elements
+  if ((dcpl = H5Pcreate(H5P_DATASET_CREATE)) == H5I_INVALID_HID ||
+      H5Pset_chunk(dcpl, 1, (hsize_t[]){1024}) < 0) {
+    retval = EXIT_FAILURE;
+    goto fail_dcpl;
+  }
+
+  // create the dataset
+  // (replace H5T_STD_I32LE with your favorite datatype)
+  if ((dset = H5Dcreate(file, "(4-byte) integers", H5T_STD_I32LE, dspace,
+                        H5P_DEFAULT, dcpl, H5P_DEFAULT)) ==
+      H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_dset;
+  }
+
+  // grow from here!
+
+  // "add one row"
+  if (H5Dset_extent(dset, (hsize_t[]){1}) < 0) {
+    retval = EXIT_FAILURE;
+    goto fail_extent;
+  }
+
+  // "add 99 more rows"
+  // 100 = 1 + 99
+  if (H5Dset_extent(dset, (hsize_t[]){100}) < 0) {
+    retval = EXIT_FAILURE;
+    goto fail_extent;
+  }
+
+  // you can also shrink the dataset...
+
+fail_extent:
+  H5Dclose(dset);
+fail_dset:
+  H5Pclose(dcpl);
+fail_dcpl:
+  H5Sclose(dspace);
+fail_dspace:
+  H5Fclose(file);
+fail_file:
+
+  return retval;
+}
+
+#+end_src
+
 * Clinic 2021-08-17
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
@@ -11,10 +109,12 @@
   Michigan and we occasionally receive these files (also netCDF and HDF-5
   created by MATLAB).
   - HDF5 feature use
-    - Relative paths
+    - Relative paths, hard-coded paths (e.g., in external links)
+    - Dependencies such as plugins
   - Metadata
     - Faceted search, catalog, digest
     - Check sums
+  - *TODO:* Create some guidance!
 
 ** Last week's highlights
 *** Announcements
