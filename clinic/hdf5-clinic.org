@@ -54,10 +54,13 @@ int main()
   }
 
   // allocate space in the file in batches of 1024 dataset elements
-  if ((dcpl = H5Pcreate(H5P_DATASET_CREATE)) == H5I_INVALID_HID ||
-      H5Pset_chunk(dcpl, 1, (hsize_t[]){1024}) < 0) {
+  if ((dcpl = H5Pcreate(H5P_DATASET_CREATE)) == H5I_INVALID_HID) {
     retval = EXIT_FAILURE;
     goto fail_dcpl;
+  }
+  if (H5Pset_chunk(dcpl, 1, (hsize_t[]){1024}) < 0) {
+    retval = EXIT_FAILURE;
+    goto fail_dset;
   }
 
   // create the dataset
