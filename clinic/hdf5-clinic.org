@@ -52,7 +52,6 @@ int main()
     fail_write;
   int retval = EXIT_SUCCESS;
   hid_t file, dspace, dcpl, dset;
-  int data[2048];
 
   // custom filter
   H5Z_class_t cls;
@@ -102,28 +101,32 @@ int main()
     goto fail_dset;
   }
 
-  // write something to trigger the compression of two chunks
-  if (H5Dwrite(dset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, data)
-      < 0) {
-    retval = EXIT_FAILURE;
-    goto fail_write;
+  // write something to trigger the "compression" of two chunks
+  {
+    int data[2048];
+
+    if (H5Dwrite(dset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, data)
+        < 0) {
+        retval = EXIT_FAILURE;
+        goto fail_write;
+      }
   }
 
   // housekeeping
- fail_write:
+fail_write:
   H5Dclose(dset);
- fail_dset:
+fail_dset:
   H5Pclose(dcpl);
- fail_dcpl:
+fail_dcpl:
   H5Sclose(dspace);
- fail_dspace:
+fail_dspace:
   H5Fclose(file);
- fail_file:
+fail_file:
   // unregister the filter
   if (H5Zunregister(cls.id) < 0) {
     retval = EXIT_FAILURE;
   }
- fail_register:
+fail_register:
   return retval;
 }
 
