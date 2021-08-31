@@ -3,6 +3,132 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-08-31
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+  - Elena will answer that next week!
+
+** Last week's highlights
+*** Announcements
+- I didn't see any
+
+*** Forum
+**** [[https://forum.hdfgroup.org/t/how-many-times-to-call-the-filter-in-writing-a-single-chunk/8906][How many times to call the filter in writing a single chunk]]
+- Provide a [[https://en.wikipedia.org/wiki/Minimal_working_example][Minimal Working Example (MWE)]]!
+
+** Tips, tricks, & insights
+*** Using a custom filter
+
+#+begin_src C
+
+#include "hdf5.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// an identity filter function which just prints "helpful" messages
+size_t filter(unsigned int flags, size_t cd_nelmts,
+              const unsigned int cd_values[], size_t nbytes, size_t *buf_size,
+              void **buf) {
+  buf_size = 0;
+
+  if (flags & H5Z_FLAG_REVERSE) {
+    // read data, e.g., decompress data
+    // ...
+    printf("Decompressing...\n");
+  } else {
+    // write data, e.g., compress data
+    // ...
+    printf("Compressing...\n");
+  }
+
+  return nbytes;
+}
+
+int main()
+{
+  // boilerplate
+  __label__ fail_register, fail_file, fail_dspace, fail_dcpl, fail_dset,
+    fail_write;
+  int retval = EXIT_SUCCESS;
+  hid_t file, dspace, dcpl, dset;
+  int data[2048];
+
+  // custom filter
+  H5Z_class_t cls;
+  cls.version = H5Z_CLASS_T_VERS;
+  cls.id = 256;
+  cls.encoder_present = 1;
+  cls.decoder_present = 1;
+  cls.name = "Identity filter";
+  cls.can_apply = NULL;
+  cls.set_local = NULL;
+  cls.filter = &filter;
+
+  // register the filter
+  if (H5Zregister(&cls) < 0) {
+    retval = EXIT_FAILURE;
+    goto fail_register;
+  }
+
+  if ((file = H5Fcreate("filter.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT))
+      == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_file;
+  }
+  if ((dspace = H5Screate_simple(1, (hsize_t[]){2048},
+                                 (hsize_t[]){H5S_UNLIMITED})) ==
+      H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_dspace;
+  }
+  if ((dcpl = H5Pcreate(H5P_DATASET_CREATE)) == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_dcpl;
+  }
+
+  // play with early chunk allocation and fill time
+  if (H5Pset_filter(dcpl, cls.id, 0|H5Z_FLAG_MANDATORY, 0, NULL) < 0 ||
+      //H5Pset_alloc_time(dcpl, H5D_ALLOC_TIME_EARLY) < 0 ||
+      //H5Pset_fill_time(dcpl, H5D_FILL_TIME_NEVER) < 0 ||
+      H5Pset_chunk(dcpl, 1, (hsize_t[]) {1024}) < 0) {
+    retval = EXIT_FAILURE;
+    goto fail_dset;
+  }
+
+  if ((dset = H5Dcreate(file, "dset", H5T_STD_I32LE, dspace, H5P_DEFAULT,
+                        dcpl, H5P_DEFAULT)) == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_dset;
+  }
+
+  // write something to trigger the compression of two chunks
+  if (H5Dwrite(dset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, data)
+      < 0) {
+    retval = EXIT_FAILURE;
+    goto fail_write;
+  }
+
+  // housekeeping
+ fail_write:
+  H5Dclose(dset);
+ fail_dset:
+  H5Pclose(dcpl);
+ fail_dcpl:
+  H5Sclose(dspace);
+ fail_dspace:
+  H5Fclose(file);
+ fail_file:
+  // unregister the filter
+  if (H5Zunregister(cls.id) < 0) {
+    retval = EXIT_FAILURE;
+  }
+ fail_register:
+  return retval;
+}
+
+#+end_src
+
 * Clinic 2021-08-24
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
@@ -89,15 +215,15 @@ int main()
 
   // you can also shrink the dataset...
 
-fail_extent:
+ fail_extent:
   H5Dclose(dset);
-fail_dset:
+ fail_dset:
   H5Pclose(dcpl);
-fail_dcpl:
+ fail_dcpl:
   H5Sclose(dspace);
-fail_dspace:
+ fail_dspace:
   H5Fclose(file);
-fail_file:
+ fail_file:
 
   return retval;
 }
@@ -132,7 +258,7 @@ fail_file:
 - Receive compressed chunks w/ fixed number of samples/chunk
 - Want to use direct chunk write
 - *Problem:* Chunks may contain /boundary chunks/ containing samples that belong
-   to different datasets in different files
+  to different datasets in different files
 - *Sub-optimal solution:* Decompress the chunk, separate the samples, & use some
   kind of masking value on the next dataset
 - Better solution?
@@ -305,9 +431,9 @@ int main(int argc, char **argv)
     goto fail_visit;
   }
 
-fail_visit:
+ fail_visit:
   H5Fclose(file);
-fail_file:
+ fail_file:
   return retval;
 }
 
@@ -370,9 +496,9 @@ herr_t visit_cb(hid_t obj, const char *name, const H5O_info2_t *info,
                  size);
           // get the allocated chunk sizes
           if (H5Dchunk_iter(dset, H5P_DEFAULT, &chunk_cb, NULL) < 0) {
-              retval = -1;
-              goto fail_fig;
-            }
+            retval = -1;
+            goto fail_fig;
+          }
 
         fail_fig:
           H5Sclose(dspace);
@@ -386,7 +512,7 @@ herr_t visit_cb(hid_t obj, const char *name, const H5O_info2_t *info,
       H5Dclose(dset);
     }
 
-func_leave:
+ func_leave:
   return retval;
 }
 
@@ -414,10 +540,10 @@ int chunk_cb(const hsize_t *offset, uint32_t filter_mask, haddr_t addr,
   progressively striped Lustre system? We’re seeing some file corruption and we
   are wondering where the problem lies. - Sean Freeman
 - A :: Nothing comes to mind that's related to that, but it might be good to
-    see what MPI and MPI I/O backend the user is using, since we've had issues
-    with ROMIO in the past for example. - [[mailto:jhenderson@hdfgroup.org][Jordan Henderson]]
-    - HPE MPT from SGI, not using ROMIO
-    - Maybe an MVE?
+  see what MPI and MPI I/O backend the user is using, since we've had issues
+  with ROMIO in the past for example. - [[mailto:jhenderson@hdfgroup.org][Jordan Henderson]]
+  - HPE MPT from SGI, not using ROMIO
+  - Maybe an MVE?
 ** Last week's highlights
 *** Announcements
 **** [[https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301][2021 HDF5 User Group Call for Papers]]
@@ -490,7 +616,7 @@ int chunk_cb(const hsize_t *offset, uint32_t filter_mask, haddr_t addr,
   vanilla REST API (339 MB/s versus 4,384 MB/s)
 **** [[https://forum.hdfgroup.org/t/mpi-io-file-info-actually-used/8751][MPI-IO file info actually used]]
 - The ~MPI_Info~ object returned by ~H5Pget_fapl_mpio~ does not return the full
-   set of hints seen by MPI
+  set of hints seen by MPI
 ****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
 - What small changes would make a big difference in your HDF5 workflow?
 - Chime in!
@@ -512,32 +638,32 @@ int chunk_cb(const hsize_t *offset, uint32_t filter_mask, haddr_t addr,
   segment) or a TCP connection
 - See section 4 (Examples) in the reference
 
- #+begin_example
-+++ Process A +++                          +++ Process B +++
+  #+begin_example
+ +++ Process A +++                          +++ Process B +++
 
-<Open and construct the desired file       hid_t file_;
-with the Core file driver>
+ <Open and construct the desired file       hid_t file_;
+ with the Core file driver>
 
-H5Fflush(fid);
-size = H5Fget_file_image(fid, NULL, 0);
-buffer_ptr = malloc(size);
-H5Fget_file_image(fid, buffer_ptr, size);
+ H5Fflush(fid);
+ size = H5Fget_file_image(fid, NULL, 0);
+ buffer_ptr = malloc(size);
+ H5Fget_file_image(fid, buffer_ptr, size);
 
-<transmit size>                           <receive size>
-                                          buffer_ptr = malloc(size)
-<transmit *buffer_ptr>                    <receive image in *buffer_ptr>
-free(buffer_ptr);
-<close core file>                         file_id = H5LTopen_file_image
-                                                    (
-                                                     buf,
-                                                     buf_len,
-                                                     H5LT_FILE_IMAGE_DONT_COPY
-                                                    );
+ <transmit size>                           <receive size>
+                                           buffer_ptr = malloc(size)
+ <transmit *buffer_ptr>                    <receive image in *buffer_ptr>
+ free(buffer_ptr);
+ <close core file>                         file_id = H5LTopen_file_image
+                                                     (
+                                                      buf,
+                                                      buf_len,
+                                                      H5LT_FILE_IMAGE_DONT_COPY
+                                                     );
 
-                                          <read data from file, then close.
-                                           note that the Core file driver
-                                           will discard the buffer on close>
-  #+end_example
+                                           <read data from file, then close.
+                                            note that the Core file driver
+                                            will discard the buffer on close>
+   #+end_example
 
 * Clinic 2021-07-13
 ** Your Questions
@@ -639,20 +765,20 @@ free(buffer_ptr);
 
 #+begin_src fortran
 
-PROGRAM Example
-  USE HDFql
-  INTEGER :: state
-  state = hdfql_execute("USE FILE data.h5")
-  state = hdfql_execute(
-    "SHOW DATASET LIKE **/^temperature WHERE DATA TYPE == FLOAT")
-  DO WHILE(hdfql_cursor_next() .EQ. HDFQL_SUCCESS)
-    WRITE(*, *) "Dataset found: ", hdfql_cursor_get_char()
-    state = hdfql_execute(
-      "SELECT FROM " // hdfql_cursor_get_char() //
-       " ORDER ASC INTO UNIX FILE output.txt SPLIT 1")
-  END DO
-  state = hdfql_execute("CLOSE FILE")
-END PROGRAM
+      PROGRAM Example
+      USE HDFql
+      INTEGER :: state
+      state = hdfql_execute("USE FILE data.h5")
+      state = hdfql_execute(
+      "SHOW DATASET LIKE **/^temperature WHERE DATA TYPE == FLOAT")
+      DO WHILE(hdfql_cursor_next() .EQ. HDFQL_SUCCESS)
+         WRITE(*, *) "Dataset found: ", hdfql_cursor_get_char()
+         state = hdfql_execute(
+         "SELECT FROM " // hdfql_cursor_get_char() //
+         " ORDER ASC INTO UNIX FILE output.txt SPLIT 1")
+      END DO
+      state = hdfql_execute("CLOSE FILE")
+      END PROGRAM
 
 #+end_src
 
@@ -730,7 +856,7 @@ SHOW ATTRIBUTE group2 LIKE **/1|3
 **** Low-level view
 - Objects are /reference-counted/ (in the object OHDR in the file!)
 - A positive reference count means the object is considered /in-use/ or
-    referenced
+  referenced
 - A zero reference count signals to the HDF5 library free space availability
 - If that free space can be used or reclaimed depends on several factors
   - Position of the gap (middle of the file, end of the file)
@@ -918,11 +1044,11 @@ int main()
 **** Outline
 
 The basic file locking algorithm is simple:
- - On opening the file, we place the lock as described below. This is true for
-   /all/ file opens, not just SWMR (Single Write Multiple Readers).
- - For SWMR writers, this lock is removed after we flush the file's superblock.
- - All other processes will hold the lock until the file is closed or
-   =H5Fstart_swmr_write()= is called.
+- On opening the file, we place the lock as described below. This is true for
+  /all/ file opens, not just SWMR (Single Write Multiple Readers).
+- For SWMR writers, this lock is removed after we flush the file's superblock.
+- All other processes will hold the lock until the file is closed or
+  =H5Fstart_swmr_write()= is called.
 
 **** Architecture
 
@@ -975,8 +1101,8 @@ Compile time option:
                           (useful with Lustre). [default=best-effort]
 #+end_example
 
- You can disable all file locking at runtime by setting an environment variable
- named =HDF5_USE_FILE_LOCKING= to the string ="FALSE"=.
+You can disable all file locking at runtime by setting an environment variable
+named =HDF5_USE_FILE_LOCKING= to the string ="FALSE"=.
 
 We preferentially use =flock(2)= in POSIX-like environments where it's
 available. If that is not available, we fall back on =fcntl(2)=. If that is not
@@ -1175,7 +1301,7 @@ Exit Status:
 **** [[https://forum.hdfgroup.org/t/hdf5-udf-runs-on-macos/8527][HDF5-UDF runs on macOS!]]
 - *Caveat:* [[https://www.gnu.org/proprietary/malware-apple.en.html][Apple's Operating Systems Are Malware]] says [[https://www.gnu.org/][FSF]]
 ****  [[https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545][Make a wish!]]
-  - What small changes would make a big difference in your HDF5 workflow?
+- What small changes would make a big difference in your HDF5 workflow?
 ** Tips, tricks, & insights
 *** Jam-packed HDF5 Files - The HDF5 User Block
 - "Keeping things together." - mantra
@@ -1436,15 +1562,15 @@ int main()
 
   if (H5Dwrite(dset, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, data)
       < 0)
-        ret_val = EXIT_FAILURE;
+    ret_val = EXIT_FAILURE;
 
   H5Dclose(dset);
 
-fail_dset:
+ fail_dset:
   H5Sclose(fspace);
-fail_fspace:
+ fail_fspace:
   H5Fclose(file);
-fail_file:
+ fail_file:
   free(data);
 
   assert(ret_val == EXIT_SUCCESS);
