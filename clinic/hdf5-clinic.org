@@ -3,6 +3,41 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-09-28
+** Your Questions
+- Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
+  - Did Elena will answer that?
+** Last week's highlights
+*** Announcements
+**** [[https://forum.hdfgroup.org/t/hdf5-user-group-meeting-october-12-15-2021/9003][HUG 2021 Agenda posted]]
+- October 12-15, 2021, 9:00 AM - 1:30 PM (CDT)
+**** [[https://forum.hdfgroup.org/t/webinar-announcement-new-features-in-the-hdf5-1-13-0-release/8950][Webinar Announcement: New Features in the HDF5 1.13.0 Release]]
+- [[https://www.youtube.com/watch?v=14xrbKJ3wk4][Recording]] and [[https://www.hdfgroup.org/wp-content/uploads/2021/09/New-Features-in-HDF5-1.13.0-VFD-and-VOL-Changes-Webinar-9-24-21.pdf][slides]] available now!
+*** Forum
+**** [[https://forum.hdfgroup.org/t/possible-to-change-email-address-here/6738][Possible to change email address here?]]
+- Lori?
+**** [[https://forum.hdfgroup.org/t/retrieve-property-list-from-object/8971][Retrieve property list from object]]
+- Property lists come in several flavors (access, creation, transfer)
+- Only creation property lists are store in the file
+**** [[https://forum.hdfgroup.org/t/dynamic-plugins-require-application-to-link-to-shared-library/8972][Dynamic Plugins require application to link to shared library]]
+- [[https://github.com/HDFGroup/hdf5/issues/1009][GitHub issue]]
+- Plugin loading happens via =dlopen=
+- Calling the HDF5 library from a plugin
+  - Why would applications do that? Element type, chunk size, ...
+  - API shortcomings?
+**** [[https://forum.hdfgroup.org/t/object-timestamps-useful-or-not/8901][Object timestamps - useful or not?]]
+- Only a minority seems to care
+  - Limited implementation
+- Bit-for-bit reproducibility
+- Clear communication before changing defaults is crucial
+** Tips, tricks, & insights
+*** HDF5 references
+- HDF5 datatype
+- Pre-HDF5 1.12.0 referents limited to dataset regions and objects
+- Starting w/ HDF5 1.12.0 referents can be HDF5 attributes
+  - Support for querying and indexing
+  - API clean-up
+- [[https://docs.hdfgroup.org/hdf5/develop/group___h5_r.html][Basic life cycle examples in RM]]
 * Clinic 2021-08-31
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
@@ -2714,91 +2749,6 @@ usage: h5copy [OPTIONS] [OBJECTS...]
       H5O_COPY_ALL
   #+end_example
 
-* Clinic 2021-02-16
-** Your questions
-** Last week's highlights
-*** Events
-- [[https://www.youtube.com/watch?v=7ZYZKB7DNUg][Webinar: /Learn about data virtualization with HDF5-UDF and how it can
-  streamline your work/]]
-- [[https://www.youtube.com/watch?v=g5h_YlvI9Aw][Recording of last week's clinic]]
-*** Forum
-- [[https://forum.hdfgroup.org/t/hdfql-2-3-0-release-with-excel-import-export-support/8132][Release of HDFql 2.3.0]]
-  - Excel import and export (no Excel or OLE dependency!)
-- [[https://forum.hdfgroup.org/t/creating-a-dataset-through-external-link-does-not-allow-hdf5view-to-see-resulting-dataset-from-root-file/8148][Possible bug in HDFView]]
-  - Based on the description, it appears that external links are not properly
-    traversed
-  - Waiting for [[https://en.wikipedia.org/wiki/Minimal_working_example][MWE]]
-- [[https://forum.hdfgroup.org/t/possible-bug-with-hyperslab-selection-in-1-10-7/8164][Possible hyperslab selection bug in 1.10.7]]
-  - It appears that =H5S_SELECT_OR= is no longer "commutative", i.e., ~H5Dread~
-    with =SelA OR SelB= works, but not =SelB OR SelA=
-  - Wasn't there in 1.10.6
-** Notes
-*** What (if any) are the ACID properties of HDF5 operations?
-**** Split-state
-The state of an open (for RW) HDF5 file is /split/ between RAM and persistent
-storage. Often the partial states will be out of sync. In the event of a
-"catastrophic" failure (power outage, application crash, system crash), it is
-impossible to predict what the partial state on disk will be.
-
-#+begin_src plantuml :hidden :file hdf5-file-state.png
-skinparam componentStyle rectangle
-
-package "HDF5 File State" {
-    database "Disk" {
-        [Partial State 1]
-    }
-    cloud "RAM" {
-        [Partial State 2]
-    }
-}
-#+end_src
-
-#+RESULTS:
-[[file:hdf5-file-state.png]]
-
-**** Non-transactional
-The main reason why it is impossible to predict the outcome is that HDF5
-operations are non-transactional. By 'transaction' I mean a collection of
-operations (and the effects of their execution) on the physical and abstract
-application state. In particular, there are no concepts of beginning a
-transaction, a commit, or a roll-back. Since they are not transactional, it is
-not straightforward to speak about the ACID properties of HDF5 operations.
-
-**** File system facilities
-People sometimes speak about ACID properties with respect to file system
-operations. Although the HDF5 library relies on file system operations for the
-implementation of HDF5 operations, the correspondence is not as direct as
-might wish. For example, what appears as a single HDF5 operation to the user
-often includes multiple file system operations. Several file system operations
-have a certain property only at the level of a single operation, but not
-multiple operations combined.
-
-**** ACID
-- Atomicity :: All changes to an HDF5 file's state must complete or fail as a
-  whole unit.
-  - Supported in HDF5? **No.**
-  - Some file systems only support single op. atomicity, if at all.
-  - A lot of HDF5 operations are /in-place/; mixed success -> impossible to
-    recover
-- Consistency :: An operation is a correct transformation of the HDF5 file's
-  state.
-  - Supported in HDF5? **Yes and No**
-  - Depends on one's definition of HDF5 file/object integrity constraints
-  - Assuming we are dealing with a correct program
-  - Special case w/ multiple processes: Single Writer Multiple Reader
-- Isolation (serialization) :: Even though operations execute concurrently, it
-  appears to each operation, OP, that others executed either before OP or after
-  OP, but not both.
-  - Supported in HDF5? **No.**
-  - Depends on concurrency scenario and requires special configuration (e.g.,
-    MT, MPI).
-  - Time-of-check-time-of-use vulnerability
-- Durability :: Once an operation completes successfully, it's changes to the
-  file's state survive failure.
-  - Supported in HDF5? **No.**
-  - "Split brain"
-  - No transaction log
-
 * Clinic 2021-02-09
 **THIS MEETING IS BEING RECORDED** and the recording will be available on The
 HDF Group's [[https://www.youtube.com/channel/UCRhtsIZquL3r-zH-R-r9-tQ][YouTube channel]]. Remember to subscribe!
@@ -2913,6 +2863,90 @@ Continue the discussion on the [[https://forum.hdfgroup.org/][HDF Forum]] or com
 - Remaining: a few =H5P=  calls and =H5E=
 - Current version: [[https://hdf5.io/develop/modules.html]]
 
+* Clinic 2021-02-16
+** Your questions
+** Last week's highlights
+*** Events
+- [[https://www.youtube.com/watch?v=7ZYZKB7DNUg][Webinar: /Learn about data virtualization with HDF5-UDF and how it can
+  streamline your work/]]
+- [[https://www.youtube.com/watch?v=g5h_YlvI9Aw][Recording of last week's clinic]]
+*** Forum
+- [[https://forum.hdfgroup.org/t/hdfql-2-3-0-release-with-excel-import-export-support/8132][Release of HDFql 2.3.0]]
+  - Excel import and export (no Excel or OLE dependency!)
+- [[https://forum.hdfgroup.org/t/creating-a-dataset-through-external-link-does-not-allow-hdf5view-to-see-resulting-dataset-from-root-file/8148][Possible bug in HDFView]]
+  - Based on the description, it appears that external links are not properly
+    traversed
+  - Waiting for [[https://en.wikipedia.org/wiki/Minimal_working_example][MWE]]
+- [[https://forum.hdfgroup.org/t/possible-bug-with-hyperslab-selection-in-1-10-7/8164][Possible hyperslab selection bug in 1.10.7]]
+  - It appears that =H5S_SELECT_OR= is no longer "commutative", i.e., ~H5Dread~
+    with =SelA OR SelB= works, but not =SelB OR SelA=
+  - Wasn't there in 1.10.6
+** Notes
+*** What (if any) are the ACID properties of HDF5 operations?
+**** Split-state
+The state of an open (for RW) HDF5 file is /split/ between RAM and persistent
+storage. Often the partial states will be out of sync. In the event of a
+"catastrophic" failure (power outage, application crash, system crash), it is
+impossible to predict what the partial state on disk will be.
+
+#+begin_src plantuml :hidden :file hdf5-file-state.png
+skinparam componentStyle rectangle
+
+package "HDF5 File State" {
+    database "Disk" {
+        [Partial State 1]
+    }
+    cloud "RAM" {
+        [Partial State 2]
+    }
+}
+#+end_src
+
+#+RESULTS:
+[[file:hdf5-file-state.png]]
+
+**** Non-transactional
+The main reason why it is impossible to predict the outcome is that HDF5
+operations are non-transactional. By 'transaction' I mean a collection of
+operations (and the effects of their execution) on the physical and abstract
+application state. In particular, there are no concepts of beginning a
+transaction, a commit, or a roll-back. Since they are not transactional, it is
+not straightforward to speak about the ACID properties of HDF5 operations.
+
+**** File system facilities
+People sometimes speak about ACID properties with respect to file system
+operations. Although the HDF5 library relies on file system operations for the
+implementation of HDF5 operations, the correspondence is not as direct as
+might wish. For example, what appears as a single HDF5 operation to the user
+often includes multiple file system operations. Several file system operations
+have a certain property only at the level of a single operation, but not
+multiple operations combined.
+
+**** ACID
+- Atomicity :: All changes to an HDF5 file's state must complete or fail as a
+  whole unit.
+  - Supported in HDF5? **No.**
+  - Some file systems only support single op. atomicity, if at all.
+  - A lot of HDF5 operations are /in-place/; mixed success -> impossible to
+    recover
+- Consistency :: An operation is a correct transformation of the HDF5 file's
+  state.
+  - Supported in HDF5? **Yes and No**
+  - Depends on one's definition of HDF5 file/object integrity constraints
+  - Assuming we are dealing with a correct program
+  - Special case w/ multiple processes: Single Writer Multiple Reader
+- Isolation (serialization) :: Even though operations execute concurrently, it
+  appears to each operation, OP, that others executed either before OP or after
+  OP, but not both.
+  - Supported in HDF5? **No.**
+  - Depends on concurrency scenario and requires special configuration (e.g.,
+    MT, MPI).
+  - Time-of-check-time-of-use vulnerability
+- Durability :: Once an operation completes successfully, it's changes to the
+  file's state survive failure.
+  - Supported in HDF5? **No.**
+  - "Split brain"
+  - No transaction log
 
 * COMMENT Anatomy
 A few /skeletons/ to get started.
