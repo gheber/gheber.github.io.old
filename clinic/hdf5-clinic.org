@@ -3,6 +3,188 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-10-19
+** Your Questions
+- Q :: ???
+** Last week's highlights
+*** Announcements
+**** [[https://www.youtube.com/playlist?list=PLPyhR4PdEeGYdTX7SVM59LwoNJDgJSNdd][HUG 2021 Videos are showing up on YouTube]]
+*** Forum
+**** [[https://forum.hdfgroup.org/t/dataset-insert-vector-of-compound-type/9027][Dataset Insert Vector of Compound Type]]
+- Memory-contiguous vs. non-contiguous layout
+  #+begin_src C
+  struct Instruction {
+        float timestamp;
+        Key keys[MAX_KEYS]; // -> H5T_ARRAY
+  };
+
+  struct Instruction {
+      float timestamp;
+      Key* keys; // -> H5T_VLEN
+  };
+  #+end_src
+**** [[https://forum.hdfgroup.org/t/memory-mapping-paging-via-hdf5-vfd/9052][Memory mapping / Paging via HDF5 & VFD?]]
+- ~hid_t H5Dread_mapped(..., void** buf);~
+- Returns a pointer to  a memory-mapped region
+- If the region is writable, changes will be propagated to the file (instead of
+   calling ~H5Dwrite~)
+**** [[https://forum.hdfgroup.org/t/external-links-vfds/9056][External links & VFDs]]
+- What if an external link requires a different VFD for its resolution?
+- Current approach: set it manually via ~H5Pset_elink_fapl()~ after figuring out
+   that that's required. Yikes!
+- Add VFD-plugins and this gets out of hand quickly...
+**** [[https://forum.hdfgroup.org/t/why-increasing-rdcc-nbytes-and-rdcc-nslots-will-result-in-a-decrease-in-indexing-performance/9062][Why increasing =rdcc_nbytes= and =rdcc_nslots= will result in a decrease in indexing performance?]]
+- See [[https://docs.hdfgroup.org/hdf5/rfc/RFC_chunk_cache_functions.pdf][RFC: Setting Raw Data Chunk Cache Parameters in HDF5]] for guidance
+- Potential =h5py= issue
+**** [[https://forum.hdfgroup.org/t/fletcher32-filter-on-variable-length-string-datasets-not-suitable-for-filters/9038][Fletcher32 filter on variable length string datasets (not suitable for filters)]]
+- Triggered by change introduced in 1.12.1
+- *Caution:* Filters and variable-length data
+** Tips, tricks, & insights
+
+- Something's compressed:
+#+begin_src C
+
+#include "hdf5.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+  __label__ fail_file, fail_dtype, fail_dspace, fail_dcpl, fail_dset, fail_write;
+  int retval = EXIT_SUCCESS;
+  hid_t file, dspace, dtype, dcpl, dset;
+
+
+  if ((file = H5Fcreate("vlen.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT))
+      == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_file;
+  }
+
+  if ((dtype = H5Tvlen_create(H5T_STD_I32LE)) == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_dtype;
+  }
+
+  if ((dspace = H5Screate_simple(1, (hsize_t[]){2048},
+                                 (hsize_t[]){H5S_UNLIMITED})) ==
+      H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_dspace;
+  }
+
+  if ((dcpl = H5Pcreate(H5P_DATASET_CREATE)) == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_dcpl;
+  }
+
+  if (H5Pset_chunk(dcpl, 1, (hsize_t[]) {1024}) < 0 ||
+      H5Pset_deflate(dcpl, 1) < 0
+      //H5Pset_fletcher32(dcpl) < 0
+      ) {
+    retval = EXIT_FAILURE;
+    goto fail_dset;
+  }
+
+  if ((dset = H5Dcreate(file, "dset", dtype, dspace, H5P_DEFAULT, dcpl,
+                        H5P_DEFAULT)) == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    goto fail_dset;
+  }
+
+  {
+    int data[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    size_t offset[] = {0, 1, 3, 6};
+    hvl_t buf[2048];
+    size_t i;
+
+    // create an array that looks like this:
+    // { {0}, {1,2}, {3,4,5}, {6,7,8,9}, ...}
+    for (i = 0; i < 2048; ++i)
+      {
+        size_t rem = i%4;
+        buf[i].len = 1 + rem;
+        buf[i].p = data + offset[rem];
+      }
+
+    if (H5Dwrite(dset, dtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, buf) < 0)
+      {
+        retval = EXIT_FAILURE;
+        goto fail_write;
+      }
+  }
+
+fail_write:
+  H5Dclose(dset);
+
+fail_dset:
+  H5Pclose(dcpl);
+
+fail_dcpl:
+  H5Sclose(dspace);
+
+fail_dspace:
+  H5Tclose(dtype);
+
+fail_dtype:
+  H5Fclose(file);
+
+fail_file:
+  return retval;
+}
+
+#+end_src
+
+- =h5dump -pBH vlen.h5=
+
+#+begin_example
+
+HDF5 "vlen.h5" {
+SUPER_BLOCK {
+   SUPERBLOCK_VERSION 0
+   FREELIST_VERSION 0
+   SYMBOLTABLE_VERSION 0
+   OBJECTHEADER_VERSION 0
+   OFFSET_SIZE 8
+   LENGTH_SIZE 8
+   BTREE_RANK 16
+   BTREE_LEAF 4
+   ISTORE_K 32
+   FILE_SPACE_STRATEGY H5F_FSPACE_STRATEGY_FSM_AGGR
+   FREE_SPACE_PERSIST FALSE
+   FREE_SPACE_SECTION_THRESHOLD 1
+   FILE_SPACE_PAGE_SIZE 4096
+   USER_BLOCK {
+      USERBLOCK_SIZE 0
+   }
+}
+GROUP "/" {
+   DATASET "dset" {
+      DATATYPE  H5T_VLEN { H5T_STD_I32LE}
+      DATASPACE  SIMPLE { ( 2048 ) / ( H5S_UNLIMITED ) }
+      STORAGE_LAYOUT {
+         CHUNKED ( 1024 )
+         SIZE 5772 (5.677:1 COMPRESSION)
+      }
+      FILTERS {
+         COMPRESSION DEFLATE { LEVEL 1 }
+      }
+      FILLVALUE {
+         FILL_TIME H5D_FILL_TIME_ALLOC
+         VALUE  H5D_FILL_VALUE_DEFAULT
+      }
+      ALLOCATION_TIME {
+         H5D_ALLOC_TIME_INCR
+      }
+   }
+}
+}
+
+#+end_example
+- *N.B.* What's compressed are the in-file counterparts of ~hvl_t~ structures, not the integer sequences!
+- Filtering fails, if we enable Fletcher32
+
 * Clinic 2021-09-28
 ** Your Questions
 - Q :: Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?

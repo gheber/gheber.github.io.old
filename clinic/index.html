@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-09-28 Tue 10:22 -->
+<!-- 2021-10-19 Tue 11:37 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Call the Doctor - HDF(5) Clinic</title>
-<meta name="generator" content="Org mode" />
 <meta name="author" content="Gerd Heber" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
   .title  { text-align: center;
              margin-bottom: .2em; }
   .subtitle { text-align: center;
@@ -31,8 +31,9 @@
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
   pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
     padding: 8pt;
     font-family: monospace;
     overflow: auto;
@@ -41,21 +42,21 @@
   pre.src {
     position: relative;
     overflow: auto;
-    padding-top: 1.2em;
   }
   pre.src:before {
     display: none;
     position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
+    top: -8px;
+    right: 12px;
     padding: 3px;
-    border: 1px solid black;
+    color: #555;
+    background-color: #f2f2f299;
   }
   pre.src:hover:before { display: inline; margin-top: 14px;}
   /* Languages per Org manual */
   pre.src-asymptote:before { content: 'Asymptote'; }
   pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
   pre.src-C:before { content: 'C'; }
   /* pre.src-C++ doesn't work in CSS */
   pre.src-clojure:before { content: 'Clojure'; }
@@ -191,7 +192,6 @@
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { width: 90%; }
-  /*]]>*/-->
 </style>
 <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
@@ -199,274 +199,501 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
-<!--/*--><![CDATA[/*><!--*/
-     function CodeHighlightOn(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.add("code-highlighted");
-         target.classList.add("code-highlighted");
-       }
-     }
-     function CodeHighlightOff(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.remove("code-highlighted");
-         target.classList.remove("code-highlighted");
-       }
-     }
-    /*]]>*///-->
-// @license-end
-</script>
 </head>
 <body>
-<div id="content">
+<div id="content" class="content">
 <h1 class="title">Call the Doctor - HDF(5) Clinic</h1>
-<div id="table-of-contents">
+<div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd3cc319">Clinic 2021-09-28</a>
+<li><a href="#orge852589">Clinic 2021-10-19</a>
 <ul>
-<li><a href="#org1730deb">Your Questions</a></li>
-<li><a href="#orgd93be18">Last week's highlights</a></li>
-<li><a href="#org84b9919">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org4549f75">Your Questions</a></li>
+<li><a href="#org80ebe12">Last week's highlights</a></li>
+<li><a href="#orgdfdd9be">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#org6e8eaee">Clinic 2021-08-31</a>
+<li><a href="#org940c731">Clinic 2021-09-28</a>
 <ul>
-<li><a href="#org80143ff">Your Questions</a></li>
-<li><a href="#org789b88c">Last week's highlights</a></li>
-<li><a href="#org9685b18">Tips, tricks, &amp; insights</a></li>
+<li><a href="#orgabd2b40">Your Questions</a></li>
+<li><a href="#org12edfc9">Last week's highlights</a></li>
+<li><a href="#orgaba636c">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#org489b549">Clinic 2021-08-24</a>
+<li><a href="#orgc149aa5">Clinic 2021-08-31</a>
 <ul>
-<li><a href="#org46d4ce1">Your Questions</a></li>
-<li><a href="#org9c28695">Last week's highlights</a></li>
-<li><a href="#org3bcdc43">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org8c857b2">Your Questions</a></li>
+<li><a href="#org4d82586">Last week's highlights</a></li>
+<li><a href="#orgaaae4c9">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#orgd16d4f3">Clinic 2021-08-17</a>
+<li><a href="#org71adcd4">Clinic 2021-08-24</a>
 <ul>
-<li><a href="#org31890f7">Your Questions</a></li>
-<li><a href="#orgcf804dd">Last week's highlights</a></li>
-<li><a href="#org0a7ba9d">Tips, tricks, &amp; insights</a></li>
+<li><a href="#orge7d32e7">Your Questions</a></li>
+<li><a href="#org6a0b81c">Last week's highlights</a></li>
+<li><a href="#orgd9a9737">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#orge366375">Clinic 2021-08-10</a>
+<li><a href="#orgcb6f78b">Clinic 2021-08-17</a>
 <ul>
-<li><a href="#orgdd1927b">Your Questions</a></li>
-<li><a href="#org6ee152e">Last week's highlights</a></li>
-<li><a href="#org1955841">Tips, tricks, &amp; insights</a></li>
+<li><a href="#orgdc8c34b">Your Questions</a></li>
+<li><a href="#org052a924">Last week's highlights</a></li>
+<li><a href="#orgbc66391">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#org350b080">Clinic 2021-08-03</a>
+<li><a href="#orga3d87e3">Clinic 2021-08-10</a>
 <ul>
-<li><a href="#orge3c416e">Your Questions</a></li>
-<li><a href="#orgd043d25">Last week's highlights</a></li>
-<li><a href="#orge48424c">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org086a9b4">Your Questions</a></li>
+<li><a href="#orgccd40b4">Last week's highlights</a></li>
+<li><a href="#org15210f7">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#org70b7afe">Clinic 2021-07-27</a>
+<li><a href="#orgc8e07a6">Clinic 2021-08-03</a>
 <ul>
-<li><a href="#org6f32294">Your Questions</a></li>
-<li><a href="#org4fb7e67">Last week's highlights</a></li>
-<li><a href="#orgcfa1fd4">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org5cecae1">Your Questions</a></li>
+<li><a href="#orgca30bc8">Last week's highlights</a></li>
+<li><a href="#org1322846">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#orgadabf13">Clinic 2021-07-20</a>
+<li><a href="#org7c49f63">Clinic 2021-07-27</a>
 <ul>
-<li><a href="#org21624c9">Your Questions</a></li>
-<li><a href="#org14d0fe0">Last week's highlights</a></li>
-<li><a href="#org229e46c">Tips, tricks, &amp; insights</a></li>
+<li><a href="#orgbae21f4">Your Questions</a></li>
+<li><a href="#org69b0bef">Last week's highlights</a></li>
+<li><a href="#orge885024">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#orgc8f8daf">Clinic 2021-07-13</a>
+<li><a href="#org3a5584c">Clinic 2021-07-20</a>
 <ul>
-<li><a href="#org8238417">Your Questions</a></li>
-<li><a href="#org5dea2ad">Last week's highlights</a></li>
-<li><a href="#orgc4e58de">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org20ec072">Your Questions</a></li>
+<li><a href="#org522618f">Last week's highlights</a></li>
+<li><a href="#orgfc2cfbd">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#orgeca1797">Clinic 2021-07-06</a>
+<li><a href="#orgb0b1d84">Clinic 2021-07-13</a>
 <ul>
-<li><a href="#org13f9bdf">Your Questions</a></li>
-<li><a href="#orgea54ae6">Last week's highlights</a></li>
-<li><a href="#orgb4ab91e">Tips, tricks, &amp; insights</a></li>
-<li><a href="#org446964b">Coming soon</a></li>
+<li><a href="#org2671c25">Your Questions</a></li>
+<li><a href="#org9dbea22">Last week's highlights</a></li>
+<li><a href="#orgc26bef7">Tips, tricks, &amp; insights</a></li>
 </ul>
 </li>
-<li><a href="#orgdf91f16">Clinic 2021-06-29</a>
+<li><a href="#org8ad930b">Clinic 2021-07-06</a>
 <ul>
-<li><a href="#orgc4ba03c">Your Questions</a></li>
-<li><a href="#orgc9efe5b">Last week's highlights</a></li>
-<li><a href="#org1651f7d">Tips, tricks, &amp; insights</a></li>
-<li><a href="#orgad41dff">Coming soon</a></li>
+<li><a href="#org13eec71">Your Questions</a></li>
+<li><a href="#org6866820">Last week's highlights</a></li>
+<li><a href="#org7d5978d">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org39c6297">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#orge84acb1">Clinic 2021-06-22</a>
+<li><a href="#orgf2eb8e5">Clinic 2021-06-29</a>
 <ul>
-<li><a href="#orgc815774">Your Questions</a></li>
-<li><a href="#orgabd51fc">Last week's highlights</a></li>
-<li><a href="#org457595a">Tips, tricks, &amp; insights</a></li>
-<li><a href="#orga423cd6">Coming soon</a></li>
+<li><a href="#orgb24bb71">Your Questions</a></li>
+<li><a href="#org27b7120">Last week's highlights</a></li>
+<li><a href="#org27a5454">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org349b229">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#org6f805dd">Clinic 2021-06-15</a>
+<li><a href="#orgd72a81e">Clinic 2021-06-22</a>
 <ul>
-<li><a href="#org2c540ef">Your Questions</a></li>
-<li><a href="#orgf98f030">Last week's highlights</a></li>
-<li><a href="#org43c8802">Tips, tricks, &amp; insights</a></li>
-<li><a href="#org2946b64">Coming soon</a></li>
+<li><a href="#org83fba48">Your Questions</a></li>
+<li><a href="#orgc451670">Last week's highlights</a></li>
+<li><a href="#org476d705">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org69d7be3">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#orgc11963c">Clinic 2021-06-08</a>
+<li><a href="#orga12c931">Clinic 2021-06-15</a>
 <ul>
-<li><a href="#org9dffef4">Your Questions</a></li>
-<li><a href="#orga25a205">Last week's highlights</a></li>
-<li><a href="#org6b748f4">Tips, tricks, &amp; insights</a></li>
-<li><a href="#orgbf0448a">Coming soon</a></li>
+<li><a href="#orgc36fc68">Your Questions</a></li>
+<li><a href="#org3f34f12">Last week's highlights</a></li>
+<li><a href="#orge4f9a0c">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org0129f0b">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#org90bac5c">Clinic 2021-06-01</a>
+<li><a href="#org8c5c87c">Clinic 2021-06-08</a>
 <ul>
-<li><a href="#orgc698817">Your Questions</a></li>
-<li><a href="#orgcdde2c2">Last week's highlights</a></li>
-<li><a href="#orgbae2047">Tips, tricks, &amp; insights</a></li>
-<li><a href="#org69e6793">Coming soon</a></li>
+<li><a href="#orgdd6f85e">Your Questions</a></li>
+<li><a href="#orgea09a8a">Last week's highlights</a></li>
+<li><a href="#org8184924">Tips, tricks, &amp; insights</a></li>
+<li><a href="#orge33a34e">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#org134f7a0">Clinic 2021-05-25</a>
+<li><a href="#orgbdc45a6">Clinic 2021-06-01</a>
 <ul>
-<li><a href="#orgad39a75">Your Questions</a></li>
-<li><a href="#orgeaef302">Last week's highlights</a></li>
-<li><a href="#org8760917">Tips, tricks, &amp; insights</a></li>
-<li><a href="#org2e43f7e">Coming soon</a></li>
+<li><a href="#orgcd42735">Your Questions</a></li>
+<li><a href="#org8b7cdb3">Last week's highlights</a></li>
+<li><a href="#orgfed2802">Tips, tricks, &amp; insights</a></li>
+<li><a href="#orge3bb3c2">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#org28c5d4c">Clinic 2021-05-18</a>
+<li><a href="#orgbd98b16">Clinic 2021-05-25</a>
 <ul>
-<li><a href="#org9587331">Your Questions</a></li>
-<li><a href="#org7afe4db">Last week's highlights</a></li>
-<li><a href="#orgd0f0b01">Tips, tricks, &amp; insights</a></li>
-<li><a href="#orgf38e62d">Coming soon</a></li>
+<li><a href="#org0ed62bb">Your Questions</a></li>
+<li><a href="#org64d21ae">Last week's highlights</a></li>
+<li><a href="#org86642e8">Tips, tricks, &amp; insights</a></li>
+<li><a href="#orge94e63e">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#org228f815">Clinic 2021-05-11</a>
+<li><a href="#orge9effd4">Clinic 2021-05-18</a>
 <ul>
-<li><a href="#org2029328">Your Questions</a></li>
-<li><a href="#org32b9e4c">Last week's highlights</a></li>
-<li><a href="#org58b295f">Tips, tricks, &amp; insights</a></li>
-<li><a href="#orga4cb1fa">Coming soon</a></li>
+<li><a href="#org8a00655">Your Questions</a></li>
+<li><a href="#org0915fe1">Last week's highlights</a></li>
+<li><a href="#org413ab3b">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org227640b">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#orgd82b6ba">Clinic 2021-05-04</a>
+<li><a href="#org37c8938">Clinic 2021-05-11</a>
 <ul>
-<li><a href="#orgda0cd7f">Your Questions</a></li>
-<li><a href="#orgfab1aff">Last week's highlights</a></li>
-<li><a href="#orgd9cd202">Tips, tricks, &amp; insights</a></li>
-<li><a href="#org3b2513e">Coming soon</a></li>
+<li><a href="#orgf1d627b">Your Questions</a></li>
+<li><a href="#orga4ed565">Last week's highlights</a></li>
+<li><a href="#orgedccaed">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org49b4222">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#org702a5cf">Clinic 2021-04-27</a>
+<li><a href="#org6e5a218">Clinic 2021-05-04</a>
 <ul>
-<li><a href="#orgd57288a">Your questions</a></li>
-<li><a href="#orgb7043c2">Last week's highlights</a></li>
-<li><a href="#org511188d">Tips, tricks, &amp; insights</a></li>
-<li><a href="#orgf467d17">Coming soon</a></li>
+<li><a href="#orga592559">Your Questions</a></li>
+<li><a href="#org9783899">Last week's highlights</a></li>
+<li><a href="#org9f62af5">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org7c8c888">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#org850ed48">Clinic 2021-04-20</a>
+<li><a href="#orgccc09a3">Clinic 2021-04-27</a>
 <ul>
-<li><a href="#org2da6ff2">Your questions</a></li>
-<li><a href="#orgc0a4c35">Last week's highlights</a></li>
-<li><a href="#orge1c38f3">Tips, tricks, &amp; insights</a></li>
-<li><a href="#org4f97632">Coming soon</a></li>
+<li><a href="#orgbf9fdc9">Your questions</a></li>
+<li><a href="#org0fa9540">Last week's highlights</a></li>
+<li><a href="#org5bc4219">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org9072922">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#org75b1c83">Clinic 2021-04-06</a>
+<li><a href="#org2a47622">Clinic 2021-04-20</a>
 <ul>
-<li><a href="#orgf47b0b5">Your questions</a></li>
-<li><a href="#org47052b3">Last week's highlights</a></li>
-<li><a href="#org9428788">Tips &amp; tricks</a></li>
-<li><a href="#org03b894f">Coming soon</a></li>
+<li><a href="#org06f344e">Your questions</a></li>
+<li><a href="#orgf1dd672">Last week's highlights</a></li>
+<li><a href="#orga91a801">Tips, tricks, &amp; insights</a></li>
+<li><a href="#org90ffd0d">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#orgdd9dfc3">Clinic 2021-03-30</a></li>
-<li><a href="#org9c763b8">Clinic 2021-03-23</a>
+<li><a href="#org00e75f9">Clinic 2021-04-06</a>
 <ul>
-<li><a href="#org7cf527e">Your questions</a></li>
-<li><a href="#orgc151444">Last week's highlights</a></li>
-<li><a href="#orgb3399ce">Tips &amp; tricks</a></li>
+<li><a href="#org6abbbc2">Your questions</a></li>
+<li><a href="#orga078c17">Last week's highlights</a></li>
+<li><a href="#org1c5d0fe">Tips &amp; tricks</a></li>
+<li><a href="#org65742d7">Coming soon</a></li>
 </ul>
 </li>
-<li><a href="#orgf147cdd">Clinic 2021-03-16</a>
+<li><a href="#org1c1f20b">Clinic 2021-03-30</a></li>
+<li><a href="#org453c04a">Clinic 2021-03-23</a>
 <ul>
-<li><a href="#org21322d8">Your questions</a></li>
-<li><a href="#orgbc49c1c">Last week's highlights</a></li>
-<li><a href="#orgdbc1839">Tips &amp; tricks</a></li>
+<li><a href="#org56fe196">Your questions</a></li>
+<li><a href="#org4be890d">Last week's highlights</a></li>
+<li><a href="#org8f8898d">Tips &amp; tricks</a></li>
 </ul>
 </li>
-<li><a href="#org11cda1d">Clinic 2021-03-09</a>
+<li><a href="#org57b3ffc">Clinic 2021-03-16</a>
 <ul>
-<li><a href="#org719c31a">Your questions (as of 9:00 a.m. Central Time)</a></li>
-<li><a href="#org78bfb4b">Last week's highlights</a></li>
+<li><a href="#org0a7f70b">Your questions</a></li>
+<li><a href="#org1684bbf">Last week's highlights</a></li>
+<li><a href="#org8e58fa7">Tips &amp; tricks</a></li>
 </ul>
 </li>
-<li><a href="#org1801639">Clinic 2021-03-02</a>
+<li><a href="#org189c928">Clinic 2021-03-09</a>
 <ul>
-<li><a href="#org3148295">Your questions</a></li>
-<li><a href="#org94d1790">Last week's highlights</a></li>
+<li><a href="#org68c40c0">Your questions (as of 9:00 a.m. Central Time)</a></li>
+<li><a href="#org11a5c93">Last week's highlights</a></li>
 </ul>
 </li>
-<li><a href="#orga62ba0a">Clinic 2021-02-23</a>
+<li><a href="#org5f7a17c">Clinic 2021-03-02</a>
 <ul>
-<li><a href="#orgb4238d5">Your questions</a></li>
-<li><a href="#org3058cc5">Last week's highlights</a></li>
-<li><a href="#orgf714547">Appendix</a></li>
+<li><a href="#org98727d5">Your questions</a></li>
+<li><a href="#orgeb17278">Last week's highlights</a></li>
 </ul>
 </li>
-<li><a href="#org495aa80">Clinic 2021-02-09</a>
+<li><a href="#org7e1e773">Clinic 2021-02-23</a>
 <ul>
-<li><a href="#orgc5f42aa">Goal(s)</a></li>
-<li><a href="#orgb2f24f1">This is a meeting dedicated to <i>your</i> questions.</a></li>
-<li><a href="#org578c31b">In the unlikely event there aren't any</a></li>
-<li><a href="#orgecdbc80">Sometimes life deals you an HDF5 file</a></li>
-<li><a href="#org402a10a">Meeting Etiquette</a></li>
-<li><a href="#org814ecc7">Be social, turn on your camera (if you've got one)</a></li>
-<li><a href="#org3b82153">Raise your hand to signal a contribution (question, comment)</a></li>
-<li><a href="#org5280fc0">Be mindful of your "airtime"</a></li>
-<li><a href="#org6aab159">Introduce yourself</a></li>
-<li><a href="#org661701a">Use the shared Google doc for questions and code snippets</a></li>
-<li><a href="#orgb3f7f96">When the 30 min. timer runs out, this meeting is over.</a></li>
-<li><a href="#orgfa79839">Notes</a></li>
-<li><a href="#org11f73b1">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</a></li>
-<li><a href="#org6b5bb47">Bug-of-the-Week Award (my candidate)</a></li>
-<li><a href="#org77c6e16">Documentation update</a></li>
+<li><a href="#orgcf9cbd3">Your questions</a></li>
+<li><a href="#org5504eca">Last week's highlights</a></li>
+<li><a href="#orgede166b">Appendix</a></li>
 </ul>
 </li>
-<li><a href="#org1356ae5">Clinic 2021-02-16</a>
+<li><a href="#org802f679">Clinic 2021-02-09</a>
 <ul>
-<li><a href="#org0b933d5">Your questions</a></li>
-<li><a href="#org4b4aaa1">Last week's highlights</a></li>
-<li><a href="#orgfcc8c45">Notes</a></li>
+<li><a href="#orge9d5579">Goal(s)</a></li>
+<li><a href="#orgfc6a276">This is a meeting dedicated to <i>your</i> questions.</a></li>
+<li><a href="#org647adf0">In the unlikely event there aren't any</a></li>
+<li><a href="#orgcea3905">Sometimes life deals you an HDF5 file</a></li>
+<li><a href="#org9ccb86f">Meeting Etiquette</a></li>
+<li><a href="#org5105118">Be social, turn on your camera (if you've got one)</a></li>
+<li><a href="#orgc681a69">Raise your hand to signal a contribution (question, comment)</a></li>
+<li><a href="#orga0d9570">Be mindful of your "airtime"</a></li>
+<li><a href="#org8552836">Introduce yourself</a></li>
+<li><a href="#orgcee851b">Use the shared Google doc for questions and code snippets</a></li>
+<li><a href="#orgdb6d15c">When the 30 min. timer runs out, this meeting is over.</a></li>
+<li><a href="#org5f933a4">Notes</a></li>
+<li><a href="#org3a00990">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</a></li>
+<li><a href="#org5b185a3">Bug-of-the-Week Award (my candidate)</a></li>
+<li><a href="#orgc802985">Documentation update</a></li>
+</ul>
+</li>
+<li><a href="#orgab12a06">Clinic 2021-02-16</a>
+<ul>
+<li><a href="#org3c4f04c">Your questions</a></li>
+<li><a href="#orgd743e3c">Last week's highlights</a></li>
+<li><a href="#org1f222c0">Notes</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgd3cc319" class="outline-2">
-<h2 id="orgd3cc319">Clinic 2021-09-28</h2>
-<div class="outline-text-2" id="text-orgd3cc319">
+<div id="outline-container-orge852589" class="outline-2">
+<h2 id="orge852589">Clinic 2021-10-19</h2>
+<div class="outline-text-2" id="text-orge852589">
 </div>
-<div id="outline-container-org1730deb" class="outline-3">
-<h3 id="org1730deb">Your Questions</h3>
-<div class="outline-text-3" id="text-org1730deb">
+<div id="outline-container-org4549f75" class="outline-3">
+<h3 id="org4549f75">Your Questions</h3>
+<div class="outline-text-3" id="text-org4549f75">
+<dl class="org-dl">
+<dt>Q</dt><dd>???</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org80ebe12" class="outline-3">
+<h3 id="org80ebe12">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org80ebe12">
+</div>
+<ul class="org-ul">
+<li><a id="org56f2821"></a>Announcements<br />
+<ul class="org-ul">
+<li><a id="orgdba44e0"></a><a href="https://www.youtube.com/playlist?list=PLPyhR4PdEeGYdTX7SVM59LwoNJDgJSNdd">HUG 2021 Videos are showing up on YouTube</a><br /></li>
+</ul>
+</li>
+<li><a id="org1ff4d05"></a>Forum<br />
+<ul class="org-ul">
+<li><a id="org4dfa802"></a><a href="https://forum.hdfgroup.org/t/dataset-insert-vector-of-compound-type/9027">Dataset Insert Vector of Compound Type</a><br />
+<div class="outline-text-5" id="text-org4dfa802">
+<ul class="org-ul">
+<li><p>
+Memory-contiguous vs. non-contiguous layout
+</p>
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #0000FF;">struct</span> <span style="color: #6434A3;">Instruction</span> {
+      <span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">timestamp</span>;
+      <span style="color: #6434A3;">Key</span> <span style="color: #BA36A5;">keys</span>[MAX_KEYS]; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">-&gt; H5T_ARRAY</span>
+};
+
+<span style="color: #0000FF;">struct</span> <span style="color: #6434A3;">Instruction</span> {
+    <span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">timestamp</span>;
+    <span style="color: #6434A3;">Key</span>* <span style="color: #BA36A5;">keys</span>; <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">-&gt; H5T_VLEN</span>
+};
+</pre>
+</div></li>
+</ul>
+</div>
+</li>
+<li><a id="org83c51f8"></a><a href="https://forum.hdfgroup.org/t/memory-mapping-paging-via-hdf5-vfd/9052">Memory mapping / Paging via HDF5 &amp; VFD?</a><br />
+<div class="outline-text-5" id="text-org83c51f8">
+<ul class="org-ul">
+<li><code>hid_t H5Dread_mapped(..., void** buf);</code></li>
+<li>Returns a pointer to  a memory-mapped region</li>
+<li>If the region is writable, changes will be propagated to the file (instead of
+calling <code>H5Dwrite</code>)</li>
+</ul>
+</div>
+</li>
+<li><a id="org3ef0146"></a><a href="https://forum.hdfgroup.org/t/external-links-vfds/9056">External links &amp; VFDs</a><br />
+<div class="outline-text-5" id="text-org3ef0146">
+<ul class="org-ul">
+<li>What if an external link requires a different VFD for its resolution?</li>
+<li>Current approach: set it manually via <code>H5Pset_elink_fapl()</code> after figuring out
+that that's required. Yikes!</li>
+<li>Add VFD-plugins and this gets out of hand quickly&#x2026;</li>
+</ul>
+</div>
+</li>
+<li><a id="org939ea27"></a><a href="https://forum.hdfgroup.org/t/why-increasing-rdcc-nbytes-and-rdcc-nslots-will-result-in-a-decrease-in-indexing-performance/9062">Why increasing <code>rdcc_nbytes</code> and <code>rdcc_nslots</code> will result in a decrease in indexing performance?</a><br />
+<div class="outline-text-5" id="text-org939ea27">
+<ul class="org-ul">
+<li>See <a href="https://docs.hdfgroup.org/hdf5/rfc/RFC_chunk_cache_functions.pdf">RFC: Setting Raw Data Chunk Cache Parameters in HDF5</a> for guidance</li>
+<li>Potential <code>h5py</code> issue</li>
+</ul>
+</div>
+</li>
+<li><a id="org9787f88"></a><a href="https://forum.hdfgroup.org/t/fletcher32-filter-on-variable-length-string-datasets-not-suitable-for-filters/9038">Fletcher32 filter on variable length string datasets (not suitable for filters)</a><br />
+<div class="outline-text-5" id="text-org9787f88">
+<ul class="org-ul">
+<li>Triggered by change introduced in 1.12.1</li>
+<li><b>Caution:</b> Filters and variable-length data</li>
+</ul>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-orgdfdd9be" class="outline-3">
+<h3 id="orgdfdd9be">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orgdfdd9be">
+<ul class="org-ul">
+<li>Something's compressed:</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-C">
+<span style="color: #808080;">#include</span> <span style="color: #008000;">"hdf5.h"</span>
+
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;stdio.h&gt;</span>
+<span style="color: #808080;">#include</span> <span style="color: #008000;">&lt;stdlib.h&gt;</span>
+
+<span style="color: #6434A3;">int</span> <span style="color: #006699;">main</span>()
+{
+  <span style="color: #6434A3;">__label__</span> <span style="color: #BA36A5;">fail_file</span>, <span style="color: #BA36A5;">fail_dtype</span>, <span style="color: #BA36A5;">fail_dspace</span>, <span style="color: #BA36A5;">fail_dcpl</span>, <span style="color: #BA36A5;">fail_dset</span>, <span style="color: #BA36A5;">fail_write</span><span style="background-color: #ff0000;">;</span>
+  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">retval</span> = EXIT_SUCCESS;
+  <span style="color: #6434A3;">hid_t</span> <span style="color: #BA36A5;">file</span>, <span style="color: #BA36A5;">dspace</span>, <span style="color: #BA36A5;">dtype</span>, <span style="color: #BA36A5;">dcpl</span>, <span style="color: #BA36A5;">dset</span>;
+
+
+  <span style="color: #0000FF;">if</span> ((file = H5Fcreate(<span style="color: #008000;">"vlen.h5"</span>, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT))
+      == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    <span style="color: #0000FF;">goto</span> <span style="color: #D0372D;">fail_file</span>;
+  }
+
+  <span style="color: #0000FF;">if</span> ((dtype = H5Tvlen_create(H5T_STD_I32LE)) == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    <span style="color: #0000FF;">goto</span> <span style="color: #D0372D;">fail_dtype</span>;
+  }
+
+  <span style="color: #0000FF;">if</span> ((dspace = H5Screate_simple(1, (<span style="color: #6434A3;">hsize_t</span>[]){2048},
+                                 (<span style="color: #6434A3;">hsize_t</span>[]){H5S_UNLIMITED})) ==
+      H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    <span style="color: #0000FF;">goto</span> <span style="color: #D0372D;">fail_dspace</span>;
+  }
+
+  <span style="color: #0000FF;">if</span> ((dcpl = H5Pcreate(H5P_DATASET_CREATE)) == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    <span style="color: #0000FF;">goto</span> <span style="color: #D0372D;">fail_dcpl</span>;
+  }
+
+  <span style="color: #0000FF;">if</span> (H5Pset_chunk(dcpl, 1, (<span style="color: #6434A3;">hsize_t</span>[]) {1024}) &lt; 0 ||
+      H5Pset_deflate(dcpl, 1) &lt; 0
+      <span style="color: #8D8D84;">//</span><span style="color: #8D8D84; font-style: italic;">H5Pset_fletcher32(dcpl) &lt; 0</span>
+      ) {
+    retval = EXIT_FAILURE;
+    <span style="color: #0000FF;">goto</span> <span style="color: #D0372D;">fail_dset</span>;
+  }
+
+  <span style="color: #0000FF;">if</span> ((dset = H5Dcreate(file, <span style="color: #008000;">"dset"</span>, dtype, dspace, H5P_DEFAULT, dcpl,
+                        H5P_DEFAULT)) == H5I_INVALID_HID) {
+    retval = EXIT_FAILURE;
+    <span style="color: #0000FF;">goto</span> <span style="color: #D0372D;">fail_dset</span>;
+  }
+
+  {
+    <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">data</span>[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    <span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">offset</span>[] = {0, 1, 3, 6};
+    <span style="color: #6434A3;">hvl_t</span> <span style="color: #BA36A5;">buf</span>[2048];
+    <span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">i</span>;
+
+    <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">create an array that looks like this:</span>
+    <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">{ {0}, {1,2}, {3,4,5}, {6,7,8,9}, ...}</span>
+    <span style="color: #0000FF;">for</span> (i = 0; i &lt; 2048; ++i)
+      {
+        <span style="color: #6434A3;">size_t</span> <span style="color: #BA36A5;">rem</span> = i%4;
+        buf[i].len = 1 + rem;
+        buf[i].p = data + offset[rem];
+      }
+
+    <span style="color: #0000FF;">if</span> (H5Dwrite(dset, dtype, H5S_ALL, H5S_ALL, H5P_DEFAULT, buf) &lt; 0)
+      {
+        retval = EXIT_FAILURE;
+        <span style="color: #0000FF;">goto</span> <span style="color: #D0372D;">fail_write</span>;
+      }
+  }
+
+<span style="color: #D0372D;">fail_write</span>:
+  H5Dclose(dset);
+
+<span style="color: #D0372D;">fail_dset</span>:
+  H5Pclose(dcpl);
+
+<span style="color: #D0372D;">fail_dcpl</span>:
+  H5Sclose(dspace);
+
+<span style="color: #D0372D;">fail_dspace</span>:
+  H5Tclose(dtype);
+
+<span style="color: #D0372D;">fail_dtype</span>:
+  H5Fclose(file);
+
+<span style="color: #D0372D;">fail_file</span>:
+  <span style="color: #0000FF;">return</span> retval;
+}
+
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><code>h5dump -pBH vlen.h5</code></li>
+</ul>
+
+<pre class="example" id="org784a46f">
+
+HDF5 "vlen.h5" {
+SUPER_BLOCK {
+   SUPERBLOCK_VERSION 0
+   FREELIST_VERSION 0
+   SYMBOLTABLE_VERSION 0
+   OBJECTHEADER_VERSION 0
+   OFFSET_SIZE 8
+   LENGTH_SIZE 8
+   BTREE_RANK 16
+   BTREE_LEAF 4
+   ISTORE_K 32
+   FILE_SPACE_STRATEGY H5F_FSPACE_STRATEGY_FSM_AGGR
+   FREE_SPACE_PERSIST FALSE
+   FREE_SPACE_SECTION_THRESHOLD 1
+   FILE_SPACE_PAGE_SIZE 4096
+   USER_BLOCK {
+      USERBLOCK_SIZE 0
+   }
+}
+GROUP "/" {
+   DATASET "dset" {
+      DATATYPE  H5T_VLEN { H5T_STD_I32LE}
+      DATASPACE  SIMPLE { ( 2048 ) / ( H5S_UNLIMITED ) }
+      STORAGE_LAYOUT {
+         CHUNKED ( 1024 )
+         SIZE 5772 (5.677:1 COMPRESSION)
+      }
+      FILTERS {
+         COMPRESSION DEFLATE { LEVEL 1 }
+      }
+      FILLVALUE {
+         FILL_TIME H5D_FILL_TIME_ALLOC
+         VALUE  H5D_FILL_VALUE_DEFAULT
+      }
+      ALLOCATION_TIME {
+         H5D_ALLOC_TIME_INCR
+      }
+   }
+}
+}
+
+</pre>
+<ul class="org-ul">
+<li><b>N.B.</b> What's compressed are the in-file counterparts of <code>hvl_t</code> structures, not the integer sequences!</li>
+<li>Filtering fails, if we enable Fletcher32</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org940c731" class="outline-2">
+<h2 id="org940c731">Clinic 2021-09-28</h2>
+<div class="outline-text-2" id="text-org940c731">
+</div>
+<div id="outline-container-orgabd2b40" class="outline-3">
+<h3 id="orgabd2b40">Your Questions</h3>
+<div class="outline-text-3" id="text-orgabd2b40">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
 <ul class="org-ul">
@@ -475,22 +702,22 @@
 </dl>
 </div>
 </div>
-<div id="outline-container-orgd93be18" class="outline-3">
-<h3 id="orgd93be18">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgd93be18">
+<div id="outline-container-org12edfc9" class="outline-3">
+<h3 id="org12edfc9">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org12edfc9">
 </div>
 <ul class="org-ul">
-<li><a id="org26c028b"></a>Announcements<br />
+<li><a id="org6ef5e3c"></a>Announcements<br />
 <ul class="org-ul">
-<li><a id="org012fb49"></a><a href="https://forum.hdfgroup.org/t/hdf5-user-group-meeting-october-12-15-2021/9003">HUG 2021 Agenda posted</a><br />
-<div class="outline-text-5" id="text-org012fb49">
+<li><a id="orgbcb2f1f"></a><a href="https://forum.hdfgroup.org/t/hdf5-user-group-meeting-october-12-15-2021/9003">HUG 2021 Agenda posted</a><br />
+<div class="outline-text-5" id="text-orgbcb2f1f">
 <ul class="org-ul">
 <li>October 12-15, 2021, 9:00 AM - 1:30 PM (CDT)</li>
 </ul>
 </div>
 </li>
-<li><a id="org939b4d4"></a><a href="https://forum.hdfgroup.org/t/webinar-announcement-new-features-in-the-hdf5-1-13-0-release/8950">Webinar Announcement: New Features in the HDF5 1.13.0 Release</a><br />
-<div class="outline-text-5" id="text-org939b4d4">
+<li><a id="org06c7d23"></a><a href="https://forum.hdfgroup.org/t/webinar-announcement-new-features-in-the-hdf5-1-13-0-release/8950">Webinar Announcement: New Features in the HDF5 1.13.0 Release</a><br />
+<div class="outline-text-5" id="text-org06c7d23">
 <ul class="org-ul">
 <li><a href="https://www.youtube.com/watch?v=14xrbKJ3wk4">Recording</a> and <a href="https://www.hdfgroup.org/wp-content/uploads/2021/09/New-Features-in-HDF5-1.13.0-VFD-and-VOL-Changes-Webinar-9-24-21.pdf">slides</a> available now!</li>
 </ul>
@@ -498,25 +725,25 @@
 </li>
 </ul>
 </li>
-<li><a id="org794b09d"></a>Forum<br />
+<li><a id="orgba52fc8"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org5308c31"></a><a href="https://forum.hdfgroup.org/t/possible-to-change-email-address-here/6738">Possible to change email address here?</a><br />
-<div class="outline-text-5" id="text-org5308c31">
+<li><a id="org4e8a167"></a><a href="https://forum.hdfgroup.org/t/possible-to-change-email-address-here/6738">Possible to change email address here?</a><br />
+<div class="outline-text-5" id="text-org4e8a167">
 <ul class="org-ul">
 <li>Lori?</li>
 </ul>
 </div>
 </li>
-<li><a id="org11757c1"></a><a href="https://forum.hdfgroup.org/t/retrieve-property-list-from-object/8971">Retrieve property list from object</a><br />
-<div class="outline-text-5" id="text-org11757c1">
+<li><a id="orgb0d2240"></a><a href="https://forum.hdfgroup.org/t/retrieve-property-list-from-object/8971">Retrieve property list from object</a><br />
+<div class="outline-text-5" id="text-orgb0d2240">
 <ul class="org-ul">
 <li>Property lists come in several flavors (access, creation, transfer)</li>
 <li>Only creation property lists are store in the file</li>
 </ul>
 </div>
 </li>
-<li><a id="orgff7d055"></a><a href="https://forum.hdfgroup.org/t/dynamic-plugins-require-application-to-link-to-shared-library/8972">Dynamic Plugins require application to link to shared library</a><br />
-<div class="outline-text-5" id="text-orgff7d055">
+<li><a id="org92aac51"></a><a href="https://forum.hdfgroup.org/t/dynamic-plugins-require-application-to-link-to-shared-library/8972">Dynamic Plugins require application to link to shared library</a><br />
+<div class="outline-text-5" id="text-org92aac51">
 <ul class="org-ul">
 <li><a href="https://github.com/HDFGroup/hdf5/issues/1009">GitHub issue</a></li>
 <li>Plugin loading happens via <code>dlopen</code></li>
@@ -528,8 +755,8 @@
 </ul>
 </div>
 </li>
-<li><a id="orgbbf4783"></a><a href="https://forum.hdfgroup.org/t/object-timestamps-useful-or-not/8901">Object timestamps - useful or not?</a><br />
-<div class="outline-text-5" id="text-orgbbf4783">
+<li><a id="orgbeecd29"></a><a href="https://forum.hdfgroup.org/t/object-timestamps-useful-or-not/8901">Object timestamps - useful or not?</a><br />
+<div class="outline-text-5" id="text-orgbeecd29">
 <ul class="org-ul">
 <li>Only a minority seems to care
 <ul class="org-ul">
@@ -544,13 +771,13 @@
 </li>
 </ul>
 </div>
-<div id="outline-container-org84b9919" class="outline-3">
-<h3 id="org84b9919">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org84b9919">
+<div id="outline-container-orgaba636c" class="outline-3">
+<h3 id="orgaba636c">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orgaba636c">
 </div>
 <ul class="org-ul">
-<li><a id="orgaa34b5a"></a>HDF5 references<br />
-<div class="outline-text-4" id="text-orgaa34b5a">
+<li><a id="org1a1ffc9"></a>HDF5 references<br />
+<div class="outline-text-4" id="text-org1a1ffc9">
 <ul class="org-ul">
 <li>HDF5 datatype</li>
 <li>Pre-HDF5 1.12.0 referents limited to dataset regions and objects</li>
@@ -566,13 +793,13 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org6e8eaee" class="outline-2">
-<h2 id="org6e8eaee">Clinic 2021-08-31</h2>
-<div class="outline-text-2" id="text-org6e8eaee">
+<div id="outline-container-orgc149aa5" class="outline-2">
+<h2 id="orgc149aa5">Clinic 2021-08-31</h2>
+<div class="outline-text-2" id="text-orgc149aa5">
 </div>
-<div id="outline-container-org80143ff" class="outline-3">
-<h3 id="org80143ff">Your Questions</h3>
-<div class="outline-text-3" id="text-org80143ff">
+<div id="outline-container-org8c857b2" class="outline-3">
+<h3 id="org8c857b2">Your Questions</h3>
+<div class="outline-text-3" id="text-org8c857b2">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?
 <ul class="org-ul">
@@ -582,23 +809,23 @@
 </div>
 </div>
 
-<div id="outline-container-org789b88c" class="outline-3">
-<h3 id="org789b88c">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org789b88c">
+<div id="outline-container-org4d82586" class="outline-3">
+<h3 id="org4d82586">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org4d82586">
 </div>
 <ul class="org-ul">
-<li><a id="org674d6ce"></a>Announcements<br />
-<div class="outline-text-4" id="text-org674d6ce">
+<li><a id="orgd6f11be"></a>Announcements<br />
+<div class="outline-text-4" id="text-orgd6f11be">
 <ul class="org-ul">
 <li>I didn't see any</li>
 </ul>
 </div>
 </li>
 
-<li><a id="orgb81227f"></a>Forum<br />
+<li><a id="orgdffb73a"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="orgd8965f6"></a><a href="https://forum.hdfgroup.org/t/how-many-times-to-call-the-filter-in-writing-a-single-chunk/8906">How many times to call the filter in writing a single chunk</a><br />
-<div class="outline-text-5" id="text-orgd8965f6">
+<li><a id="orge0619b9"></a><a href="https://forum.hdfgroup.org/t/how-many-times-to-call-the-filter-in-writing-a-single-chunk/8906">How many times to call the filter in writing a single chunk</a><br />
+<div class="outline-text-5" id="text-orge0619b9">
 <ul class="org-ul">
 <li>Provide a <a href="https://en.wikipedia.org/wiki/Minimal_working_example">Minimal Working Example (MWE)</a>!</li>
 </ul>
@@ -609,13 +836,13 @@
 </ul>
 </div>
 
-<div id="outline-container-org9685b18" class="outline-3">
-<h3 id="org9685b18">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org9685b18">
+<div id="outline-container-orgaaae4c9" class="outline-3">
+<h3 id="orgaaae4c9">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orgaaae4c9">
 </div>
 <ul class="org-ul">
-<li><a id="org7280038"></a>Using a custom filter<br />
-<div class="outline-text-4" id="text-org7280038">
+<li><a id="orgab458f3"></a>Using a custom filter<br />
+<div class="outline-text-4" id="text-orgab458f3">
 <div class="org-src-container">
 <pre class="src src-C">
 <span style="color: #808080;">#include</span> <span style="color: #008000;">"hdf5.h"</span>
@@ -735,43 +962,43 @@
 </div>
 </div>
 
-<div id="outline-container-org489b549" class="outline-2">
-<h2 id="org489b549">Clinic 2021-08-24</h2>
-<div class="outline-text-2" id="text-org489b549">
+<div id="outline-container-org71adcd4" class="outline-2">
+<h2 id="org71adcd4">Clinic 2021-08-24</h2>
+<div class="outline-text-2" id="text-org71adcd4">
 </div>
-<div id="outline-container-org46d4ce1" class="outline-3">
-<h3 id="org46d4ce1">Your Questions</h3>
-<div class="outline-text-3" id="text-org46d4ce1">
+<div id="outline-container-orge7d32e7" class="outline-3">
+<h3 id="orge7d32e7">Your Questions</h3>
+<div class="outline-text-3" id="text-orge7d32e7">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?</dd>
 </dl>
 </div>
 </div>
 
-<div id="outline-container-org9c28695" class="outline-3">
-<h3 id="org9c28695">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org9c28695">
+<div id="outline-container-org6a0b81c" class="outline-3">
+<h3 id="org6a0b81c">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org6a0b81c">
 </div>
 <ul class="org-ul">
-<li><a id="orgab70916"></a>Announcements<br />
-<div class="outline-text-4" id="text-orgab70916">
+<li><a id="org0c8e800"></a>Announcements<br />
+<div class="outline-text-4" id="text-org0c8e800">
 <ul class="org-ul">
 <li>I didn't see any</li>
 </ul>
 </div>
 </li>
 
-<li><a id="orgd2fb853"></a>Forum<br />
+<li><a id="orgbc9c809"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org7f02400"></a><a href="https://forum.hdfgroup.org/t/append-to-compound-dataset/8885">Append to compound dataset</a><br />
-<div class="outline-text-5" id="text-org7f02400">
+<li><a id="org8fc4082"></a><a href="https://forum.hdfgroup.org/t/append-to-compound-dataset/8885">Append to compound dataset</a><br />
+<div class="outline-text-5" id="text-org8fc4082">
 <ul class="org-ul">
 <li>It is tempting to think about 1D compound datasets as tables</li>
 </ul>
 </div>
 </li>
-<li><a id="orge7fed28"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
-<div class="outline-text-5" id="text-orge7fed28">
+<li><a id="org89a82fd"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
+<div class="outline-text-5" id="text-org89a82fd">
 <ul class="org-ul">
 <li><a href="https://docs.hdfgroup.org/hdf5/develop/group___h5_z.html">RM H5Z</a></li>
 <li>Don't let Word &amp; co. pollute your documentation!
@@ -786,13 +1013,13 @@
 </ul>
 </div>
 
-<div id="outline-container-org3bcdc43" class="outline-3">
-<h3 id="org3bcdc43">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org3bcdc43">
+<div id="outline-container-orgd9a9737" class="outline-3">
+<h3 id="orgd9a9737">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orgd9a9737">
 </div>
 <ul class="org-ul">
-<li><a id="orga79351c"></a>HDF5 Compound Datasets and (Relational) Tables: Don't be fooled!<br />
-<div class="outline-text-4" id="text-orga79351c">
+<li><a id="org53fc53b"></a>HDF5 Compound Datasets and (Relational) Tables: Don't be fooled!<br />
+<div class="outline-text-4" id="text-org53fc53b">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/append-to-compound-dataset/8885">Append to compound dataset</a></li>
 <li>'Row' as in 'table row' or 'matrix row' share the same spelling, but that's
@@ -886,13 +1113,13 @@ where the similarity ends!
 </div>
 </div>
 
-<div id="outline-container-orgd16d4f3" class="outline-2">
-<h2 id="orgd16d4f3">Clinic 2021-08-17</h2>
-<div class="outline-text-2" id="text-orgd16d4f3">
+<div id="outline-container-orgcb6f78b" class="outline-2">
+<h2 id="orgcb6f78b">Clinic 2021-08-17</h2>
+<div class="outline-text-2" id="text-orgcb6f78b">
 </div>
-<div id="outline-container-org31890f7" class="outline-3">
-<h3 id="org31890f7">Your Questions</h3>
-<div class="outline-text-3" id="text-org31890f7">
+<div id="outline-container-orgdc8c34b" class="outline-3">
+<h3 id="orgdc8c34b">Your Questions</h3>
+<div class="outline-text-3" id="text-orgdc8c34b">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?</dd>
 <dt>Q</dt><dd>Are there or should there be special considerations when preserving HDF-5
@@ -916,15 +1143,15 @@ created by MATLAB).
 </div>
 </div>
 
-<div id="outline-container-orgcf804dd" class="outline-3">
-<h3 id="orgcf804dd">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgcf804dd">
+<div id="outline-container-org052a924" class="outline-3">
+<h3 id="org052a924">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org052a924">
 </div>
 <ul class="org-ul">
-<li><a id="org38991ed"></a>Announcements<br />
+<li><a id="org8d2b972"></a>Announcements<br />
 <ul class="org-ul">
-<li><a id="orga867c27"></a><a href="https://forum.hdfgroup.org/t/new-compression-plugin-based-on-snappy-cuda/8848">New compression plugin based on Snappy-CUDA</a><br />
-<div class="outline-text-5" id="text-orga867c27">
+<li><a id="orgbf9b7a1"></a><a href="https://forum.hdfgroup.org/t/new-compression-plugin-based-on-snappy-cuda/8848">New compression plugin based on Snappy-CUDA</a><br />
+<div class="outline-text-5" id="text-orgbf9b7a1">
 <ul class="org-ul">
 <li>A new (de-)compression filter plugin using <a href="https://github.com/google/snappy">Google's Snappy</a> algorithm</li>
 <li>It runs on GPUs</li>
@@ -935,10 +1162,10 @@ created by MATLAB).
 </ul>
 </li>
 
-<li><a id="org2793c9b"></a>Forum<br />
+<li><a id="orgf1d228a"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="orgb432a23"></a><a href="https://forum.hdfgroup.org/t/alignment-of-direct-write-chunks/8851">Alignment of Direct Write Chunks</a><br />
-<div class="outline-text-5" id="text-orgb432a23">
+<li><a id="org26636cb"></a><a href="https://forum.hdfgroup.org/t/alignment-of-direct-write-chunks/8851">Alignment of Direct Write Chunks</a><br />
+<div class="outline-text-5" id="text-org26636cb">
 <ul class="org-ul">
 <li>Store large 1D datasets across multiple HDF5 file</li>
 <li>Receive compressed chunks w/ fixed number of samples/chunk</li>
@@ -956,13 +1183,13 @@ kind of masking value on the next dataset</li>
 </ul>
 </div>
 
-<div id="outline-container-org0a7ba9d" class="outline-3">
-<h3 id="org0a7ba9d">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org0a7ba9d">
+<div id="outline-container-orgbc66391" class="outline-3">
+<h3 id="orgbc66391">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orgbc66391">
 </div>
 <ul class="org-ul">
-<li><a id="orge047574"></a>Virtual Datasets (VDS)<br />
-<div class="outline-text-4" id="text-orge047574">
+<li><a id="org8f2f516"></a>Virtual Datasets (VDS)<br />
+<div class="outline-text-4" id="text-org8f2f516">
 <ul class="org-ul">
 <li>Logically, HDF5 datasets have a shape (rank or dimensionality) and an element
 type</li>
@@ -1023,35 +1250,35 @@ conversion</li>
 </div>
 </div>
 
-<div id="outline-container-orge366375" class="outline-2">
-<h2 id="orge366375">Clinic 2021-08-10</h2>
-<div class="outline-text-2" id="text-orge366375">
+<div id="outline-container-orga3d87e3" class="outline-2">
+<h2 id="orga3d87e3">Clinic 2021-08-10</h2>
+<div class="outline-text-2" id="text-orga3d87e3">
 </div>
-<div id="outline-container-orgdd1927b" class="outline-3">
-<h3 id="orgdd1927b">Your Questions</h3>
-<div class="outline-text-3" id="text-orgdd1927b">
+<div id="outline-container-org086a9b4" class="outline-3">
+<h3 id="org086a9b4">Your Questions</h3>
+<div class="outline-text-3" id="text-org086a9b4">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?</dd>
 </dl>
 </div>
 </div>
 
-<div id="outline-container-org6ee152e" class="outline-3">
-<h3 id="org6ee152e">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org6ee152e">
+<div id="outline-container-orgccd40b4" class="outline-3">
+<h3 id="orgccd40b4">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orgccd40b4">
 </div>
 <ul class="org-ul">
-<li><a id="org97e3f2d"></a>Announcements<br />
+<li><a id="orgc4aa9de"></a>Announcements<br />
 <ul class="org-ul">
-<li><a id="orge76b5f3"></a><a href="https://forum.hdfgroup.org/t/the-highly-scalable-data-service-hsds-is-now-available-on-microsoft-azure/8830">The Highly Scalable Data Service (HSDS) is now available on Microsoft Azure</a><br />
-<div class="outline-text-5" id="text-orge76b5f3">
+<li><a id="orgf9f6d37"></a><a href="https://forum.hdfgroup.org/t/the-highly-scalable-data-service-hsds-is-now-available-on-microsoft-azure/8830">The Highly Scalable Data Service (HSDS) is now available on Microsoft Azure</a><br />
+<div class="outline-text-5" id="text-orgf9f6d37">
 <ul class="org-ul">
 <li>Get started in the <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/thehdfgroup1616725197741.hsdsazurevm?tab=overview">Azure Marketplace</a></li>
 </ul>
 </div>
 </li>
-<li><a id="org9c56d95"></a><a href="https://forum.hdfgroup.org/t/vfd-swmr-beta-1-release/8824">VFD SWMR beta 1 release</a><br />
-<div class="outline-text-5" id="text-org9c56d95">
+<li><a id="org9a1f1f9"></a><a href="https://forum.hdfgroup.org/t/vfd-swmr-beta-1-release/8824">VFD SWMR beta 1 release</a><br />
+<div class="outline-text-5" id="text-org9a1f1f9">
 <ul class="org-ul">
 <li><a href="https://github.com/HDFGroup/hdf5/tree/feature/vfd_swmr_beta_1">GitHub branch</a></li>
 <li><a href="https://www.youtube.com/watch?v=QDoKuJojkGI">The movie</a></li>
@@ -1061,8 +1288,8 @@ conversion</li>
 </li>
 </ul>
 </li>
-<li><a id="org60a7cb0"></a>Forum<br />
-<div class="outline-text-4" id="text-org60a7cb0">
+<li><a id="org61d8a2c"></a>Forum<br />
+<div class="outline-text-4" id="text-org61d8a2c">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/problem-compiling-hdf5-using-cmake-with-hdf5-enable-parallel/8823">Problem compiling HDF5 using CMake with <code>HDF5_ENABLE_PARALLEL</code></a>
 <ul class="org-ul">
@@ -1076,13 +1303,13 @@ files</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-org1955841" class="outline-3">
-<h3 id="org1955841">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org1955841">
+<div id="outline-container-org15210f7" class="outline-3">
+<h3 id="org15210f7">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org15210f7">
 </div>
 <ul class="org-ul">
-<li><a id="orgf4ab0e1"></a>What is SWMR &amp; what's new w/ VFD SWMR?<br />
-<div class="outline-text-4" id="text-orgf4ab0e1">
+<li><a id="org41af50d"></a>What is SWMR &amp; what's new w/ VFD SWMR?<br />
+<div class="outline-text-4" id="text-org41af50d">
 <ul class="org-ul">
 <li>SWMR = Single Writer Multiple Readers</li>
 <li>Use case: "Process collaboration w/o communication"
@@ -1104,8 +1331,8 @@ files</li>
 </div>
 
 <ul class="org-ul">
-<li><a id="org1f47e9c"></a>Limitations of the first implementation<br />
-<div class="outline-text-5" id="text-org1f47e9c">
+<li><a id="org65d6ae2"></a>Limitations of the first implementation<br />
+<div class="outline-text-5" id="text-org65d6ae2">
 <ul class="org-ul">
 <li>No support for new items, e.g., objects, attributes, etc., no deletion
 <ul class="org-ul">
@@ -1120,8 +1347,8 @@ files</li>
 </div>
 </li>
 
-<li><a id="orgb58159d"></a>What VFD SWMR brings<br />
-<div class="outline-text-5" id="text-orgb58159d">
+<li><a id="org4bffce2"></a>What VFD SWMR brings<br />
+<div class="outline-text-5" id="text-org4bffce2">
 <ul class="org-ul">
 <li>Arbitrary item and object creation/deletion</li>
 <li>Configurable bound (maximum time) between write and read</li>
@@ -1131,8 +1358,8 @@ files</li>
 </div>
 </li>
 
-<li><a id="org9ca0021"></a>How is it done?<br />
-<div class="outline-text-5" id="text-org9ca0021">
+<li><a id="org680b4cb"></a>How is it done?<br />
+<div class="outline-text-5" id="text-org680b4cb">
 <ul class="org-ul">
 <li>Writer generates periodic snapshots of metadata at points when it's known to be in a consistent state
 <ul class="org-ul">
@@ -1152,13 +1379,13 @@ files</li>
 </div>
 </div>
 
-<div id="outline-container-org350b080" class="outline-2">
-<h2 id="org350b080">Clinic 2021-08-03</h2>
-<div class="outline-text-2" id="text-org350b080">
+<div id="outline-container-orgc8e07a6" class="outline-2">
+<h2 id="orgc8e07a6">Clinic 2021-08-03</h2>
+<div class="outline-text-2" id="text-orgc8e07a6">
 </div>
-<div id="outline-container-orge3c416e" class="outline-3">
-<h3 id="orge3c416e">Your Questions</h3>
-<div class="outline-text-3" id="text-orge3c416e">
+<div id="outline-container-org5cecae1" class="outline-3">
+<h3 id="org5cecae1">Your Questions</h3>
+<div class="outline-text-3" id="text-org5cecae1">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?</dd>
 
@@ -1167,20 +1394,20 @@ files</li>
 </div>
 </div>
 
-<div id="outline-container-orgd043d25" class="outline-3">
-<h3 id="orgd043d25">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgd043d25">
+<div id="outline-container-orgca30bc8" class="outline-3">
+<h3 id="orgca30bc8">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orgca30bc8">
 </div>
 <ul class="org-ul">
-<li><a id="org5b61d8f"></a>Announcements<br />
+<li><a id="orgb5e8314"></a>Announcements<br />
 <ul class="org-ul">
-<li><a id="org5818358"></a><a href="https://forum.hdfgroup.org/t/release-of-hdfview-3-1-3-newsletter-179-the-hdf-group/8789">HDFView 3.1.3</a> was released<br /></li>
+<li><a id="org3609c5a"></a><a href="https://forum.hdfgroup.org/t/release-of-hdfview-3-1-3-newsletter-179-the-hdf-group/8789">HDFView 3.1.3</a> was released<br /></li>
 </ul>
 </li>
-<li><a id="org4739a24"></a>Forum<br />
+<li><a id="org10a1e67"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org666b2d7"></a><a href="https://forum.hdfgroup.org/t/check-all-members-of-compound-datatype-are-present/8795">Check all members of compound datatype are present?</a><br />
-<div class="outline-text-5" id="text-org666b2d7">
+<li><a id="org1254d87"></a><a href="https://forum.hdfgroup.org/t/check-all-members-of-compound-datatype-are-present/8795">Check all members of compound datatype are present?</a><br />
+<div class="outline-text-5" id="text-org1254d87">
 <ul class="org-ul">
 <li>Error is in the eye of the beholder</li>
 <li><code>H5Tequal</code> is of limited use</li>
@@ -1189,8 +1416,8 @@ files</li>
 </ul>
 </div>
 </li>
-<li><a id="orgb2cdf3a"></a><a href="https://forum.hdfgroup.org/t/phdf5-1-12-data-transform-in-combination-with-compression-filter/8799">pHDF5 1.12: data transform in combination with compression filter</a><br />
-<div class="outline-text-5" id="text-orgb2cdf3a">
+<li><a id="org03ccb2c"></a><a href="https://forum.hdfgroup.org/t/phdf5-1-12-data-transform-in-combination-with-compression-filter/8799">pHDF5 1.12: data transform in combination with compression filter</a><br />
+<div class="outline-text-5" id="text-org03ccb2c">
 <ul class="org-ul">
 <li>Poor documentation (on our part)
 <ul class="org-ul">
@@ -1205,9 +1432,9 @@ files</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-orge48424c" class="outline-3">
-<h3 id="orge48424c">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-orge48424c">
+<div id="outline-container-org1322846" class="outline-3">
+<h3 id="org1322846">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org1322846">
 </div>
 <ul class="org-ul">
 <li><a id="chunk_analyzer.c"></a>New function <code>H5Dchunk_iter</code><br />
@@ -1224,8 +1451,8 @@ compression</li>
 </div>
 
 <ul class="org-ul">
-<li><a id="org47f2d2c"></a>Basic idea<br />
-<div class="outline-text-5" id="text-org47f2d2c">
+<li><a id="org094ea6a"></a>Basic idea<br />
+<div class="outline-text-5" id="text-org094ea6a">
 <p>
 Provide an HDF5 file name as the single argument.
 </p>
@@ -1275,8 +1502,8 @@ Provide an HDF5 file name as the single argument.
 </div>
 </li>
 
-<li><a id="orgf46b4e4"></a>Callback for <code>H5Ovisit</code><br />
-<div class="outline-text-5" id="text-orgf46b4e4">
+<li><a id="org130da13"></a>Callback for <code>H5Ovisit</code><br />
+<div class="outline-text-5" id="text-org130da13">
 <div class="org-src-container">
 <pre class="src src-C">
 <span style="color: #0000FF;">static</span> <span style="color: #6434A3;">int</span> <span style="color: #006699;">chunk_cb</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">hsize_t</span> *<span style="color: #BA36A5;">offset</span>, <span style="color: #6434A3;">uint32_t</span> <span style="color: #BA36A5;">filter_mask</span>, <span style="color: #6434A3;">haddr_t</span> <span style="color: #BA36A5;">addr</span>,
@@ -1357,8 +1584,8 @@ Provide an HDF5 file name as the single argument.
 </div>
 </li>
 
-<li><a id="org580eb5e"></a>Callback for <code>H5Dchunk_iter</code><br />
-<div class="outline-text-5" id="text-org580eb5e">
+<li><a id="orgfee7aa5"></a>Callback for <code>H5Dchunk_iter</code><br />
+<div class="outline-text-5" id="text-orgfee7aa5">
 <div class="org-src-container">
 <pre class="src src-C">
 <span style="color: #6434A3;">int</span> <span style="color: #006699;">chunk_cb</span>(<span style="color: #0000FF;">const</span> <span style="color: #6434A3;">hsize_t</span> *<span style="color: #BA36A5;">offset</span>, <span style="color: #6434A3;">uint32_t</span> <span style="color: #BA36A5;">filter_mask</span>, <span style="color: #6434A3;">haddr_t</span> <span style="color: #BA36A5;">addr</span>,
@@ -1379,13 +1606,13 @@ Provide an HDF5 file name as the single argument.
 </div>
 </div>
 
-<div id="outline-container-org70b7afe" class="outline-2">
-<h2 id="org70b7afe">Clinic 2021-07-27</h2>
-<div class="outline-text-2" id="text-org70b7afe">
+<div id="outline-container-org7c49f63" class="outline-2">
+<h2 id="org7c49f63">Clinic 2021-07-27</h2>
+<div class="outline-text-2" id="text-org7c49f63">
 </div>
-<div id="outline-container-org6f32294" class="outline-3">
-<h3 id="org6f32294">Your Questions</h3>
-<div class="outline-text-3" id="text-org6f32294">
+<div id="outline-container-orgbae21f4" class="outline-3">
+<h3 id="orgbae21f4">Your Questions</h3>
+<div class="outline-text-3" id="text-orgbae21f4">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?</dd>
 
@@ -1402,15 +1629,15 @@ with ROMIO in the past for example. - <a href="mailto:jhenderson@hdfgroup.org">J
 </dl>
 </div>
 </div>
-<div id="outline-container-org4fb7e67" class="outline-3">
-<h3 id="org4fb7e67">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org4fb7e67">
+<div id="outline-container-org69b0bef" class="outline-3">
+<h3 id="org69b0bef">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org69b0bef">
 </div>
 <ul class="org-ul">
-<li><a id="orgfd3f3cb"></a>Announcements<br />
+<li><a id="orgca0ed54"></a>Announcements<br />
 <ul class="org-ul">
-<li><a id="orgceb43f9"></a><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a><br />
-<div class="outline-text-5" id="text-orgceb43f9">
+<li><a id="orgd62e745"></a><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a><br />
+<div class="outline-text-5" id="text-orgd62e745">
 <ul class="org-ul">
 <li>Format: "Paper and Presentation" or "Presentation"</li>
 <li>Deadline for presentation abstracts: <span class="timestamp-wrapper"><span class="timestamp">[2021-08-01 Sun]</span></span></li>
@@ -1418,8 +1645,8 @@ with ROMIO in the past for example. - <a href="mailto:jhenderson@hdfgroup.org">J
 </ul>
 </div>
 </li>
-<li><a id="org5beefb8"></a><a href="https://docs.hdfgroup.org/hdf5/develop/_r_f_c.html">HDF5 RFCs</a><br />
-<div class="outline-text-5" id="text-org5beefb8">
+<li><a id="org8a0dff1"></a><a href="https://docs.hdfgroup.org/hdf5/develop/_r_f_c.html">HDF5 RFCs</a><br />
+<div class="outline-text-5" id="text-org8a0dff1">
 <ul class="org-ul">
 <li>All RFCs in one place</li>
 </ul>
@@ -1427,10 +1654,10 @@ with ROMIO in the past for example. - <a href="mailto:jhenderson@hdfgroup.org">J
 </li>
 </ul>
 </li>
-<li><a id="org0f85739"></a>Forum<br />
+<li><a id="org9e5b99f"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org53ad184"></a><a href="https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104">H5i<sub>dec</sub><sub>ref</sub> hangs</a><br />
-<div class="outline-text-5" id="text-org53ad184">
+<li><a id="org118c99b"></a><a href="https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104">H5i<sub>dec</sub><sub>ref</sub> hangs</a><br />
+<div class="outline-text-5" id="text-org118c99b">
 <ul class="org-ul">
 <li>Parallel HDF5 "misbehavior" can be subtle</li>
 <li><a href="https://portal.hdfgroup.org/display/HDF5/Collective+Calling+Requirements+in+Parallel+HDF5+Applications">Collective Calling Requirements in Parallel HDF5 Applications</a>
@@ -1442,8 +1669,8 @@ disparity?"</li>
 </ul>
 </div>
 </li>
-<li><a id="org75d87f2"></a><a href="https://forum.hdfgroup.org/t/how-to-read-a-utf-8-string/6125">How to read a UTF-8 string</a><br />
-<div class="outline-text-5" id="text-org75d87f2">
+<li><a id="orgad329c4"></a><a href="https://forum.hdfgroup.org/t/how-to-read-a-utf-8-string/6125">How to read a UTF-8 string</a><br />
+<div class="outline-text-5" id="text-orgad329c4">
 <ul class="org-ul">
 <li><code>H5T_CSET_UTF8</code> for character encoding</li>
 <li>The is currently a subtle bug in string handling <a href="https://github.com/HDFGroup/hdf5/issues/544">Inconsistent behaviour with variable-length strings and character encoding #544</a>
@@ -1454,8 +1681,8 @@ disparity?"</li>
 </ul>
 </div>
 </li>
-<li><a id="org5402df7"></a><a href="https://forum.hdfgroup.org/t/when-should-mpi-barrier-be-used-when-using-parallel-hdf5/8761">When should MPI barrier be used when using Parallel HDF5?</a><br />
-<div class="outline-text-5" id="text-org5402df7">
+<li><a id="org2933d0f"></a><a href="https://forum.hdfgroup.org/t/when-should-mpi-barrier-be-used-when-using-parallel-hdf5/8761">When should MPI barrier be used when using Parallel HDF5?</a><br />
+<div class="outline-text-5" id="text-org2933d0f">
 <ul class="org-ul">
 <li>Only if you want to achieve a certain consistency semantics ("processes
 communicating through a file")
@@ -1465,8 +1692,8 @@ communicating through a file")
 </ul>
 </div>
 </li>
-<li><a id="org2fbedd4"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
-<div class="outline-text-5" id="text-org2fbedd4">
+<li><a id="orge32d9cd"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
+<div class="outline-text-5" id="text-orge32d9cd">
 <ul class="org-ul">
 <li>What small changes would make a big difference in your HDF5 workflow?</li>
 <li>Chime in!</li>
@@ -1477,13 +1704,13 @@ communicating through a file")
 </li>
 </ul>
 </div>
-<div id="outline-container-orgcfa1fd4" class="outline-3">
-<h3 id="orgcfa1fd4">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-orgcfa1fd4">
+<div id="outline-container-orge885024" class="outline-3">
+<h3 id="orge885024">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orge885024">
 </div>
 <ul class="org-ul">
-<li><a id="org16dfdb1"></a>User-defined Properties<br />
-<div class="outline-text-4" id="text-org16dfdb1">
+<li><a id="org45df95b"></a>User-defined Properties<br />
+<div class="outline-text-4" id="text-org45df95b">
 <ul class="org-ul">
 <li><b>Use case:</b> You want to pass property list-like things (dictionaries) around,
 your language doesn't have dictionaries, and you don't want to re-invent the
@@ -1511,13 +1738,13 @@ you need in certain circumstances</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgadabf13" class="outline-2">
-<h2 id="orgadabf13">Clinic 2021-07-20</h2>
-<div class="outline-text-2" id="text-orgadabf13">
+<div id="outline-container-org3a5584c" class="outline-2">
+<h2 id="org3a5584c">Clinic 2021-07-20</h2>
+<div class="outline-text-2" id="text-org3a5584c">
 </div>
-<div id="outline-container-org21624c9" class="outline-3">
-<h3 id="org21624c9">Your Questions</h3>
-<div class="outline-text-3" id="text-org21624c9">
+<div id="outline-container-org20ec072" class="outline-3">
+<h3 id="org20ec072">Your Questions</h3>
+<div class="outline-text-3" id="text-org20ec072">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?</dd>
 
@@ -1531,15 +1758,15 @@ dataset creations!</dd>
 </div>
 </div>
 
-<div id="outline-container-org14d0fe0" class="outline-3">
-<h3 id="org14d0fe0">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org14d0fe0">
+<div id="outline-container-org522618f" class="outline-3">
+<h3 id="org522618f">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org522618f">
 </div>
 <ul class="org-ul">
-<li><a id="org742bfb8"></a>Announcements<br />
+<li><a id="org5f4bb0c"></a>Announcements<br />
 <ul class="org-ul">
-<li><a id="org9e3fab7"></a><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a><br />
-<div class="outline-text-5" id="text-org9e3fab7">
+<li><a id="org8099a8e"></a><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a><br />
+<div class="outline-text-5" id="text-org8099a8e">
 <ul class="org-ul">
 <li>Format: "Paper and Presentation" or "Presentation"</li>
 <li>Deadline for presentation abstracts: <span class="timestamp-wrapper"><span class="timestamp">[2021-08-01 Sun]</span></span></li>
@@ -1549,10 +1776,10 @@ dataset creations!</dd>
 </li>
 </ul>
 </li>
-<li><a id="org8fc7e58"></a>Forum<br />
+<li><a id="org6627405"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org571869a"></a><a href="https://forum.hdfgroup.org/t/migrating-pandas-and-local-hf5-to-hsds/8721">Migrating pandas and local HF5 to HSDS </a><br />
-<div class="outline-text-5" id="text-org571869a">
+<li><a id="orgaf2b65d"></a><a href="https://forum.hdfgroup.org/t/migrating-pandas-and-local-hf5-to-hsds/8721">Migrating pandas and local HF5 to HSDS </a><br />
+<div class="outline-text-5" id="text-orgaf2b65d">
 <ul class="org-ul">
 <li>John Readey posted a nice comment referencing an article that shows how to map
 pandas dataframes to HDF5 via <code>h5py</code></li>
@@ -1560,8 +1787,8 @@ pandas dataframes to HDF5 via <code>h5py</code></li>
 </ul>
 </div>
 </li>
-<li><a id="org5d6c352"></a><a href="https://forum.hdfgroup.org/t/local-hsds-performance-vs-local-hdf5-files/8652">Local HSDS performance vs local HDF5 files</a><br />
-<div class="outline-text-5" id="text-org5d6c352">
+<li><a id="org606efac"></a><a href="https://forum.hdfgroup.org/t/local-hsds-performance-vs-local-hdf5-files/8652">Local HSDS performance vs local HDF5 files</a><br />
+<div class="outline-text-5" id="text-org606efac">
 <ul class="org-ul">
 <li>Interesting exchange of benchmark results</li>
 <li>Data (response) preparation in HSDS seems to be slow</li>
@@ -1570,16 +1797,16 @@ vanilla REST API (339 MB/s versus 4,384 MB/s)</li>
 </ul>
 </div>
 </li>
-<li><a id="orgfdaacb2"></a><a href="https://forum.hdfgroup.org/t/mpi-io-file-info-actually-used/8751">MPI-IO file info actually used</a><br />
-<div class="outline-text-5" id="text-orgfdaacb2">
+<li><a id="org07b71b3"></a><a href="https://forum.hdfgroup.org/t/mpi-io-file-info-actually-used/8751">MPI-IO file info actually used</a><br />
+<div class="outline-text-5" id="text-org07b71b3">
 <ul class="org-ul">
 <li>The <code>MPI_Info</code> object returned by <code>H5Pget_fapl_mpio</code> does not return the full
 set of hints seen by MPI</li>
 </ul>
 </div>
 </li>
-<li><a id="org7b38e44"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
-<div class="outline-text-5" id="text-org7b38e44">
+<li><a id="orga8b6485"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
+<div class="outline-text-5" id="text-orga8b6485">
 <ul class="org-ul">
 <li>What small changes would make a big difference in your HDF5 workflow?</li>
 <li>Chime in!</li>
@@ -1591,13 +1818,13 @@ set of hints seen by MPI</li>
 </ul>
 </div>
 
-<div id="outline-container-org229e46c" class="outline-3">
-<h3 id="org229e46c">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org229e46c">
+<div id="outline-container-orgfc2cfbd" class="outline-3">
+<h3 id="orgfc2cfbd">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orgfc2cfbd">
 </div>
 <ul class="org-ul">
-<li><a id="org5a83a5b"></a>HDF5 File Images<br />
-<div class="outline-text-4" id="text-org5a83a5b">
+<li><a id="orgf671931"></a>HDF5 File Images<br />
+<div class="outline-text-4" id="text-orgf671931">
 <ul class="org-ul">
 <li>Use cases
 <ul class="org-ul">
@@ -1622,7 +1849,7 @@ segment) or a TCP connection</li>
 See section 4 (Examples) in the reference
 </p>
 
-<pre class="example" id="org16e32e3">
+<pre class="example" id="org30687bb">
 +++ Process A +++                          +++ Process B +++
 
 &lt;Open and construct the desired file       hid_t file_;
@@ -1655,35 +1882,35 @@ free(buffer_ptr);
 </div>
 </div>
 
-<div id="outline-container-orgc8f8daf" class="outline-2">
-<h2 id="orgc8f8daf">Clinic 2021-07-13</h2>
-<div class="outline-text-2" id="text-orgc8f8daf">
+<div id="outline-container-orgb0b1d84" class="outline-2">
+<h2 id="orgb0b1d84">Clinic 2021-07-13</h2>
+<div class="outline-text-2" id="text-orgb0b1d84">
 </div>
-<div id="outline-container-org8238417" class="outline-3">
-<h3 id="org8238417">Your Questions</h3>
-<div class="outline-text-3" id="text-org8238417">
+<div id="outline-container-org2671c25" class="outline-3">
+<h3 id="org2671c25">Your Questions</h3>
+<div class="outline-text-3" id="text-org2671c25">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?</dd>
 </dl>
 </div>
 </div>
 
-<div id="outline-container-org5dea2ad" class="outline-3">
-<h3 id="org5dea2ad">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org5dea2ad">
+<div id="outline-container-org9dbea22" class="outline-3">
+<h3 id="org9dbea22">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org9dbea22">
 </div>
 <ul class="org-ul">
-<li><a id="org53b5ee9"></a>HUG 2021 Europe<br />
-<div class="outline-text-4" id="text-org53b5ee9">
+<li><a id="org10bc8e6"></a>HUG 2021 Europe<br />
+<div class="outline-text-4" id="text-org10bc8e6">
 <ul class="org-ul">
 <li>The presentations from the European HUG 2021 event are now available on <a href="https://www.youtube.com/watch?v=NRS8oV7T9BE&amp;list=PLPyhR4PdEeGbiXGJ4ykBf3JEw6to8rmB3">YouTube</a></li>
 </ul>
 </div>
 </li>
-<li><a id="org45a1b05"></a>Announcements<br />
+<li><a id="orgc100aa7"></a>Announcements<br />
 <ul class="org-ul">
-<li><a id="org44d6d5e"></a><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a><br />
-<div class="outline-text-5" id="text-org44d6d5e">
+<li><a id="org14d3623"></a><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a><br />
+<div class="outline-text-5" id="text-org14d3623">
 <ul class="org-ul">
 <li>Format: "Paper and Presentation" or "Presentation"</li>
 <li>Deadline for presentation abstracts: <span class="timestamp-wrapper"><span class="timestamp">[2021-08-01 Sun]</span></span></li>
@@ -1693,10 +1920,10 @@ free(buffer_ptr);
 </li>
 </ul>
 </li>
-<li><a id="orgbe9ca4b"></a>Forum<br />
+<li><a id="org4ce9cd8"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org6d1dc19"></a><a href="https://forum.hdfgroup.org/t/hdf5-specs-unclear-b-tree-v2-and-fractal-heap/8723">HDF5 specs unclear: B-tree v2 and fractal heap </a><br />
-<div class="outline-text-5" id="text-org6d1dc19">
+<li><a id="orga81c970"></a><a href="https://forum.hdfgroup.org/t/hdf5-specs-unclear-b-tree-v2-and-fractal-heap/8723">HDF5 specs unclear: B-tree v2 and fractal heap </a><br />
+<div class="outline-text-5" id="text-orga81c970">
 <ul class="org-ul">
 <li>There was a lot of interest in accessing HDF5 files directly, i.e., w/o the
 HDF5 library</li>
@@ -1707,8 +1934,8 @@ ID clarification</li>
 </div>
 </li>
 
-<li><a id="orgac6bf1d"></a><a href="https://forum.hdfgroup.org/t/building-rest-vol-on-windows-10/8654">Building REST VOL on Windows 10</a><br />
-<div class="outline-text-5" id="text-orgac6bf1d">
+<li><a id="orgdb24c3d"></a><a href="https://forum.hdfgroup.org/t/building-rest-vol-on-windows-10/8654">Building REST VOL on Windows 10</a><br />
+<div class="outline-text-5" id="text-orgdb24c3d">
 <ul class="org-ul">
 <li>REST VOL = access HSDS via the HDF5 library, converts HDF5 library calls into
 RESTful requests (and back)</li>
@@ -1717,8 +1944,8 @@ RESTful requests (and back)</li>
 </div>
 </li>
 
-<li><a id="org713c77b"></a><a href="https://forum.hdfgroup.org/t/file-storage-on-aws-s3/8715">File storage on AWS S3</a><br />
-<div class="outline-text-5" id="text-org713c77b">
+<li><a id="org5174d46"></a><a href="https://forum.hdfgroup.org/t/file-storage-on-aws-s3/8715">File storage on AWS S3</a><br />
+<div class="outline-text-5" id="text-org5174d46">
 <ul class="org-ul">
 <li>Where did the data go?</li>
 <li>The documentation can be found <a href="https://github.com/HDFGroup/hsds/blob/master/docs/design/obj_store_schema/obj_store_schema_v2.md">here</a></li>
@@ -1726,8 +1953,8 @@ RESTful requests (and back)</li>
 </div>
 </li>
 
-<li><a id="org3e0a42e"></a><a href="https://forum.hdfgroup.org/t/migrating-pandas-and-local-hf5-to-hsds/8721">Migrating pandas and local HF5 to HSDS </a><br />
-<div class="outline-text-5" id="text-org3e0a42e">
+<li><a id="org7c65b1a"></a><a href="https://forum.hdfgroup.org/t/migrating-pandas-and-local-hf5-to-hsds/8721">Migrating pandas and local HF5 to HSDS </a><br />
+<div class="outline-text-5" id="text-org7c65b1a">
 <ul class="org-ul">
 <li>Using <a href="https://www.digitalocean.com/products/spaces/">DigitalOcean and spaces</a> instead of AWS S3</li>
 <li>Using <a href="https://pandas.pydata.org/"><code>pandas</code></a>
@@ -1738,8 +1965,8 @@ RESTful requests (and back)</li>
 </div>
 </li>
 
-<li><a id="orgc38a510"></a><a href="https://forum.hdfgroup.org/t/local-hsds-performance-vs-local-hdf5-files/8652">Local HSDS performance vs local HDF5 files</a><br />
-<div class="outline-text-5" id="text-orgc38a510">
+<li><a id="org43a5e2f"></a><a href="https://forum.hdfgroup.org/t/local-hsds-performance-vs-local-hdf5-files/8652">Local HSDS performance vs local HDF5 files</a><br />
+<div class="outline-text-5" id="text-org43a5e2f">
 <ul class="org-ul">
 <li>User observed a 10x slowdown for reads</li>
 <li>What to expect?
@@ -1751,24 +1978,24 @@ RESTful requests (and back)</li>
 </div>
 </li>
 
-<li><a id="org96d9b48"></a><a href="https://forum.hdfgroup.org/t/start-list-of-vol-plugins/8714">Start list of VOL plugins?</a><br />
-<div class="outline-text-5" id="text-org96d9b48">
+<li><a id="orgdb967eb"></a><a href="https://forum.hdfgroup.org/t/start-list-of-vol-plugins/8714">Start list of VOL plugins?</a><br />
+<div class="outline-text-5" id="text-orgdb967eb">
 <ul class="org-ul">
 <li><a href="https://portal.hdfgroup.org/display/support/Registered+VOL+Connectors">List of VOL Connectors Registered with The HDF Group</a></li>
 </ul>
 </div>
 </li>
 
-<li><a id="org3c93f53"></a><a href="https://forum.hdfgroup.org/t/h5diff-and-ignoring-attributes/8553">h5diff and ignoring attributes</a><br />
-<div class="outline-text-5" id="text-org3c93f53">
+<li><a id="org9e384b4"></a><a href="https://forum.hdfgroup.org/t/h5diff-and-ignoring-attributes/8553">h5diff and ignoring attributes</a><br />
+<div class="outline-text-5" id="text-org9e384b4">
 <ul class="org-ul">
 <li>Now in HDF5 <code>develop</code> as <code>--exclude-attribute</code> option for <code>h5diff</code></li>
 </ul>
 </div>
 </li>
 
-<li><a id="org9f3d3df"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
-<div class="outline-text-5" id="text-org9f3d3df">
+<li><a id="orge688b2d"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
+<div class="outline-text-5" id="text-orge688b2d">
 <ul class="org-ul">
 <li>What small changes would make a big difference in your HDF5 workflow?</li>
 <li>Chime in!</li>
@@ -1779,13 +2006,13 @@ RESTful requests (and back)</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-orgc4e58de" class="outline-3">
-<h3 id="orgc4e58de">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-orgc4e58de">
+<div id="outline-container-orgc26bef7" class="outline-3">
+<h3 id="orgc26bef7">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orgc26bef7">
 </div>
 <ul class="org-ul">
-<li><a id="org65d890c"></a>HDF5 documentation updates<br />
-<div class="outline-text-4" id="text-org65d890c">
+<li><a id="org9614ba9"></a>HDF5 documentation updates<br />
+<div class="outline-text-4" id="text-org9614ba9">
 <ul class="org-ul">
 <li><a href="http://docs.hdfgroup.org.s3-website.us-east-2.amazonaws.com/hdf5/develop/index.html">docs.hdfgroup.org/hdf5/develop/</a></li>
 </ul>
@@ -1795,35 +2022,35 @@ RESTful requests (and back)</li>
 </div>
 </div>
 
-<div id="outline-container-orgeca1797" class="outline-2">
-<h2 id="orgeca1797">Clinic 2021-07-06</h2>
-<div class="outline-text-2" id="text-orgeca1797">
+<div id="outline-container-org8ad930b" class="outline-2">
+<h2 id="org8ad930b">Clinic 2021-07-06</h2>
+<div class="outline-text-2" id="text-org8ad930b">
 </div>
-<div id="outline-container-org13f9bdf" class="outline-3">
-<h3 id="org13f9bdf">Your Questions</h3>
-<div class="outline-text-3" id="text-org13f9bdf">
+<div id="outline-container-org13eec71" class="outline-3">
+<h3 id="org13eec71">Your Questions</h3>
+<div class="outline-text-3" id="text-org13eec71">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?</dd>
 </dl>
 </div>
 </div>
 
-<div id="outline-container-orgea54ae6" class="outline-3">
-<h3 id="orgea54ae6">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgea54ae6">
+<div id="outline-container-org6866820" class="outline-3">
+<h3 id="org6866820">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org6866820">
 </div>
 <ul class="org-ul">
-<li><a id="org2633223"></a>Announcements<br />
+<li><a id="org0ad8b17"></a>Announcements<br />
 <ul class="org-ul">
-<li><a id="org06ee9eb"></a><a href="https://forum.hdfgroup.org/t/european-hdf-users-group-hug-summer-2021-july-7-8-2021/8632">European HDF Users Group (HUG) Summer 2021 July 7-8, 2021</a><br />
-<div class="outline-text-5" id="text-org06ee9eb">
+<li><a id="orgc3cc599"></a><a href="https://forum.hdfgroup.org/t/european-hdf-users-group-hug-summer-2021-july-7-8-2021/8632">European HDF Users Group (HUG) Summer 2021 July 7-8, 2021</a><br />
+<div class="outline-text-5" id="text-orgc3cc599">
 <ul class="org-ul">
 <li><a href="https://zoom.us/meeting/register/tJUpde6srTwqGtPry8kfJthku8Eg2JZDrv28">Register for tomorrow's event!</a></li>
 </ul>
 </div>
 </li>
-<li><a id="org4963b84"></a><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a><br />
-<div class="outline-text-5" id="text-org4963b84">
+<li><a id="org798d840"></a><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a><br />
+<div class="outline-text-5" id="text-org798d840">
 <ul class="org-ul">
 <li>Format: "Paper and Presentation" or "Presentation"</li>
 <li>Deadline for presentation abstracts: <span class="timestamp-wrapper"><span class="timestamp">[2021-08-01 Sun]</span></span></li>
@@ -1831,8 +2058,8 @@ RESTful requests (and back)</li>
 </ul>
 </div>
 </li>
-<li><a id="orge6619d7"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
-<div class="outline-text-5" id="text-orge6619d7">
+<li><a id="orgaeade99"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
+<div class="outline-text-5" id="text-orgaeade99">
 <ul class="org-ul">
 <li>New permanent home for HDF5 documentation</li>
 <li><a href="https://docs.hdfgroup.org/hdf5/develop/">https://docs.hdfgroup.org/hdf5/develop/</a></li>
@@ -1842,18 +2069,18 @@ RESTful requests (and back)</li>
 </li>
 </ul>
 </li>
-<li><a id="org79ff299"></a>Forum<br />
+<li><a id="orgb4c82f2"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org64cd7e0"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
-<div class="outline-text-5" id="text-org64cd7e0">
+<li><a id="org9850ac3"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
+<div class="outline-text-5" id="text-org9850ac3">
 <ul class="org-ul">
 <li>What small changes would make a big difference in your HDF5 workflow?</li>
 <li>Chime in!</li>
 </ul>
 </div>
 </li>
-<li><a id="orgc85120c"></a><a href="https://forum.hdfgroup.org/t/problems-with-hdf5-and-swmr-on-nfs-mounted-network-disk/8672">Problems with HDF5 and SWMR on NFS mounted network disk</a><br />
-<div class="outline-text-5" id="text-orgc85120c">
+<li><a id="org5893fa6"></a><a href="https://forum.hdfgroup.org/t/problems-with-hdf5-and-swmr-on-nfs-mounted-network-disk/8672">Problems with HDF5 and SWMR on NFS mounted network disk</a><br />
+<div class="outline-text-5" id="text-org5893fa6">
 <ul class="org-ul">
 <li>Current SWMR implementation depends on POSIX write semantics (esp. order
 preservation)</li>
@@ -1862,19 +2089,19 @@ preservation)</li>
 </ul>
 </div>
 </li>
-<li><a id="org2dc6cf5"></a><a href="https://forum.hdfgroup.org/t/save-related-data/8680">Save related data</a><br /></li>
+<li><a id="org06a09a6"></a><a href="https://forum.hdfgroup.org/t/save-related-data/8680">Save related data</a><br /></li>
 </ul>
 </li>
 </ul>
 </div>
 
-<div id="outline-container-orgb4ab91e" class="outline-3">
-<h3 id="orgb4ab91e">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-orgb4ab91e">
+<div id="outline-container-org7d5978d" class="outline-3">
+<h3 id="org7d5978d">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org7d5978d">
 </div>
 <ul class="org-ul">
-<li><a id="org5c03cde"></a>HDF5 ecosystem: HDFql<br />
-<div class="outline-text-4" id="text-org5c03cde">
+<li><a id="orgc75b0ff"></a>HDF5 ecosystem: HDFql<br />
+<div class="outline-text-4" id="text-orgc75b0ff">
 <ul class="org-ul">
 <li>HDFql = Hierarchical Data Format query language</li>
 <li>High-level and <i>declarative</i></li>
@@ -1888,8 +2115,8 @@ Python, C#, Fortran, R)</li>
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="org59501f9"></a>Example<br />
-<div class="outline-text-5" id="text-org59501f9">
+<li><a id="orgd1c6a99"></a>Example<br />
+<div class="outline-text-5" id="text-orgd1c6a99">
 <ul class="org-ul">
 <li>Host language: Fortran</li>
 <li>Find all datasets existing in an HDF5 file named <code>data.h5</code> that start with
@@ -1957,13 +2184,13 @@ SHOW ATTRIBUTE group2 <span style="color: #0000FF;">LIKE</span> **/1|3
 </ul>
 </div>
 
-<div id="outline-container-org446964b" class="outline-3">
-<h3 id="org446964b">Coming soon</h3>
-<div class="outline-text-3" id="text-org446964b">
+<div id="outline-container-org39c6297" class="outline-3">
+<h3 id="org39c6297">Coming soon</h3>
+<div class="outline-text-3" id="text-org39c6297">
 </div>
 <ul class="org-ul">
-<li><a id="org0865d9a"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-org0865d9a">
+<li><a id="org162f4f4"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-org162f4f4">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -1974,30 +2201,30 @@ SHOW ATTRIBUTE group2 <span style="color: #0000FF;">LIKE</span> **/1|3
 </ul>
 </div>
 </li>
-<li><a id="org26e8fe4"></a>Other topics of interest?<br /></li>
+<li><a id="orgb2818b4"></a>Other topics of interest?<br /></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgdf91f16" class="outline-2">
-<h2 id="orgdf91f16">Clinic 2021-06-29</h2>
-<div class="outline-text-2" id="text-orgdf91f16">
+<div id="outline-container-orgf2eb8e5" class="outline-2">
+<h2 id="orgf2eb8e5">Clinic 2021-06-29</h2>
+<div class="outline-text-2" id="text-orgf2eb8e5">
 </div>
-<div id="outline-container-orgc4ba03c" class="outline-3">
-<h3 id="orgc4ba03c">Your Questions</h3>
-<div class="outline-text-3" id="text-orgc4ba03c">
+<div id="outline-container-orgb24bb71" class="outline-3">
+<h3 id="orgb24bb71">Your Questions</h3>
+<div class="outline-text-3" id="text-orgb24bb71">
 <dl class="org-dl">
 <dt>Q</dt><dd>Will the HDF5 1.12.1 file locking changes be brought to 1.10.8?</dd>
 </dl>
 </div>
 </div>
 
-<div id="outline-container-orgc9efe5b" class="outline-3">
-<h3 id="orgc9efe5b">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgc9efe5b">
+<div id="outline-container-org27b7120" class="outline-3">
+<h3 id="org27b7120">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org27b7120">
 </div>
 <ul class="org-ul">
-<li><a id="org1481fb6"></a>Announcements<br />
-<div class="outline-text-4" id="text-org1481fb6">
+<li><a id="org71f7254"></a>Announcements<br />
+<div class="outline-text-4" id="text-org71f7254">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/european-hdf-users-group-hug-summer-2021-july-7-8-2021/8632">European HDF Users Group (HUG) Summer 2021 July 7-8, 2021</a>
 <ul class="org-ul">
@@ -2016,35 +2243,35 @@ SHOW ATTRIBUTE group2 <span style="color: #0000FF;">LIKE</span> **/1|3
 </ul>
 </div>
 </li>
-<li><a id="orgb15cc41"></a>Forum<br />
+<li><a id="org688d2d3"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org52daff9"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
-<div class="outline-text-5" id="text-org52daff9">
+<li><a id="org44408f3"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
+<div class="outline-text-5" id="text-org44408f3">
 <ul class="org-ul">
 <li>What small changes would make a big difference in your HDF5 workflow?</li>
 <li>Chime in!</li>
 </ul>
 </div>
 </li>
-<li><a id="org5373669"></a><a href="https://forum.hdfgroup.org/t/hdf5-performance/8622">HDF5 Performance</a><br />
-<div class="outline-text-5" id="text-org5373669">
+<li><a id="orgefda785"></a><a href="https://forum.hdfgroup.org/t/hdf5-performance/8622">HDF5 Performance</a><br />
+<div class="outline-text-5" id="text-orgefda785">
 <ul class="org-ul">
 <li>User is seeing decent performance w/ packet tables <code>H5PT</code></li>
 <li>Issue w/ deleting links (?)</li>
 </ul>
 </div>
 </li>
-<li><a id="org2a202ce"></a><a href="https://forum.hdfgroup.org/t/local-hsds-performance-vs-local-hdf5-files/8652">Local HSDS performance vs local HDF5 files</a><br /></li>
-<li><a id="org6daa4cf"></a><a href="https://forum.hdfgroup.org/t/hdfview-should-default-to-read-only-open/4584">HDFView should default to read-only open</a><br />
-<div class="outline-text-5" id="text-org6daa4cf">
+<li><a id="org48c4947"></a><a href="https://forum.hdfgroup.org/t/local-hsds-performance-vs-local-hdf5-files/8652">Local HSDS performance vs local HDF5 files</a><br /></li>
+<li><a id="org5146b31"></a><a href="https://forum.hdfgroup.org/t/hdfview-should-default-to-read-only-open/4584">HDFView should default to read-only open</a><br />
+<div class="outline-text-5" id="text-org5146b31">
 <ul class="org-ul">
 <li>Yes!</li>
 <li>Too many options? Sloppy testing?</li>
 </ul>
 </div>
 </li>
-<li><a id="org542259f"></a><a href="https://forum.hdfgroup.org/t/hdf-port-to-rust/8639">HDF - port to Rust</a><br />
-<div class="outline-text-5" id="text-org542259f">
+<li><a id="org857ace2"></a><a href="https://forum.hdfgroup.org/t/hdf-port-to-rust/8639">HDF - port to Rust</a><br />
+<div class="outline-text-5" id="text-org857ace2">
 <ul class="org-ul">
 <li>Not a bad idea: a BIG job</li>
 <li>Perhaps not a replacement for the C implementation (How many systems have a
@@ -2059,28 +2286,28 @@ language bindings for HDF5</a></li>
 </ul>
 </div>
 
-<div id="outline-container-org1651f7d" class="outline-3">
-<h3 id="org1651f7d">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org1651f7d">
+<div id="outline-container-org27a5454" class="outline-3">
+<h3 id="org27a5454">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org27a5454">
 </div>
 <ul class="org-ul">
-<li><a id="org120301d"></a>How do I delete an HDF5 item?<br />
-<div class="outline-text-4" id="text-org120301d">
+<li><a id="org10691ba"></a>How do I delete an HDF5 item?<br />
+<div class="outline-text-4" id="text-org10691ba">
 <ul class="org-ul">
 <li>HDF5 item = something a user created and that gets stored in an HDF5 file</li>
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="org148dc0d"></a>High-level view<br />
-<div class="outline-text-5" id="text-org148dc0d">
+<li><a id="orgcabc8c8"></a>High-level view<br />
+<div class="outline-text-5" id="text-orgcabc8c8">
 <ul class="org-ul">
 <li>Attributes - <a href="https://portal.hdfgroup.org/display/HDF5/H5A_DELETE"><code>H5Adelete*</code></a></li>
 <li>Objects (groups, datasets, named datatypes) - <a href="https://portal.hdfgroup.org/display/HDF5/H5L_DELETE"><code>H5Ldelete*</code></a></li>
 </ul>
 </div>
 </li>
-<li><a id="org78c740f"></a>Low-level view<br />
-<div class="outline-text-5" id="text-org78c740f">
+<li><a id="org725db4b"></a>Low-level view<br />
+<div class="outline-text-5" id="text-org725db4b">
 <ul class="org-ul">
 <li>Objects are <i>reference-counted</i> (in the object OHDR in the file!)</li>
 <li>A positive reference count means the object is considered <i>in-use</i> or
@@ -2136,13 +2363,13 @@ come back next time with a <span class="underline">question</span>!</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-orgad41dff" class="outline-3">
-<h3 id="orgad41dff">Coming soon</h3>
-<div class="outline-text-3" id="text-orgad41dff">
+<div id="outline-container-org349b229" class="outline-3">
+<h3 id="org349b229">Coming soon</h3>
+<div class="outline-text-3" id="text-org349b229">
 </div>
 <ul class="org-ul">
-<li><a id="orgac96095"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-orgac96095">
+<li><a id="orgf2c7e13"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-orgf2c7e13">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -2153,17 +2380,17 @@ come back next time with a <span class="underline">question</span>!</li>
 </ul>
 </div>
 </li>
-<li><a id="orgf340fe3"></a>Other topics of interest?<br /></li>
+<li><a id="org43312a3"></a>Other topics of interest?<br /></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge84acb1" class="outline-2">
-<h2 id="orge84acb1">Clinic 2021-06-22</h2>
-<div class="outline-text-2" id="text-orge84acb1">
+<div id="outline-container-orgd72a81e" class="outline-2">
+<h2 id="orgd72a81e">Clinic 2021-06-22</h2>
+<div class="outline-text-2" id="text-orgd72a81e">
 </div>
-<div id="outline-container-orgc815774" class="outline-3">
-<h3 id="orgc815774">Your Questions</h3>
-<div class="outline-text-3" id="text-orgc815774">
+<div id="outline-container-org83fba48" class="outline-3">
+<h3 id="org83fba48">Your Questions</h3>
+<div class="outline-text-3" id="text-org83fba48">
 <dl class="org-dl">
 <dt>Q</dt><dd>What is the CacheVOL and what can I do with it? How can I use node-local
 storage on an HPC system?
@@ -2181,13 +2408,13 @@ storage on an HPC system?
 </dl>
 </div>
 </div>
-<div id="outline-container-orgabd51fc" class="outline-3">
-<h3 id="orgabd51fc">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgabd51fc">
+<div id="outline-container-orgc451670" class="outline-3">
+<h3 id="orgc451670">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orgc451670">
 </div>
 <ul class="org-ul">
-<li><a id="orga5f4094"></a>Announcements<br />
-<div class="outline-text-4" id="text-orga5f4094">
+<li><a id="org486d8be"></a>Announcements<br />
+<div class="outline-text-4" id="text-org486d8be">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/european-hdf-users-group-hug-summer-2021-july-7-8-2021/8632">European HDF Users Group (HUG) Summer 2021 July 7-8, 2021</a>
 <ul class="org-ul">
@@ -2207,18 +2434,18 @@ storage on an HPC system?
 </ul>
 </div>
 </li>
-<li><a id="org2bb7e3c"></a>Forum<br />
+<li><a id="org7c8259a"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org35726e1"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
-<div class="outline-text-5" id="text-org35726e1">
+<li><a id="org1e0c3c4"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
+<div class="outline-text-5" id="text-org1e0c3c4">
 <ul class="org-ul">
 <li>What small changes would make a big difference in your HDF5 workflow?</li>
 <li>Chime in!</li>
 </ul>
 </div>
 </li>
-<li><a id="org6ea5296"></a><a href="https://forum.hdfgroup.org/t/hdf5-performance/8622">HDF5 Performance</a><br />
-<div class="outline-text-5" id="text-org6ea5296">
+<li><a id="org9053430"></a><a href="https://forum.hdfgroup.org/t/hdf5-performance/8622">HDF5 Performance</a><br />
+<div class="outline-text-5" id="text-org9053430">
 <ul class="org-ul">
 <li>Slowdown w/ a lot of attributes (10K, 100K, &#x2026;)</li>
 <li>Slight improvement w/ a low-level fix (see below)</li>
@@ -2230,13 +2457,13 @@ storage on an HPC system?
 </li>
 </ul>
 </div>
-<div id="outline-container-org457595a" class="outline-3">
-<h3 id="org457595a">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org457595a">
+<div id="outline-container-org476d705" class="outline-3">
+<h3 id="org476d705">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org476d705">
 </div>
 <ul class="org-ul">
-<li><a id="org1d3520c"></a>How do I use a newer HDF5 file format?<br />
-<div class="outline-text-4" id="text-org1d3520c">
+<li><a id="org73e141f"></a>How do I use a newer HDF5 file format?<br />
+<div class="outline-text-4" id="text-org73e141f">
 <ul class="org-ul">
 <li>Versions
 <ul class="org-ul">
@@ -2312,13 +2539,13 @@ earliest library version</li>
 </ul>
 </div>
 
-<div id="outline-container-orga423cd6" class="outline-3">
-<h3 id="orga423cd6">Coming soon</h3>
-<div class="outline-text-3" id="text-orga423cd6">
+<div id="outline-container-org69d7be3" class="outline-3">
+<h3 id="org69d7be3">Coming soon</h3>
+<div class="outline-text-3" id="text-org69d7be3">
 </div>
 <ul class="org-ul">
-<li><a id="orgdcef74a"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-orgdcef74a">
+<li><a id="orgedc7339"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-orgedc7339">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -2329,17 +2556,17 @@ earliest library version</li>
 </ul>
 </div>
 </li>
-<li><a id="org449e700"></a>Other topics of interest?<br /></li>
+<li><a id="org2c4e7d7"></a>Other topics of interest?<br /></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org6f805dd" class="outline-2">
-<h2 id="org6f805dd">Clinic 2021-06-15</h2>
-<div class="outline-text-2" id="text-org6f805dd">
+<div id="outline-container-orga12c931" class="outline-2">
+<h2 id="orga12c931">Clinic 2021-06-15</h2>
+<div class="outline-text-2" id="text-orga12c931">
 </div>
-<div id="outline-container-org2c540ef" class="outline-3">
-<h3 id="org2c540ef">Your Questions</h3>
-<div class="outline-text-3" id="text-org2c540ef">
+<div id="outline-container-orgc36fc68" class="outline-3">
+<h3 id="orgc36fc68">Your Questions</h3>
+<div class="outline-text-3" id="text-orgc36fc68">
 <ul class="org-ul">
 <li>CacheVOL
 <ul class="org-ul">
@@ -2349,13 +2576,13 @@ earliest library version</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf98f030" class="outline-3">
-<h3 id="orgf98f030">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgf98f030">
+<div id="outline-container-org3f34f12" class="outline-3">
+<h3 id="org3f34f12">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org3f34f12">
 </div>
 <ul class="org-ul">
-<li><a id="org09e41dc"></a>Announcements<br />
-<div class="outline-text-4" id="text-org09e41dc">
+<li><a id="org9a811cc"></a>Announcements<br />
+<div class="outline-text-4" id="text-org9a811cc">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a>
 <ul class="org-ul">
@@ -2370,19 +2597,19 @@ earliest library version</li>
 </ul>
 </div>
 </li>
-<li><a id="orgd098ef5"></a>Forum<br />
+<li><a id="orge5a238c"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org13cfa03"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
-<div class="outline-text-5" id="text-org13cfa03">
+<li><a id="org818509f"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
+<div class="outline-text-5" id="text-org818509f">
 <ul class="org-ul">
 <li>What small changes would make a big difference in your HDF5 workflow?</li>
 <li>Chime in!</li>
 </ul>
 </div>
 </li>
-<li><a id="org4a4d0b4"></a><a href="https://forum.hdfgroup.org/t/issue-unlocking-hdf5-file/8552">Issue unlocking HDF5 file?</a><br /></li>
-<li><a id="org9fcabf0"></a><a href="https://forum.hdfgroup.org/t/access-to-miscellaneous-dataset-information-get-size-of-compressed-dataset/8582">Access to ‘miscellaneous dataset information’/get size of compressed dataset</a><br />
-<div class="outline-text-5" id="text-org9fcabf0">
+<li><a id="orgb70f5dd"></a><a href="https://forum.hdfgroup.org/t/issue-unlocking-hdf5-file/8552">Issue unlocking HDF5 file?</a><br /></li>
+<li><a id="org388c911"></a><a href="https://forum.hdfgroup.org/t/access-to-miscellaneous-dataset-information-get-size-of-compressed-dataset/8582">Access to ‘miscellaneous dataset information’/get size of compressed dataset</a><br />
+<div class="outline-text-5" id="text-org388c911">
 <ul class="org-ul">
 <li><p>
 Aleksandar's <code>h5py</code> example:
@@ -2415,15 +2642,15 @@ Aleksandar's <code>h5py</code> example:
 </ul>
 </div>
 
-<div id="outline-container-org43c8802" class="outline-3">
-<h3 id="org43c8802">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org43c8802">
+<div id="outline-container-orge4f9a0c" class="outline-3">
+<h3 id="orge4f9a0c">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orge4f9a0c">
 </div>
 <ul class="org-ul">
-<li><a id="orgb6dc306"></a>File Locking (Dana Robinson)<br />
+<li><a id="orgbb17a75"></a>File Locking (Dana Robinson)<br />
 <ul class="org-ul">
-<li><a id="org9949308"></a>Outline<br />
-<div class="outline-text-5" id="text-org9949308">
+<li><a id="org24fa3c8"></a>Outline<br />
+<div class="outline-text-5" id="text-org24fa3c8">
 <p>
 The basic file locking algorithm is simple:
 </p>
@@ -2437,8 +2664,8 @@ The basic file locking algorithm is simple:
 </div>
 </li>
 
-<li><a id="orga2d53f2"></a>Architecture<br />
-<div class="outline-text-5" id="text-orga2d53f2">
+<li><a id="orgc07ec93"></a>Architecture<br />
+<div class="outline-text-5" id="text-orgc07ec93">
 <p>
 File locking is handled in the native HDF5 virtual object layer (VOL) connector,
 so other VOL connectors (REST, etc.) don't do any locking.
@@ -2467,8 +2694,8 @@ The MPI-IO VFD, as you might expect, ignores file locking.
 </div>
 </li>
 
-<li><a id="orgd4ff84a"></a>SWMR<br />
-<div class="outline-text-5" id="text-orgd4ff84a">
+<li><a id="org87e4ea8"></a>SWMR<br />
+<div class="outline-text-5" id="text-org87e4ea8">
 <p>
 The <code>H5Fstart_swmr_write()</code> API call will unlock the file after it flushes
 everything in memory.
@@ -2491,13 +2718,13 @@ file is closed. If the writer crashes, you can remove the mark using the
 </div>
 </li>
 
-<li><a id="orgf90c7fd"></a>UNIX/Linux, Non-Windows<br />
-<div class="outline-text-5" id="text-orgf90c7fd">
+<li><a id="org51d6345"></a>UNIX/Linux, Non-Windows<br />
+<div class="outline-text-5" id="text-org51d6345">
 <p>
 Compile time option:
 </p>
 
-<pre class="example" id="org2c32019">
+<pre class="example" id="orgc74f409">
 --enable-file-locking=(yes|no|best-effort)
                         Sets the default for whether or not to use file
                         locking when opening files. Can be overridden with
@@ -2532,8 +2759,8 @@ permissions and <code>F_RDLCK</code> with read-only.
 </div>
 </li>
 
-<li><a id="org53505d8"></a>Windows<br />
-<div class="outline-text-5" id="text-org53505d8">
+<li><a id="orgce1d03b"></a>Windows<br />
+<div class="outline-text-5" id="text-orgce1d03b">
 <p>
 There is no locking on Windows systems since the Windows POSIX layer doesn't
 support that. File locking on Windows is just a no-op (as opposed to failing, as
@@ -2554,8 +2781,8 @@ See below for an update!
 </div>
 </li>
 
-<li><a id="org9521a85"></a>Summary<br />
-<div class="outline-text-5" id="text-org9521a85">
+<li><a id="org0633881"></a>Summary<br />
+<div class="outline-text-5" id="text-org0633881">
 <p>
 File locking is only implemented to help prevent users from accessing files when
 SWMR write ordering is not turned on (or when we're doing the superblock
@@ -2565,13 +2792,13 @@ instead based on write ordering.
 </div>
 </li>
 
-<li><a id="org3504fd0"></a>Hot off the press<br />
-<div class="outline-text-5" id="text-org3504fd0">
+<li><a id="org0a9a73f"></a>Hot off the press<br />
+<div class="outline-text-5" id="text-org0a9a73f">
 <p>
 In the 1.12.1-6-rc2 release notes, we find this entry:
 </p>
 
-<pre class="example" id="org75e142e">
+<pre class="example" id="orgd681ff4">
 
 • File locking updates:
 
@@ -2589,13 +2816,13 @@ Adds HDF5_USE_FILE_LOCKING and HDF5_IGNORE_DISABLED_FILE_LOCKS to CMake
 </ul>
 </div>
 
-<div id="outline-container-org2946b64" class="outline-3">
-<h3 id="org2946b64">Coming soon</h3>
-<div class="outline-text-3" id="text-org2946b64">
+<div id="outline-container-org0129f0b" class="outline-3">
+<h3 id="org0129f0b">Coming soon</h3>
+<div class="outline-text-3" id="text-org0129f0b">
 </div>
 <ul class="org-ul">
-<li><a id="orgf1eb537"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-orgf1eb537">
+<li><a id="orgce12fbd"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-orgce12fbd">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -2606,29 +2833,29 @@ Adds HDF5_USE_FILE_LOCKING and HDF5_IGNORE_DISABLED_FILE_LOCKS to CMake
 </ul>
 </div>
 </li>
-<li><a id="org5356074"></a>Other topics of interest?<br /></li>
+<li><a id="org5d5dd3e"></a>Other topics of interest?<br /></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc11963c" class="outline-2">
-<h2 id="orgc11963c">Clinic 2021-06-08</h2>
-<div class="outline-text-2" id="text-orgc11963c">
+<div id="outline-container-org8c5c87c" class="outline-2">
+<h2 id="org8c5c87c">Clinic 2021-06-08</h2>
+<div class="outline-text-2" id="text-org8c5c87c">
 </div>
-<div id="outline-container-org9dffef4" class="outline-3">
-<h3 id="org9dffef4">Your Questions</h3>
-<div class="outline-text-3" id="text-org9dffef4">
+<div id="outline-container-orgdd6f85e" class="outline-3">
+<h3 id="orgdd6f85e">Your Questions</h3>
+<div class="outline-text-3" id="text-orgdd6f85e">
 <p>
 ???
 </p>
 </div>
 </div>
-<div id="outline-container-orga25a205" class="outline-3">
-<h3 id="orga25a205">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orga25a205">
+<div id="outline-container-orgea09a8a" class="outline-3">
+<h3 id="orgea09a8a">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orgea09a8a">
 </div>
 <ul class="org-ul">
-<li><a id="org06b1f38"></a>Announcements<br />
-<div class="outline-text-4" id="text-org06b1f38">
+<li><a id="orgfdc3986"></a>Announcements<br />
+<div class="outline-text-4" id="text-orgfdc3986">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a>
 <ul class="org-ul">
@@ -2639,10 +2866,10 @@ Adds HDF5_USE_FILE_LOCKING and HDF5_IGNORE_DISABLED_FILE_LOCKS to CMake
 </ul>
 </div>
 </li>
-<li><a id="orgf89e5a8"></a>Forum<br />
+<li><a id="org448018b"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org7447220"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
-<div class="outline-text-5" id="text-org7447220">
+<li><a id="org6449997"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
+<div class="outline-text-5" id="text-org6449997">
 <ul class="org-ul">
 <li>What small changes would make a big difference in your HDF5 workflow?</li>
 <li>Great comments already
@@ -2656,25 +2883,25 @@ Adds HDF5_USE_FILE_LOCKING and HDF5_IGNORE_DISABLED_FILE_LOCKS to CMake
 </ul>
 </div>
 </li>
-<li><a id="org9c5c99f"></a><a href="https://forum.hdfgroup.org/t/issue-unlocking-hdf5-file/8552">Issue unlocking HDF5 file?</a><br />
-<div class="outline-text-5" id="text-org9c5c99f">
+<li><a id="orge4ad367"></a><a href="https://forum.hdfgroup.org/t/issue-unlocking-hdf5-file/8552">Issue unlocking HDF5 file?</a><br />
+<div class="outline-text-5" id="text-orge4ad367">
 <ul class="org-ul">
 <li>Case of poor documentation &amp; flip-flopping on our part?</li>
 </ul>
 </div>
 </li>
-<li><a id="orgef3adfd"></a><a href="https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104"><code>H5I_dec_ref</code> hangs</a><br /></li>
+<li><a id="orga1735de"></a><a href="https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104"><code>H5I_dec_ref</code> hangs</a><br /></li>
 </ul>
 </li>
 </ul>
 </div>
-<div id="outline-container-org6b748f4" class="outline-3">
-<h3 id="org6b748f4">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org6b748f4">
+<div id="outline-container-org8184924" class="outline-3">
+<h3 id="org8184924">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org8184924">
 </div>
 <ul class="org-ul">
-<li><a id="org9ea5e8c"></a>Jam-packed HDF5 Files - The HDF5 User Block<br />
-<div class="outline-text-4" id="text-org9ea5e8c">
+<li><a id="orgd3de1ed"></a>Jam-packed HDF5 Files - The HDF5 User Block<br />
+<div class="outline-text-4" id="text-orgd3de1ed">
 <ul class="org-ul">
 <li>"Keeping things together." - mantra
 <ul class="org-ul">
@@ -2691,7 +2918,7 @@ Adds HDF5_USE_FILE_LOCKING and HDF5_IGNORE_DISABLED_FILE_LOCKS to CMake
 Tooling <a href="https://portal.hdfgroup.org/display/HDF5/h5jam+-+h5unjam"><code>h5jam</code>, <code>h5unjam</code></a>
 </p>
 
-<pre class="example" id="orgedba470">
+<pre class="example" id="org02ea81a">
 
   usage: h5jam -i &lt;in_file.h5&gt; -u &lt;in_user_file&gt; [-o &lt;out_file.h5&gt;] [--clobber]
 
@@ -2720,7 +2947,7 @@ Exit Status:
 
 </pre>
 
-<pre class="example" id="org3a98c2c">
+<pre class="example" id="org8e8b6bb">
 
 usage: h5unjam -i &lt;in_file.h5&gt;  [-o &lt;out_file.h5&gt; ] [-u &lt;out_user_file&gt; | --delete]
 
@@ -2759,13 +2986,13 @@ Exit Status:
 </ul>
 </div>
 
-<div id="outline-container-orgbf0448a" class="outline-3">
-<h3 id="orgbf0448a">Coming soon</h3>
-<div class="outline-text-3" id="text-orgbf0448a">
+<div id="outline-container-orge33a34e" class="outline-3">
+<h3 id="orge33a34e">Coming soon</h3>
+<div class="outline-text-3" id="text-orge33a34e">
 </div>
 <ul class="org-ul">
-<li><a id="orgd2f4023"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-orgd2f4023">
+<li><a id="orgd37f16c"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-orgd37f16c">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -2776,17 +3003,17 @@ Exit Status:
 </ul>
 </div>
 </li>
-<li><a id="orgbae1e23"></a>Other topics of interest?<br /></li>
+<li><a id="orgc180850"></a>Other topics of interest?<br /></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org90bac5c" class="outline-2">
-<h2 id="org90bac5c">Clinic 2021-06-01</h2>
-<div class="outline-text-2" id="text-org90bac5c">
+<div id="outline-container-orgbdc45a6" class="outline-2">
+<h2 id="orgbdc45a6">Clinic 2021-06-01</h2>
+<div class="outline-text-2" id="text-orgbdc45a6">
 </div>
-<div id="outline-container-orgc698817" class="outline-3">
-<h3 id="orgc698817">Your Questions</h3>
-<div class="outline-text-3" id="text-orgc698817">
+<div id="outline-container-orgcd42735" class="outline-3">
+<h3 id="orgcd42735">Your Questions</h3>
+<div class="outline-text-3" id="text-orgcd42735">
 <ul class="org-ul">
 <li>Does <code>h5repack</code> have any impact on reading?
 <ul class="org-ul">
@@ -2828,13 +3055,13 @@ around 15:18.</li>
 </div>
 </div>
 
-<div id="outline-container-orgcdde2c2" class="outline-3">
-<h3 id="orgcdde2c2">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgcdde2c2">
+<div id="outline-container-org8b7cdb3" class="outline-3">
+<h3 id="org8b7cdb3">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org8b7cdb3">
 </div>
 <ul class="org-ul">
-<li><a id="orgf7cb938"></a>Announcements<br />
-<div class="outline-text-4" id="text-orgf7cb938">
+<li><a id="org80a8c18"></a>Announcements<br />
+<div class="outline-text-4" id="text-org80a8c18">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a>
 <ul class="org-ul">
@@ -2845,17 +3072,17 @@ around 15:18.</li>
 </ul>
 </div>
 </li>
-<li><a id="orgd827767"></a>Forum<br />
+<li><a id="org98d2b11"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org4d73faa"></a><a href="https://forum.hdfgroup.org/t/hdf5-udf-runs-on-macos/8527">HDF5-UDF runs on macOS!</a><br />
-<div class="outline-text-5" id="text-org4d73faa">
+<li><a id="orgb6fffad"></a><a href="https://forum.hdfgroup.org/t/hdf5-udf-runs-on-macos/8527">HDF5-UDF runs on macOS!</a><br />
+<div class="outline-text-5" id="text-orgb6fffad">
 <ul class="org-ul">
 <li><b>Caveat:</b> <a href="https://www.gnu.org/proprietary/malware-apple.en.html">Apple's Operating Systems Are Malware</a> says <a href="https://www.gnu.org/">FSF</a></li>
 </ul>
 </div>
 </li>
-<li><a id="orgf33baae"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
-<div class="outline-text-5" id="text-orgf33baae">
+<li><a id="orgf4e0189"></a><a href="https://forum.hdfgroup.org/t/hug-2021-hdf5-wishlist/8545">Make a wish!</a><br />
+<div class="outline-text-5" id="text-orgf4e0189">
 <ul class="org-ul">
 <li>What small changes would make a big difference in your HDF5 workflow?</li>
 </ul>
@@ -2865,13 +3092,13 @@ around 15:18.</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-orgbae2047" class="outline-3">
-<h3 id="orgbae2047">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-orgbae2047">
+<div id="outline-container-orgfed2802" class="outline-3">
+<h3 id="orgfed2802">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orgfed2802">
 </div>
 <ul class="org-ul">
-<li><a id="org34617ea"></a>Jam-packed HDF5 Files - The HDF5 User Block<br />
-<div class="outline-text-4" id="text-org34617ea">
+<li><a id="org8468493"></a>Jam-packed HDF5 Files - The HDF5 User Block<br />
+<div class="outline-text-4" id="text-org8468493">
 <ul class="org-ul">
 <li>"Keeping things together." - mantra
 <ul class="org-ul">
@@ -2888,7 +3115,7 @@ around 15:18.</li>
 Tooling <a href="https://portal.hdfgroup.org/display/HDF5/h5jam+-+h5unjam"><code>h5jam</code>, <code>h5unjam</code></a>
 </p>
 
-<pre class="example" id="org72d72d0">
+<pre class="example" id="orga9fb9cf">
 
   usage: h5jam -i &lt;in_file.h5&gt; -u &lt;in_user_file&gt; [-o &lt;out_file.h5&gt;] [--clobber]
 
@@ -2917,7 +3144,7 @@ Exit Status:
 
 </pre>
 
-<pre class="example" id="orgfc3deb0">
+<pre class="example" id="org0341086">
 
 usage: h5unjam -i &lt;in_file.h5&gt;  [-o &lt;out_file.h5&gt; ] [-u &lt;out_user_file&gt; | --delete]
 
@@ -2956,13 +3183,13 @@ Exit Status:
 </ul>
 </div>
 
-<div id="outline-container-org69e6793" class="outline-3">
-<h3 id="org69e6793">Coming soon</h3>
-<div class="outline-text-3" id="text-org69e6793">
+<div id="outline-container-orge3bb3c2" class="outline-3">
+<h3 id="orge3bb3c2">Coming soon</h3>
+<div class="outline-text-3" id="text-orge3bb3c2">
 </div>
 <ul class="org-ul">
-<li><a id="org2601c6e"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-org2601c6e">
+<li><a id="org6b59181"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-org6b59181">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -2973,17 +3200,17 @@ Exit Status:
 </ul>
 </div>
 </li>
-<li><a id="orgf1e37be"></a>Other topics of interest?<br /></li>
+<li><a id="org85ad86c"></a>Other topics of interest?<br /></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org134f7a0" class="outline-2">
-<h2 id="org134f7a0">Clinic 2021-05-25</h2>
-<div class="outline-text-2" id="text-org134f7a0">
+<div id="outline-container-orgbd98b16" class="outline-2">
+<h2 id="orgbd98b16">Clinic 2021-05-25</h2>
+<div class="outline-text-2" id="text-orgbd98b16">
 </div>
-<div id="outline-container-orgad39a75" class="outline-3">
-<h3 id="orgad39a75">Your Questions</h3>
-<div class="outline-text-3" id="text-orgad39a75">
+<div id="outline-container-org0ed62bb" class="outline-3">
+<h3 id="org0ed62bb">Your Questions</h3>
+<div class="outline-text-3" id="text-org0ed62bb">
 <ul class="org-ul">
 <li>Does <code>h5repack</code> have any impact on reading?
 <ul class="org-ul">
@@ -3010,13 +3237,13 @@ around 15:18.</li>
 </div>
 </div>
 
-<div id="outline-container-orgeaef302" class="outline-3">
-<h3 id="orgeaef302">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgeaef302">
+<div id="outline-container-org64d21ae" class="outline-3">
+<h3 id="org64d21ae">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org64d21ae">
 </div>
 <ul class="org-ul">
-<li><a id="org7adf353"></a>Announcements<br />
-<div class="outline-text-4" id="text-org7adf353">
+<li><a id="org8bc96fb"></a>Announcements<br />
+<div class="outline-text-4" id="text-org8bc96fb">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/webinar-announcement-the-hermes-buffering-system-take-two/8493">The Hermes Buffering System - Take Two</a> was <b>POSTPONED</b>
 <ul class="org-ul">
@@ -3031,10 +3258,10 @@ around 15:18.</li>
 </ul>
 </div>
 </li>
-<li><a id="org26daa92"></a>Forum<br />
+<li><a id="org0b1b5a6"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="orgea67610"></a><a href="https://forum.hdfgroup.org/t/zstd-filter-plugin-dictionary-training/8401">Zstd filter plugin &amp; dictionary training</a><br />
-<div class="outline-text-5" id="text-orgea67610">
+<li><a id="orgf74ad16"></a><a href="https://forum.hdfgroup.org/t/zstd-filter-plugin-dictionary-training/8401">Zstd filter plugin &amp; dictionary training</a><br />
+<div class="outline-text-5" id="text-orgf74ad16">
 <ul class="org-ul">
 <li><a href="http://develop.hdf5.info/group___h5_z.html">H5Z life cycle</a></li>
 </ul>
@@ -3044,13 +3271,13 @@ around 15:18.</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-org8760917" class="outline-3">
-<h3 id="org8760917">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org8760917">
+<div id="outline-container-org86642e8" class="outline-3">
+<h3 id="org86642e8">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org86642e8">
 </div>
 <ul class="org-ul">
-<li><a id="org17982ee"></a><code>h5repack</code> - Getting stuff done w/o writing a lot of code<br />
-<div class="outline-text-4" id="text-org17982ee">
+<li><a id="orge851cf6"></a><code>h5repack</code> - Getting stuff done w/o writing a lot of code<br />
+<div class="outline-text-4" id="text-orge851cf6">
 <p>
 Sanity check:
 </p>
@@ -3061,7 +3288,7 @@ Sanity check:
 <p>
 The output should look like this:
 </p>
-<pre class="example" id="orge83e490">
+<pre class="example" id="org52c7d84">
 usage: h5repack [OPTIONS] file1 file2
   file1                    Input HDF5 File
   file2                    Output HDF5 File
@@ -3111,7 +3338,7 @@ usage: h5repack [OPTIONS] file1 file2
 <p>
 There's a lot of stuff to chew over, but let's focus on the examples:
 </p>
-<pre class="example" id="org2351103">
+<pre class="example" id="org461d87d">
 ...
 
 Examples of use:
@@ -3230,13 +3457,13 @@ Let's create some test data and play!
 </ul>
 </div>
 
-<div id="outline-container-org2e43f7e" class="outline-3">
-<h3 id="org2e43f7e">Coming soon</h3>
-<div class="outline-text-3" id="text-org2e43f7e">
+<div id="outline-container-orge94e63e" class="outline-3">
+<h3 id="orge94e63e">Coming soon</h3>
+<div class="outline-text-3" id="text-orge94e63e">
 </div>
 <ul class="org-ul">
-<li><a id="org18b3e73"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-org18b3e73">
+<li><a id="org3170e24"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-org3170e24">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -3247,30 +3474,30 @@ Let's create some test data and play!
 </ul>
 </div>
 </li>
-<li><a id="org20bf8a2"></a>Other topics of interest?<br /></li>
+<li><a id="org3d4b86b"></a>Other topics of interest?<br /></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org28c5d4c" class="outline-2">
-<h2 id="org28c5d4c">Clinic 2021-05-18</h2>
-<div class="outline-text-2" id="text-org28c5d4c">
+<div id="outline-container-orge9effd4" class="outline-2">
+<h2 id="orge9effd4">Clinic 2021-05-18</h2>
+<div class="outline-text-2" id="text-orge9effd4">
 </div>
-<div id="outline-container-org9587331" class="outline-3">
-<h3 id="org9587331">Your Questions</h3>
-<div class="outline-text-3" id="text-org9587331">
+<div id="outline-container-org8a00655" class="outline-3">
+<h3 id="org8a00655">Your Questions</h3>
+<div class="outline-text-3" id="text-org8a00655">
 <p>
 ???
 </p>
 </div>
 </div>
 
-<div id="outline-container-org7afe4db" class="outline-3">
-<h3 id="org7afe4db">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org7afe4db">
+<div id="outline-container-org0915fe1" class="outline-3">
+<h3 id="org0915fe1">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org0915fe1">
 </div>
 <ul class="org-ul">
-<li><a id="org6720e1c"></a>Announcements<br />
-<div class="outline-text-4" id="text-org6720e1c">
+<li><a id="orgac192b1"></a>Announcements<br />
+<div class="outline-text-4" id="text-orgac192b1">
 <ul class="org-ul">
 <li>Recording of <a href="https://www.youtube.com/watch?v=RuBKDW4TNO4">H5Coro: The HDF5 Cloud-Optimized Read-Only Library</a> is available now</li>
 <li><a href="https://forum.hdfgroup.org/t/webinar-announcement-the-hermes-buffering-system-take-two/8493">The Hermes Buffering System - Take Two</a>
@@ -3289,10 +3516,10 @@ Let's create some test data and play!
 </ul>
 </div>
 </li>
-<li><a id="orgc9b54f3"></a>Forum<br />
+<li><a id="org7eaba33"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="orgf679907"></a><a href="https://forum.hdfgroup.org/t/hdf5-udf-2-0-released-udf-signing-trust-profiles-python-bindings-and-more/8486">HDF5-UDF 2.0 released: UDF signing, trust profiles, Python bindings, and more! </a><br />
-<div class="outline-text-5" id="text-orgf679907">
+<li><a id="orgc1c1edd"></a><a href="https://forum.hdfgroup.org/t/hdf5-udf-2-0-released-udf-signing-trust-profiles-python-bindings-and-more/8486">HDF5-UDF 2.0 released: UDF signing, trust profiles, Python bindings, and more! </a><br />
+<div class="outline-text-5" id="text-orgc1c1edd">
 <ul class="org-ul">
 <li>UDF signing</li>
 <li>Library API
@@ -3304,8 +3531,8 @@ Let's create some test data and play!
 </ul>
 </div>
 </li>
-<li><a id="orgf593124"></a><a href="https://forum.hdfgroup.org/t/zlib-ng-works-with-hdf5/8477">Zlib-ng works with HDF5</a><br />
-<div class="outline-text-5" id="text-orgf593124">
+<li><a id="org2ad4562"></a><a href="https://forum.hdfgroup.org/t/zlib-ng-works-with-hdf5/8477">Zlib-ng works with HDF5</a><br />
+<div class="outline-text-5" id="text-org2ad4562">
 <ul class="org-ul">
 <li>More anecdotal evidence of performance improvements</li>
 <li>Begs a maintenance question: Should we/ can we support multiple
@@ -3313,8 +3540,8 @@ implementations of the same filter?</li>
 </ul>
 </div>
 </li>
-<li><a id="orgf898f5c"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
-<div class="outline-text-5" id="text-orgf898f5c">
+<li><a id="orgba23ef3"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
+<div class="outline-text-5" id="text-orgba23ef3">
 <ul class="org-ul">
 <li><a href="http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/_r_m.html">Current version</a></li>
 <li>Life cycle entries - are they helpful?</li>
@@ -3326,21 +3553,21 @@ implementations of the same filter?</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-orgd0f0b01" class="outline-3">
-<h3 id="orgd0f0b01">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-orgd0f0b01">
+<div id="outline-container-org413ab3b" class="outline-3">
+<h3 id="org413ab3b">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org413ab3b">
 </div>
 <ul class="org-ul">
-<li><a id="org930e00f"></a>When should you consider using chunked layout for a dataset?<br />
-<div class="outline-text-4" id="text-org930e00f">
+<li><a id="org50754ef"></a>When should you consider using chunked layout for a dataset?<br />
+<div class="outline-text-4" id="text-org50754ef">
 <p>
 "Consider" means that you should also consider <i>alternatives</i>. None of the items
 listed below mandates chunked layout.
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="orgf74b7d7"></a>Considerations<br />
-<div class="outline-text-5" id="text-orgf74b7d7">
+<li><a id="org127e47d"></a>Considerations<br />
+<div class="outline-text-5" id="text-org127e47d">
 <ul class="org-ul">
 <li>I would like to use a compression or other filter w/ my data</li>
 <li>I cannot know/estimate the data size in advance</li>
@@ -3349,8 +3576,8 @@ listed below mandates chunked layout.
 </ul>
 </div>
 </li>
-<li><a id="orgbd59dd2"></a>Caveats<br />
-<div class="outline-text-5" id="text-orgbd59dd2">
+<li><a id="org21231db"></a>Caveats<br />
+<div class="outline-text-5" id="text-org21231db">
 <ul class="org-ul">
 <li>What's a good chunk size?</li>
 <li>Is my chunk cache the right size?</li>
@@ -3360,8 +3587,8 @@ listed below mandates chunked layout.
 </ul>
 </div>
 </li>
-<li><a id="orgc2b714a"></a>Experimentation<br />
-<div class="outline-text-5" id="text-orgc2b714a">
+<li><a id="orgd4a0d9c"></a>Experimentation<br />
+<div class="outline-text-5" id="text-orgd4a0d9c">
 <ul class="org-ul">
 <li><b>Don't waste your time writing a lot of code!</b>
 <ul class="org-ul">
@@ -3376,13 +3603,13 @@ C++ that exist thanks to the HDF community</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-orgf38e62d" class="outline-3">
-<h3 id="orgf38e62d">Coming soon</h3>
-<div class="outline-text-3" id="text-orgf38e62d">
+<div id="outline-container-org227640b" class="outline-3">
+<h3 id="org227640b">Coming soon</h3>
+<div class="outline-text-3" id="text-org227640b">
 </div>
 <ul class="org-ul">
-<li><a id="orgbd39be8"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-orgbd39be8">
+<li><a id="orge983097"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-orge983097">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -3393,17 +3620,17 @@ C++ that exist thanks to the HDF community</li>
 </ul>
 </div>
 </li>
-<li><a id="orgaf31bfb"></a>Other topics of interest?<br /></li>
+<li><a id="org5c92144"></a>Other topics of interest?<br /></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org228f815" class="outline-2">
-<h2 id="org228f815">Clinic 2021-05-11</h2>
-<div class="outline-text-2" id="text-org228f815">
+<div id="outline-container-org37c8938" class="outline-2">
+<h2 id="org37c8938">Clinic 2021-05-11</h2>
+<div class="outline-text-2" id="text-org37c8938">
 </div>
-<div id="outline-container-org2029328" class="outline-3">
-<h3 id="org2029328">Your Questions</h3>
-<div class="outline-text-3" id="text-org2029328">
+<div id="outline-container-orgf1d627b" class="outline-3">
+<h3 id="orgf1d627b">Your Questions</h3>
+<div class="outline-text-3" id="text-orgf1d627b">
 <ul class="org-ul">
 <li>Where is the page that I'm showing?</li>
 <li>How did we prepare the webinar radial diagrams?
@@ -3416,13 +3643,13 @@ C++ that exist thanks to the HDF community</li>
 </div>
 </div>
 
-<div id="outline-container-org32b9e4c" class="outline-3">
-<h3 id="org32b9e4c">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org32b9e4c">
+<div id="outline-container-orga4ed565" class="outline-3">
+<h3 id="orga4ed565">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orga4ed565">
 </div>
 <ul class="org-ul">
-<li><a id="org097603e"></a>Announcements<br />
-<div class="outline-text-4" id="text-org097603e">
+<li><a id="org9fad6fd"></a>Announcements<br />
+<div class="outline-text-4" id="text-org9fad6fd">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/webinar-announcement-h5coro-the-hdf5-cloud-optimized-read-only-library/8429">H5Coro: The HDF5 Cloud-Optimized Read-Only Library</a>
 <ul class="org-ul">
@@ -3439,10 +3666,10 @@ C++ that exist thanks to the HDF community</li>
 </div>
 </li>
 
-<li><a id="orgffc1ddc"></a>Forum<br />
+<li><a id="org7ce224a"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org405d677"></a><a href="https://forum.hdfgroup.org/t/zlib-ng-works-with-hdf5/8477">Zlib-ng works with HDF5</a><br />
-<div class="outline-text-5" id="text-org405d677">
+<li><a id="org1e497b8"></a><a href="https://forum.hdfgroup.org/t/zlib-ng-works-with-hdf5/8477">Zlib-ng works with HDF5</a><br />
+<div class="outline-text-5" id="text-org1e497b8">
 <ul class="org-ul">
 <li>New <code>zlib</code> implementation appears to work w/ HDF5</li>
 <li>Much better performance according to the post</li>
@@ -3450,8 +3677,8 @@ C++ that exist thanks to the HDF community</li>
 </ul>
 </div>
 </li>
-<li><a id="orgb5cd43f"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
-<div class="outline-text-5" id="text-orgb5cd43f">
+<li><a id="orgfa03cad"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
+<div class="outline-text-5" id="text-orgfa03cad">
 <ul class="org-ul">
 <li><a href="http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/index.html">Current version</a></li>
 <li>Interesting discussion around docs-like-code and maintenance</li>
@@ -3463,23 +3690,23 @@ C++ that exist thanks to the HDF community</li>
 </ul>
 </div>
 </li>
-<li><a id="orgde2988e"></a><a href="https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104"><code>H5Idec_ref</code> hangs</a><br />
-<div class="outline-text-5" id="text-orgde2988e">
+<li><a id="org3dc5c03"></a><a href="https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104"><code>H5Idec_ref</code> hangs</a><br />
+<div class="outline-text-5" id="text-org3dc5c03">
 <ul class="org-ul">
 <li>Showing an example of MPI ranks doing independent writes to different datasets
 w/ MPI-IO VFD</li>
 </ul>
 </div>
 </li>
-<li><a id="org37ecfbb"></a><a href="https://forum.hdfgroup.org/t/hdf5-infinite-loop-closing-library-v1-10-6/8468">HDF5: infinite loop closing library (v1.10.6)</a><br />
-<div class="outline-text-5" id="text-org37ecfbb">
+<li><a id="org5d84407"></a><a href="https://forum.hdfgroup.org/t/hdf5-infinite-loop-closing-library-v1-10-6/8468">HDF5: infinite loop closing library (v1.10.6)</a><br />
+<div class="outline-text-5" id="text-org5d84407">
 <ul class="org-ul">
 <li>We covered file close degrees in clinic no. 10 on <span class="timestamp-wrapper"><span class="timestamp">[2021-04-20 Tue]</span></span></li>
 </ul>
 </div>
 </li>
-<li><a id="org0987ef4"></a><a href="https://forum.hdfgroup.org/t/hdfql-2-3-0-release-with-excel-import-export-support/8132">HDFql 2.3.0 Release (with EXCEL import/export support!)</a><br />
-<div class="outline-text-5" id="text-org0987ef4">
+<li><a id="org5b878d6"></a><a href="https://forum.hdfgroup.org/t/hdfql-2-3-0-release-with-excel-import-export-support/8132">HDFql 2.3.0 Release (with EXCEL import/export support!)</a><br />
+<div class="outline-text-5" id="text-org5b878d6">
 <ul class="org-ul">
 <li>Bugfix for Java <code>ArrayIndexOutOfBoundsException</code> when registering a zero
 element byte array</li>
@@ -3491,13 +3718,13 @@ element byte array</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-org58b295f" class="outline-3">
-<h3 id="org58b295f">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org58b295f">
+<div id="outline-container-orgedccaed" class="outline-3">
+<h3 id="orgedccaed">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orgedccaed">
 </div>
 <ul class="org-ul">
-<li><a id="orgbebe365"></a>Fixed- vs. variable-length string performance cage match<br />
-<div class="outline-text-4" id="text-orgbebe365">
+<li><a id="orgda81311"></a>Fixed- vs. variable-length string performance cage match<br />
+<div class="outline-text-4" id="text-orgda81311">
 <ul class="org-ul">
 <li>Trigger: <a href="https://forum.hdfgroup.org/t/writing-and-reading-variable-length-std-string-in-compound-data-type/8455">Writing and reading variable length std::string in compound data type</a></li>
 <li>Contributed by Steven (Canada Dry) Varga
@@ -3510,13 +3737,13 @@ element byte array</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-orga4cb1fa" class="outline-3">
-<h3 id="orga4cb1fa">Coming soon</h3>
-<div class="outline-text-3" id="text-orga4cb1fa">
+<div id="outline-container-org49b4222" class="outline-3">
+<h3 id="org49b4222">Coming soon</h3>
+<div class="outline-text-3" id="text-org49b4222">
 </div>
 <ul class="org-ul">
-<li><a id="org6370287"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-org6370287">
+<li><a id="org2ffc79b"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-org2ffc79b">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -3527,8 +3754,8 @@ element byte array</li>
 </ul>
 </div>
 </li>
-<li><a id="orgd3f70c3"></a>Other topics of interest?<br />
-<div class="outline-text-4" id="text-orgd3f70c3">
+<li><a id="org6b4d10f"></a>Other topics of interest?<br />
+<div class="outline-text-4" id="text-org6b4d10f">
 <p>
 Let us know!
 </p>
@@ -3537,26 +3764,26 @@ Let us know!
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd82b6ba" class="outline-2">
-<h2 id="orgd82b6ba">Clinic 2021-05-04</h2>
-<div class="outline-text-2" id="text-orgd82b6ba">
+<div id="outline-container-org6e5a218" class="outline-2">
+<h2 id="org6e5a218">Clinic 2021-05-04</h2>
+<div class="outline-text-2" id="text-org6e5a218">
 </div>
-<div id="outline-container-orgda0cd7f" class="outline-3">
-<h3 id="orgda0cd7f">Your Questions</h3>
-<div class="outline-text-3" id="text-orgda0cd7f">
+<div id="outline-container-orga592559" class="outline-3">
+<h3 id="orga592559">Your Questions</h3>
+<div class="outline-text-3" id="text-orga592559">
 <p>
 ???
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgfab1aff" class="outline-3">
-<h3 id="orgfab1aff">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgfab1aff">
+<div id="outline-container-org9783899" class="outline-3">
+<h3 id="org9783899">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org9783899">
 </div>
 <ul class="org-ul">
-<li><a id="orgd26394a"></a>Announcements<br />
-<div class="outline-text-4" id="text-orgd26394a">
+<li><a id="org1cf551e"></a>Announcements<br />
+<div class="outline-text-4" id="text-org1cf551e">
 <ul class="org-ul">
 <li><a href="https://www.youtube.com/watch?v=JEnYLWpBjso">Recording of last week's webinar</a></li>
 <li><a href="https://forum.hdfgroup.org/t/webinar-announcement-h5coro-the-hdf5-cloud-optimized-read-only-library/8429">H5Coro: The HDF5 Cloud-Optimized Read-Only Library</a>
@@ -3574,10 +3801,10 @@ Let us know!
 </div>
 </li>
 
-<li><a id="org5b724bb"></a>Forum<br />
+<li><a id="orgb1d4db3"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org946533b"></a><a href="https://forum.hdfgroup.org/t/how-to-use-h5ocopy-to-copy-a-group-with-hard-links/8443">How to use H5ocopy to copy a group with hard links</a><br />
-<div class="outline-text-5" id="text-org946533b">
+<li><a id="org51fc98b"></a><a href="https://forum.hdfgroup.org/t/how-to-use-h5ocopy-to-copy-a-group-with-hard-links/8443">How to use H5ocopy to copy a group with hard links</a><br />
+<div class="outline-text-5" id="text-org51fc98b">
 <ul class="org-ul">
 <li><a href="https://portal.hdfgroup.org/display/HDF5/H5O_COPY"><code>H5Ocopy</code></a> vs. <a href="https://portal.hdfgroup.org/display/HDF5/H5L_COPY"><code>H5Lcopy</code></a></li>
 <li><a href="https://portal.hdfgroup.org/display/HDF5/H5P_SET_COPY_OBJECT"><code>H5Pset_copy_object</code></a></li>
@@ -3589,13 +3816,13 @@ Let us know!
 </ul>
 </div>
 
-<div id="outline-container-orgd9cd202" class="outline-3">
-<h3 id="orgd9cd202">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-orgd9cd202">
+<div id="outline-container-org9f62af5" class="outline-3">
+<h3 id="org9f62af5">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org9f62af5">
 </div>
 <ul class="org-ul">
-<li><a id="org99b5127"></a>What is <code>H5S_ALL</code> all about?<br />
-<div class="outline-text-4" id="text-org99b5127">
+<li><a id="orgcf59640"></a>What is <code>H5S_ALL</code> all about?<br />
+<div class="outline-text-4" id="text-orgcf59640">
 <div class="org-src-container">
 <pre class="src src-C">
 {
@@ -3655,21 +3882,21 @@ Let us know!
 </ul>
 </div>
 
-<div id="outline-container-org3b2513e" class="outline-3">
-<h3 id="org3b2513e">Coming soon</h3>
-<div class="outline-text-3" id="text-org3b2513e">
+<div id="outline-container-org7c8c888" class="outline-3">
+<h3 id="org7c8c888">Coming soon</h3>
+<div class="outline-text-3" id="text-org7c8c888">
 </div>
 <ul class="org-ul">
-<li><a id="org04e6347"></a>Fixed- vs. variable-length string performance cage match<br />
-<div class="outline-text-4" id="text-org04e6347">
+<li><a id="org2fa65dc"></a>Fixed- vs. variable-length string performance cage match<br />
+<div class="outline-text-4" id="text-org2fa65dc">
 <ul class="org-ul">
 <li>Contributed by Steven (Canada Dry) Varga</li>
 <li>You don't want to miss that one!</li>
 </ul>
 </div>
 </li>
-<li><a id="org4551b4c"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-org4551b4c">
+<li><a id="org0262360"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-org0262360">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -3680,8 +3907,8 @@ Let us know!
 </ul>
 </div>
 </li>
-<li><a id="org5fb665a"></a>Other topics of interest?<br />
-<div class="outline-text-4" id="text-org5fb665a">
+<li><a id="org870b15a"></a>Other topics of interest?<br />
+<div class="outline-text-4" id="text-org870b15a">
 <p>
 Let us know!
 </p>
@@ -3690,17 +3917,17 @@ Let us know!
 </ul>
 </div>
 </div>
-<div id="outline-container-org702a5cf" class="outline-2">
-<h2 id="org702a5cf">Clinic 2021-04-27</h2>
-<div class="outline-text-2" id="text-org702a5cf">
+<div id="outline-container-orgccc09a3" class="outline-2">
+<h2 id="orgccc09a3">Clinic 2021-04-27</h2>
+<div class="outline-text-2" id="text-orgccc09a3">
 </div>
-<div id="outline-container-orgd57288a" class="outline-3">
-<h3 id="orgd57288a">Your questions</h3>
-<div class="outline-text-3" id="text-orgd57288a">
+<div id="outline-container-orgbf9fdc9" class="outline-3">
+<h3 id="orgbf9fdc9">Your questions</h3>
+<div class="outline-text-3" id="text-orgbf9fdc9">
 </div>
 <ul class="org-ul">
-<li><a id="org471acb7"></a>Question 1<br />
-<div class="outline-text-4" id="text-org471acb7">
+<li><a id="orgae21501"></a>Question 1<br />
+<div class="outline-text-4" id="text-orgae21501">
 <blockquote>
 <p>
 Last week you mentioned that one might use the Fortran version of the HDF5
@@ -3716,13 +3943,13 @@ row-major?
 </ul>
 </div>
 
-<div id="outline-container-orgb7043c2" class="outline-3">
-<h3 id="orgb7043c2">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgb7043c2">
+<div id="outline-container-org0fa9540" class="outline-3">
+<h3 id="org0fa9540">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org0fa9540">
 </div>
 <ul class="org-ul">
-<li><a id="org73ce434"></a>Announcements<br />
-<div class="outline-text-4" id="text-org73ce434">
+<li><a id="org463640c"></a>Announcements<br />
+<div class="outline-text-4" id="text-org463640c">
 <ul class="org-ul">
 <li>ECP BOF Day slides are <a href="https://www.hdfgroup.org/wp-content/uploads/2021/04/ECP-HDF5-Comm-BOF-All-Slides.pdf">available</a></li>
 <li>Part 2 of  <a href="https://forum.hdfgroup.org/t/webinar-announcement-hdf5-application-tuning-there-is-more-than-one-way-to-skin-a-cat-fish-part-2/8387">HDF5 Application Tuning</a>
@@ -3744,25 +3971,25 @@ row-major?
 </ul>
 </div>
 </li>
-<li><a id="orgec403b4"></a>Forum<br />
+<li><a id="org3fe9e3b"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="orgb3f0c96"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Doxygen-based RM merged to <code>develop</code></a><br />
-<div class="outline-text-5" id="text-orgb3f0c96">
+<li><a id="org5f76388"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Doxygen-based RM merged to <code>develop</code></a><br />
+<div class="outline-text-5" id="text-org5f76388">
 <ul class="org-ul">
 <li>Pull requests welcome</li>
 <li>Feedback on life cycle intros wanted, e.g., <a href="http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/group___h5_a.html">H5A</a>, <a href="http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/group___h5_d.html">H5D</a>, <a href="http://doxygen.hdf5.s3-website.us-east-2.amazonaws.com/group___h5_f.html">H5F</a></li>
 </ul>
 </div>
 </li>
-<li><a id="orgba8bb8b"></a><a href="https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284">Parallel HDF5 write with irregular size in one dimension</a><br />
-<div class="outline-text-5" id="text-orgba8bb8b">
+<li><a id="org5960ae1"></a><a href="https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284">Parallel HDF5 write with irregular size in one dimension</a><br />
+<div class="outline-text-5" id="text-org5960ae1">
 <ul class="org-ul">
 <li>Rob Latham confirmed an <a href="https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284/10">issue</a> in Darshan's HDF5 module</li>
 </ul>
 </div>
 </li>
-<li><a id="org7645208"></a><a href="https://forum.hdfgroup.org/t/how-to-use-h5ocopy-to-copy-a-group-with-hard-links/8443">How to use H5ocopy to copy a group with hard links</a><br />
-<div class="outline-text-5" id="text-org7645208">
+<li><a id="org05851c8"></a><a href="https://forum.hdfgroup.org/t/how-to-use-h5ocopy-to-copy-a-group-with-hard-links/8443">How to use H5ocopy to copy a group with hard links</a><br />
+<div class="outline-text-5" id="text-org05851c8">
 <ul class="org-ul">
 <li>I don't understand it: are we copying groups or links (or both)?</li>
 </ul>
@@ -3772,14 +3999,14 @@ row-major?
 </li>
 </ul>
 </div>
-<div id="outline-container-org511188d" class="outline-3">
-<h3 id="org511188d">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-org511188d">
+<div id="outline-container-org5bc4219" class="outline-3">
+<h3 id="org5bc4219">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-org5bc4219">
 </div>
 <ul class="org-ul">
-<li><a id="org4067633"></a>The <code>h5stat</code> tool<br />
-<div class="outline-text-5" id="text-org4067633">
-<pre class="example" id="org924a154">
+<li><a id="orgadbd90e"></a>The <code>h5stat</code> tool<br />
+<div class="outline-text-5" id="text-orgadbd90e">
+<pre class="example" id="org57a5fee">
 Usage: h5stat [OPTIONS] file
 
       OPTIONS
@@ -3821,7 +4048,7 @@ Usage: h5stat [OPTIONS] file
 Let's see this in action:
 </p>
 
-<pre class="example" id="orgdf07062">
+<pre class="example" id="org70dd174">
 File information
         # of unique groups: 718
         # of unique datasets: 351
@@ -3947,13 +4174,13 @@ Total space: 9679835 bytes
 </ul>
 </div>
 
-<div id="outline-container-orgf467d17" class="outline-3">
-<h3 id="orgf467d17">Coming soon</h3>
-<div class="outline-text-3" id="text-orgf467d17">
+<div id="outline-container-org9072922" class="outline-3">
+<h3 id="org9072922">Coming soon</h3>
+<div class="outline-text-3" id="text-org9072922">
 </div>
 <ul class="org-ul">
-<li><a id="org43f0fa1"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-org43f0fa1">
+<li><a id="orga69c729"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-orga69c729">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -3964,8 +4191,8 @@ Total space: 9679835 bytes
 </ul>
 </div>
 </li>
-<li><a id="org49f1d7c"></a>Other topics of interest?<br />
-<div class="outline-text-4" id="text-org49f1d7c">
+<li><a id="org7e72aed"></a>Other topics of interest?<br />
+<div class="outline-text-4" id="text-org7e72aed">
 <p>
 Let us know!
 </p>
@@ -3974,20 +4201,20 @@ Let us know!
 </ul>
 </div>
 </div>
-<div id="outline-container-org850ed48" class="outline-2">
-<h2 id="org850ed48">Clinic 2021-04-20</h2>
-<div class="outline-text-2" id="text-org850ed48">
+<div id="outline-container-org2a47622" class="outline-2">
+<h2 id="org2a47622">Clinic 2021-04-20</h2>
+<div class="outline-text-2" id="text-org2a47622">
 </div>
-<div id="outline-container-org2da6ff2" class="outline-3">
-<h3 id="org2da6ff2">Your questions</h3>
+<div id="outline-container-org06f344e" class="outline-3">
+<h3 id="org06f344e">Your questions</h3>
 </div>
-<div id="outline-container-orgc0a4c35" class="outline-3">
-<h3 id="orgc0a4c35">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgc0a4c35">
+<div id="outline-container-orgf1dd672" class="outline-3">
+<h3 id="orgf1dd672">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orgf1dd672">
 </div>
 <ul class="org-ul">
-<li><a id="org8bcf1ee"></a>Announcements<br />
-<div class="outline-text-4" id="text-org8bcf1ee">
+<li><a id="org1564345"></a>Announcements<br />
+<div class="outline-text-4" id="text-org1564345">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/meetingc-online-tool-fair/8417">MeetingC++ online Tool Fair</a> <b>TODAY</b>
 <ul class="org-ul">
@@ -4010,17 +4237,17 @@ Let us know!
 </ul>
 </div>
 </li>
-<li><a id="org0502919"></a>Forum<br />
+<li><a id="org40d3d29"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="orgb9c0e6c"></a><a href="https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284">Parallel HDF5 write with irregular size in one dimension</a><br />
-<div class="outline-text-5" id="text-orgb9c0e6c">
+<li><a id="org75ad419"></a><a href="https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284">Parallel HDF5 write with irregular size in one dimension</a><br />
+<div class="outline-text-5" id="text-org75ad419">
 <ul class="org-ul">
 <li>Potential issue in Darshan's HDF5 module</li>
 </ul>
 </div>
 </li>
-<li><a id="org0436ae0"></a><a href="https://forum.hdfgroup.org/t/independent-datasets-for-mpi-processes-progress/8202">Independent datasets for MPI processes. Progress?</a><br />
-<div class="outline-text-5" id="text-org0436ae0">
+<li><a id="org7f0132a"></a><a href="https://forum.hdfgroup.org/t/independent-datasets-for-mpi-processes-progress/8202">Independent datasets for MPI processes. Progress?</a><br />
+<div class="outline-text-5" id="text-org7f0132a">
 <ul class="org-ul">
 <li>Discussing data life cycle and design options
 <ul class="org-ul">
@@ -4031,16 +4258,16 @@ Let us know!
 </ul>
 </div>
 </li>
-<li><a id="orgdebd1b4"></a><a href="https://forum.hdfgroup.org/t/increases-the-use-of-the-system-ram-until-it-reaches-ram-saturation/8392">Increases the use of the system RAM until it reaches RAM saturation</a><br />
-<div class="outline-text-5" id="text-orgdebd1b4">
+<li><a id="orgc98cdb2"></a><a href="https://forum.hdfgroup.org/t/increases-the-use-of-the-system-ram-until-it-reaches-ram-saturation/8392">Increases the use of the system RAM until it reaches RAM saturation</a><br />
+<div class="outline-text-5" id="text-orgc98cdb2">
 <ul class="org-ul">
 <li>Long running application w/ no apparent handle leakage</li>
 <li><a href="https://valgrind.org/">Valgrind</a></li>
 </ul>
 </div>
 </li>
-<li><a id="org9939240"></a><a href="https://forum.hdfgroup.org/t/calling-fortran-hdf5-function-h5dwrite-f-from-c/8386">Calling fortran HDF5 function h5dwrite<sub>f</sub> from C++</a><br />
-<div class="outline-text-5" id="text-org9939240">
+<li><a id="orgd770fde"></a><a href="https://forum.hdfgroup.org/t/calling-fortran-hdf5-function-h5dwrite-f-from-c/8386">Calling fortran HDF5 function h5dwrite<sub>f</sub> from C++</a><br />
+<div class="outline-text-5" id="text-orgd770fde">
 <ul class="org-ul">
 <li>I'm out of my depth when it comes to Fortran :-(</li>
 </ul>
@@ -4050,13 +4277,13 @@ Let us know!
 </li>
 </ul>
 </div>
-<div id="outline-container-orge1c38f3" class="outline-3">
-<h3 id="orge1c38f3">Tips, tricks, &amp; insights</h3>
-<div class="outline-text-3" id="text-orge1c38f3">
+<div id="outline-container-orga91a801" class="outline-3">
+<h3 id="orga91a801">Tips, tricks, &amp; insights</h3>
+<div class="outline-text-3" id="text-orga91a801">
 </div>
 <ul class="org-ul">
-<li><a id="org6e422fe"></a>Do I need a degree to use <a href="https://portal.hdfgroup.org/display/HDF5/H5P_SET_FCLOSE_DEGREE"><code>H5Pset_fclose_degree</code></a>?<br />
-<div class="outline-text-4" id="text-org6e422fe">
+<li><a id="org95bfe36"></a>Do I need a degree to use <a href="https://portal.hdfgroup.org/display/HDF5/H5P_SET_FCLOSE_DEGREE"><code>H5Pset_fclose_degree</code></a>?<br />
+<div class="outline-text-4" id="text-org95bfe36">
 <ul class="org-ul">
 <li>Identifiers are transient runtime handles to manage HDF5 things</li>
 <li>Everything begins with a file handle, but how does it end?
@@ -4088,13 +4315,13 @@ closed</li>
 </ul>
 </div>
 
-<div id="outline-container-org4f97632" class="outline-3">
-<h3 id="org4f97632">Coming soon</h3>
-<div class="outline-text-3" id="text-org4f97632">
+<div id="outline-container-org90ffd0d" class="outline-3">
+<h3 id="org90ffd0d">Coming soon</h3>
+<div class="outline-text-3" id="text-org90ffd0d">
 </div>
 <ul class="org-ul">
-<li><a id="orgf58017b"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-orgf58017b">
+<li><a id="org5b4dc99"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-org5b4dc99">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -4105,8 +4332,8 @@ closed</li>
 </ul>
 </div>
 </li>
-<li><a id="orga63de96"></a>Other topics of interest?<br />
-<div class="outline-text-4" id="text-orga63de96">
+<li><a id="orgb9b59a4"></a>Other topics of interest?<br />
+<div class="outline-text-4" id="text-orgb9b59a4">
 <p>
 Let us know!
 </p>
@@ -4115,17 +4342,17 @@ Let us know!
 </ul>
 </div>
 </div>
-<div id="outline-container-org75b1c83" class="outline-2">
-<h2 id="org75b1c83">Clinic 2021-04-06</h2>
-<div class="outline-text-2" id="text-org75b1c83">
+<div id="outline-container-org00e75f9" class="outline-2">
+<h2 id="org00e75f9">Clinic 2021-04-06</h2>
+<div class="outline-text-2" id="text-org00e75f9">
 </div>
-<div id="outline-container-orgf47b0b5" class="outline-3">
-<h3 id="orgf47b0b5">Your questions</h3>
-<div class="outline-text-3" id="text-orgf47b0b5">
+<div id="outline-container-org6abbbc2" class="outline-3">
+<h3 id="org6abbbc2">Your questions</h3>
+<div class="outline-text-3" id="text-org6abbbc2">
 </div>
 <ul class="org-ul">
-<li><a id="orgadfa2d7"></a>Question 1<br />
-<div class="outline-text-4" id="text-orgadfa2d7">
+<li><a id="org34e9d4f"></a>Question 1<br />
+<div class="outline-text-4" id="text-org34e9d4f">
 <p>
 We have observed that reading a dataset with variable-length ASCII strings and
 setting the read mem. type to <code>H5T_C_S1 (size=H5T_VARIABLE /
@@ -4153,13 +4380,13 @@ commit on the official GitHub repository. The code was compiled with GCC
 </ul>
 </div>
 
-<div id="outline-container-org47052b3" class="outline-3">
-<h3 id="org47052b3">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org47052b3">
+<div id="outline-container-orga078c17" class="outline-3">
+<h3 id="orga078c17">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orga078c17">
 </div>
 <ul class="org-ul">
-<li><a id="org6f80234"></a>Announcements<br />
-<div class="outline-text-4" id="text-org6f80234">
+<li><a id="orgefca0f1"></a>Announcements<br />
+<div class="outline-text-4" id="text-orgefca0f1">
 <ul class="org-ul">
 <li><a href="https://www.nuget.org/packages/HDF5.NET">Alpha 4 release</a> of <a href="https://github.com/Apollo3zehn/HDF5.NET">HDF5.NET</a>
 <ul class="org-ul">
@@ -4175,10 +4402,10 @@ commit on the official GitHub repository. The code was compiled with GCC
 </div>
 </li>
 
-<li><a id="org6cbdc4e"></a>Forum<br />
+<li><a id="org725ff3a"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org2e96975"></a><a href="https://forum.hdfgroup.org/t/how-can-attributes-of-an-existing-object-be-modified/8319">How can attributes of an existing object be modified?</a><br />
-<div class="outline-text-5" id="text-org2e96975">
+<li><a id="org61c68a4"></a><a href="https://forum.hdfgroup.org/t/how-can-attributes-of-an-existing-object-be-modified/8319">How can attributes of an existing object be modified?</a><br />
+<div class="outline-text-5" id="text-org61c68a4">
 <ul class="org-ul">
 <li>There are several different "namespaces" in HDF5</li>
 <li>Examples:
@@ -4197,8 +4424,8 @@ etc.</li>
 </ul>
 </div>
 </li>
-<li><a id="orgb7df26a"></a><a href="https://forum.hdfgroup.org/t/hdf5dotnet-library/8314">HDF5DotNet library</a><br />
-<div class="outline-text-5" id="text-orgb7df26a">
+<li><a id="orgcabe8c5"></a><a href="https://forum.hdfgroup.org/t/hdf5dotnet-library/8314">HDF5DotNet library</a><br />
+<div class="outline-text-5" id="text-orgcabe8c5">
 <ul class="org-ul">
 <li>There's perhaps a place for wrappers of the HDF5 C-API and and independent .NET native (=full-managed) solution (e.g., <a href="https://github.com/Apollo3zehn/HDF5.NET">HDF5.NET</a>)</li>
 <li><a href="http://swig.org/">SWIG</a> (Simplified Wrapper and Interface Generator) has come a long way
@@ -4212,8 +4439,8 @@ etc.</li>
 </div>
 </li>
 
-<li><a id="orga58421e"></a><a href="https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284">Parallel HDF5 write with irregular size in one dimension</a><br />
-<div class="outline-text-5" id="text-orga58421e">
+<li><a id="orgb9f3e23"></a><a href="https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284">Parallel HDF5 write with irregular size in one dimension</a><br />
+<div class="outline-text-5" id="text-orgb9f3e23">
 <ul class="org-ul">
 <li>Posted an example that shows how different ranks can write varying amounts of
 data to a chunked dataset in parallel. Some ranks don't write any data. The
@@ -4225,13 +4452,13 @@ chunk size is chosen arbitrarily.</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-org9428788" class="outline-3">
-<h3 id="org9428788">Tips &amp; tricks</h3>
-<div class="outline-text-3" id="text-org9428788">
+<div id="outline-container-org1c5d0fe" class="outline-3">
+<h3 id="org1c5d0fe">Tips &amp; tricks</h3>
+<div class="outline-text-3" id="text-org1c5d0fe">
 </div>
 <ul class="org-ul">
-<li><a id="org0a5ac5d"></a>The "mystery" of the HDF5 file format<br />
-<div class="outline-text-4" id="text-org0a5ac5d">
+<li><a id="org1acac8f"></a>The "mystery" of the HDF5 file format<br />
+<div class="outline-text-4" id="text-org1acac8f">
 <ul class="org-ul">
 <li>The specification published <a href="https://portal.hdfgroup.org/display/HDF5/File+Format+Specification">here</a> can seem overwhelming. Part of the problem is
 that you are seeing at least three versions layered on top of each other.</li>
@@ -4245,13 +4472,13 @@ w/ serialization</li>
 </li>
 </ul>
 </div>
-<div id="outline-container-org03b894f" class="outline-3">
-<h3 id="org03b894f">Coming soon</h3>
-<div class="outline-text-3" id="text-org03b894f">
+<div id="outline-container-org65742d7" class="outline-3">
+<h3 id="org65742d7">Coming soon</h3>
+<div class="outline-text-3" id="text-org65742d7">
 </div>
 <ul class="org-ul">
-<li><a id="org0b40a0c"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
-<div class="outline-text-4" id="text-org0b40a0c">
+<li><a id="org331c361"></a>What happens to open HDF5 handles/IDs when your program ends?<br />
+<div class="outline-text-4" id="text-org331c361">
 <ul class="org-ul">
 <li>Suggested by Quincey Koziol (LBNL)</li>
 <li>We'll take it in pieces
@@ -4262,8 +4489,8 @@ w/ serialization</li>
 </ul>
 </div>
 </li>
-<li><a id="orgab03f90"></a>Other topics of interest?<br />
-<div class="outline-text-4" id="text-orgab03f90">
+<li><a id="org9b86baf"></a>Other topics of interest?<br />
+<div class="outline-text-4" id="text-org9b86baf">
 <p>
 Let us know!
 </p>
@@ -4273,34 +4500,34 @@ Let us know!
 </div>
 </div>
 
-<div id="outline-container-orgdd9dfc3" class="outline-2">
-<h2 id="orgdd9dfc3">Clinic 2021-03-30</h2>
-<div class="outline-text-2" id="text-orgdd9dfc3">
+<div id="outline-container-org1c1f20b" class="outline-2">
+<h2 id="org1c1f20b">Clinic 2021-03-30</h2>
+<div class="outline-text-2" id="text-org1c1f20b">
 <p>
 Canceled because of ECP event.
 </p>
 </div>
 </div>
-<div id="outline-container-org9c763b8" class="outline-2">
-<h2 id="org9c763b8">Clinic 2021-03-23</h2>
-<div class="outline-text-2" id="text-org9c763b8">
+<div id="outline-container-org453c04a" class="outline-2">
+<h2 id="org453c04a">Clinic 2021-03-23</h2>
+<div class="outline-text-2" id="text-org453c04a">
 </div>
-<div id="outline-container-org7cf527e" class="outline-3">
-<h3 id="org7cf527e">Your questions</h3>
-<div class="outline-text-3" id="text-org7cf527e">
+<div id="outline-container-org56fe196" class="outline-3">
+<h3 id="org56fe196">Your questions</h3>
+<div class="outline-text-3" id="text-org56fe196">
 <p>
 ???
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgc151444" class="outline-3">
-<h3 id="orgc151444">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgc151444">
+<div id="outline-container-org4be890d" class="outline-3">
+<h3 id="org4be890d">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org4be890d">
 </div>
 <ul class="org-ul">
-<li><a id="org5a84835"></a>Announcements<br />
-<div class="outline-text-4" id="text-org5a84835">
+<li><a id="org28650a5"></a>Announcements<br />
+<div class="outline-text-4" id="text-org28650a5">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/2021-hdf5-user-group-hug21-call-for-papers/8301">2021 HDF5 User Group Call for Papers</a>
 <ul class="org-ul">
@@ -4313,10 +4540,10 @@ Canceled because of ECP event.
 </ul>
 </div>
 </li>
-<li><a id="org7192bd6"></a>Forum<br />
+<li><a id="orgc1ef111"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org4bd4047"></a><a href="https://forum.hdfgroup.org/t/how-to-convert-xml-to-hdf5/8279">How to convert XML to HDF5</a><br />
-<div class="outline-text-5" id="text-org4bd4047">
+<li><a id="org7879142"></a><a href="https://forum.hdfgroup.org/t/how-to-convert-xml-to-hdf5/8279">How to convert XML to HDF5</a><br />
+<div class="outline-text-5" id="text-org7879142">
 <ul class="org-ul">
 <li>There is no <i>canonical</i> conversion path, even if you have an XML schema
 <ul class="org-ul">
@@ -4332,8 +4559,8 @@ nature of certain elements or attributes</li>
 </ul>
 </div>
 </li>
-<li><a id="org37cc2fb"></a><a href="https://forum.hdfgroup.org/t/hdf5dotnet-library/8314">HDF5DotNet library</a><br />
-<div class="outline-text-5" id="text-org37cc2fb">
+<li><a id="org13f9553"></a><a href="https://forum.hdfgroup.org/t/hdf5dotnet-library/8314">HDF5DotNet library</a><br />
+<div class="outline-text-5" id="text-org13f9553">
 <ul class="org-ul">
 <li>It's been out of maintenance for many years</li>
 <li><span class="underline">Alternatives</span>: <a href="https://www.nuget.org/packages/HDF.PInvoke/">HDF.PInvoke</a> (Windows only) and <a href="https://www.nuget.org/packages/HDF.PInvoke.1.10/">HDF.PInvoke.1.10</a> (.NET
@@ -4351,8 +4578,8 @@ community members for advice and contributions.</li>
 </ul>
 </div>
 </li>
-<li><a id="orgf75db6f"></a><a href="https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284">Parallel HDF5 write with irregular size in one dimension</a><br />
-<div class="outline-text-5" id="text-orgf75db6f">
+<li><a id="org7304524"></a><a href="https://forum.hdfgroup.org/t/parallel-hdf5-write-with-irregular-size-in-one-dimension/8284">Parallel HDF5 write with irregular size in one dimension</a><br />
+<div class="outline-text-5" id="text-org7304524">
 <ul class="org-ul">
 <li>Many of our examples s..k, and we have to do a lot better
 <ul class="org-ul">
@@ -4370,13 +4597,13 @@ community members for advice and contributions.</li>
 </ul>
 </div>
 
-<div id="outline-container-orgb3399ce" class="outline-3">
-<h3 id="orgb3399ce">Tips &amp; tricks</h3>
-<div class="outline-text-3" id="text-orgb3399ce">
+<div id="outline-container-org8f8898d" class="outline-3">
+<h3 id="org8f8898d">Tips &amp; tricks</h3>
+<div class="outline-text-3" id="text-org8f8898d">
 </div>
 <ul class="org-ul">
-<li><a id="org01334ba"></a>Large (&gt; 64 KiB) HDF5 attributes<br />
-<div class="outline-text-4" id="text-org01334ba">
+<li><a id="orgbd0c16d"></a>Large (&gt; 64 KiB) HDF5 attributes<br />
+<div class="outline-text-4" id="text-orgbd0c16d">
 <div class="org-src-container">
 <pre class="src src-python">
 <span style="color: #0000FF;">import</span> h5py, numpy <span style="color: #0000FF;">as</span> np
@@ -4392,7 +4619,7 @@ community members for advice and contributions.</li>
 The <code>h5dump</code> output looks like this:
 </p>
 
-<pre class="example" id="orga3ae3cd">
+<pre class="example" id="org2ff18f5">
 
 gerd@guix ~/scratch/run$ h5dump -pBH my.h5
 HDF5 "my.h5" {
@@ -4432,7 +4659,7 @@ GROUP "/" {
 The <code>libver='latest'</code> keyword is critical. Running without produces this error:
 </p>
 
-<pre class="example" id="org55e6859">
+<pre class="example" id="orga380834">
 
 gerd@guix ~/scratch/run$ python3 large_attribute.py
 Traceback (most recent call last):
@@ -4460,26 +4687,26 @@ RuntimeError: Unable to create attribute (object header message is too large)
 </div>
 </div>
 
-<div id="outline-container-orgf147cdd" class="outline-2">
-<h2 id="orgf147cdd">Clinic 2021-03-16</h2>
-<div class="outline-text-2" id="text-orgf147cdd">
+<div id="outline-container-org57b3ffc" class="outline-2">
+<h2 id="org57b3ffc">Clinic 2021-03-16</h2>
+<div class="outline-text-2" id="text-org57b3ffc">
 </div>
-<div id="outline-container-org21322d8" class="outline-3">
-<h3 id="org21322d8">Your questions</h3>
-<div class="outline-text-3" id="text-org21322d8">
+<div id="outline-container-org0a7f70b" class="outline-3">
+<h3 id="org0a7f70b">Your questions</h3>
+<div class="outline-text-3" id="text-org0a7f70b">
 <p>
 ???
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgbc49c1c" class="outline-3">
-<h3 id="orgbc49c1c">Last week's highlights</h3>
-<div class="outline-text-3" id="text-orgbc49c1c">
+<div id="outline-container-org1684bbf" class="outline-3">
+<h3 id="org1684bbf">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org1684bbf">
 </div>
 <ul class="org-ul">
-<li><a id="org76d640c"></a>Announcements<br />
-<div class="outline-text-4" id="text-org76d640c">
+<li><a id="org151af27"></a>Announcements<br />
+<div class="outline-text-4" id="text-org151af27">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/webinar-announcement-hermes-a-distributed-buffering-system-for-heterogeneous-storage-hierarchies/8269">Webinar Announcement: Hermes – A Distributed Buffering System for
 Heterogeneous Storage Hierarchies</a></li>
@@ -4490,18 +4717,18 @@ Heterogeneous Storage Hierarchies</a></li>
 </ul>
 </div>
 </li>
-<li><a id="org5c0531d"></a>Forum<br />
+<li><a id="orge91710a"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org69682db"></a><a href="https://forum.hdfgroup.org/t/multithreaded-writing-to-a-single-file-in-c/8264">Multithreaded writing to a single file in C++ </a><br />
-<div class="outline-text-5" id="text-org69682db">
+<li><a id="orgab06234"></a><a href="https://forum.hdfgroup.org/t/multithreaded-writing-to-a-single-file-in-c/8264">Multithreaded writing to a single file in C++ </a><br />
+<div class="outline-text-5" id="text-orgab06234">
 <ul class="org-ul">
 <li>Beware of non-thread-safe wrappers or language bindings!</li>
 <li>Compiling the C library with <code>--enable-threadsafe</code> is only the first step</li>
 </ul>
 </div>
 </li>
-<li><a id="orgfb776b2"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
-<div class="outline-text-5" id="text-orgfb776b2">
+<li><a id="org34b1dda"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
+<div class="outline-text-5" id="text-org34b1dda">
 <ul class="org-ul">
 <li>Making good progress; see <a href="https://github.com/HDFGroup/hdf5/tree/doxygen2">GitHub</a> and <a href="https://hdf5.io/develop/index.html">preview</a></li>
 <li>What do you think?</li>
@@ -4518,8 +4745,8 @@ Heterogeneous Storage Hierarchies</a></li>
 </ul>
 </div>
 </li>
-<li><a id="org6ede4c3"></a><a href="https://forum.hdfgroup.org/t/h5i-get-name-call-is-very-slow-for-hdf5-file-5-gb/8246"><code>H5Iget_name</code> call is very slow for HDF5 file &gt; 5 GB</a><br />
-<div class="outline-text-5" id="text-org6ede4c3">
+<li><a id="orge2a24fc"></a><a href="https://forum.hdfgroup.org/t/h5i-get-name-call-is-very-slow-for-hdf5-file-5-gb/8246"><code>H5Iget_name</code> call is very slow for HDF5 file &gt; 5 GB</a><br />
+<div class="outline-text-5" id="text-orge2a24fc">
 <ul class="org-ul">
 <li><a href="https://portal.hdfgroup.org/display/HDF5/H5I_GET_NAME"><code>H5Iget_name</code></a> constructs <i>an</i> HDF5 path name given an object identifier
 <ul class="org-ul">
@@ -4576,13 +4803,13 @@ been linked to groups in the file. i.e., no path yet)
 </ul>
 </div>
 
-<div id="outline-container-orgdbc1839" class="outline-3">
-<h3 id="orgdbc1839">Tips &amp; tricks</h3>
-<div class="outline-text-3" id="text-orgdbc1839">
+<div id="outline-container-org8e58fa7" class="outline-3">
+<h3 id="org8e58fa7">Tips &amp; tricks</h3>
+<div class="outline-text-3" id="text-org8e58fa7">
 </div>
 <ul class="org-ul">
-<li><a id="org87b83ef"></a>How to open an HDF5 in append mode?<br />
-<div class="outline-text-4" id="text-org87b83ef">
+<li><a id="org71eb5a4"></a>How to open an HDF5 in append mode?<br />
+<div class="outline-text-4" id="text-org71eb5a4">
 <p>
 To be clear, there is no <code>H5F*</code> call that behaves like an append call. But we
 can mimic one as follows:
@@ -4620,17 +4847,17 @@ will kick in.
 </div>
 </div>
 
-<div id="outline-container-org11cda1d" class="outline-2">
-<h2 id="org11cda1d">Clinic 2021-03-09</h2>
-<div class="outline-text-2" id="text-org11cda1d">
+<div id="outline-container-org189c928" class="outline-2">
+<h2 id="org189c928">Clinic 2021-03-09</h2>
+<div class="outline-text-2" id="text-org189c928">
 </div>
-<div id="outline-container-org719c31a" class="outline-3">
-<h3 id="org719c31a">Your questions (as of 9:00 a.m. Central Time)</h3>
-<div class="outline-text-3" id="text-org719c31a">
+<div id="outline-container-org68c40c0" class="outline-3">
+<h3 id="org68c40c0">Your questions (as of 9:00 a.m. Central Time)</h3>
+<div class="outline-text-3" id="text-org68c40c0">
 </div>
 <ul class="org-ul">
-<li><a id="org83c054b"></a>Question 1<br />
-<div class="outline-text-4" id="text-org83c054b">
+<li><a id="org202b898"></a>Question 1<br />
+<div class="outline-text-4" id="text-org202b898">
 <blockquote>
 <p>
 Is there a limit on array size if I save an array as an attribute of a dataset?
@@ -4671,8 +4898,8 @@ read the entire "large" value.
 </div>
 </li>
 
-<li><a id="org7a6a202"></a>Question 2<br />
-<div class="outline-text-4" id="text-org7a6a202">
+<li><a id="orgb6f39bb"></a>Question 2<br />
+<div class="outline-text-4" id="text-orgb6f39bb">
 <blockquote>
 <p>
 Question regarding hdf5 I/O performance, compare saving data into a large array
@@ -4719,15 +4946,15 @@ the future?</li>
 </ul>
 </div>
 
-<div id="outline-container-org78bfb4b" class="outline-3">
-<h3 id="org78bfb4b">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org78bfb4b">
+<div id="outline-container-org11a5c93" class="outline-3">
+<h3 id="org11a5c93">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org11a5c93">
 </div>
 <ul class="org-ul">
-<li><a id="orgb02cc2a"></a>Announcements<br />
+<li><a id="org4ffeeaa"></a>Announcements<br />
 <ul class="org-ul">
-<li><a id="orgbce3770"></a><a href="https://forum.hdfgroup.org/t/ann-h5py-3-2-released/8232">h5py 3.2 release</a><br />
-<div class="outline-text-5" id="text-orgbce3770">
+<li><a id="org23b7893"></a><a href="https://forum.hdfgroup.org/t/ann-h5py-3-2-released/8232">h5py 3.2 release</a><br />
+<div class="outline-text-5" id="text-org23b7893">
 <ul class="org-ul">
 <li>Supports the HDF5 S3 (read-only) VFD thanks to Satrajit Ghosh
 <ul class="org-ul">
@@ -4738,8 +4965,8 @@ the future?</li>
 </ul>
 </div>
 </li>
-<li><a id="org278d4c7"></a>HDF5 Community BOF at ECP Community BOF Days<br />
-<div class="outline-text-5" id="text-org278d4c7">
+<li><a id="org87fdbc0"></a>HDF5 Community BOF at ECP Community BOF Days<br />
+<div class="outline-text-5" id="text-org87fdbc0">
 <ul class="org-ul">
 <li>March 30, 3:00 p.m. (Eastern)</li>
 <li><a href="https://exascaleproject.zoomgov.com/meeting/register/vJItf-Chrj4jH9xNnStZkPE-P84YcZ52-7s">Registration</a></li>
@@ -4748,16 +4975,16 @@ the future?</li>
 </li>
 </ul>
 </li>
-<li><a id="org753b838"></a>Forum<br />
+<li><a id="org2efdaf4"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="orgcaa341b"></a><a href="https://forum.hdfgroup.org/t/get-object-header-size/8233">Get Object Header size</a><br />
-<div class="outline-text-5" id="text-orgcaa341b">
+<li><a id="org93c6074"></a><a href="https://forum.hdfgroup.org/t/get-object-header-size/8233">Get Object Header size</a><br />
+<div class="outline-text-5" id="text-org93c6074">
 <ul class="org-ul">
 <li><p>
 The user created a compound type with 100s of fields and eventually saw this
 error:
 </p>
-<pre class="example" id="orgcd1b52e">
+<pre class="example" id="org1a28e51">
 H5Oalloc.c line 1312 in H5O__alloc(): object header message is too large
 </pre></li>
 <li>This issue was first raised (Jira-ticket HDFFV-1089 date) on  Jun 08, 2009</li>
@@ -4783,8 +5010,8 @@ individual columns</li>
 </ul>
 </div>
 </li>
-<li><a id="org531d145"></a><a href="https://forum.hdfgroup.org/t/using-hdf5-in-qt-creator/8194">Using HDF5 in Qt Creator</a><br />
-<div class="outline-text-5" id="text-org531d145">
+<li><a id="org76e83ae"></a><a href="https://forum.hdfgroup.org/t/using-hdf5-in-qt-creator/8194">Using HDF5 in Qt Creator</a><br />
+<div class="outline-text-5" id="text-org76e83ae">
 <ul class="org-ul">
 <li>Linker can't find <code>H5::FileAccPropList()</code> and <code>H5::FileCreatPropList()</code></li>
 <li>Works fine in release mode, but not in debug mode</li>
@@ -4794,8 +5021,8 @@ unless QT Creator is extra pedantic?</li>
 </ul>
 </div>
 </li>
-<li><a id="org82747fb"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
-<div class="outline-text-5" id="text-org82747fb">
+<li><a id="orgb666d7a"></a><a href="https://forum.hdfgroup.org/t/reference-manual-in-doxygen/8230">Reference Manual in Doxygen</a><br />
+<div class="outline-text-5" id="text-orgb666d7a">
 <ul class="org-ul">
 <li>Making good progress; see <a href="https://github.com/HDFGroup/hdf5/tree/doxygen2">GitHub</a> and <a href="https://hdf5.io/develop/index.html">preview</a></li>
 <li>What do you think?</li>
@@ -4812,8 +5039,8 @@ unless QT Creator is extra pedantic?</li>
 </ul>
 </div>
 </li>
-<li><a id="org1983954"></a><a href="https://forum.hdfgroup.org/t/h5i-get-name-call-is-very-slow-for-hdf5-file-5-gb/8246"><code>H5Iget_name</code> call is very slow for HDF5 file &gt; 5 GB</a><br />
-<div class="outline-text-5" id="text-org1983954">
+<li><a id="org8781de3"></a><a href="https://forum.hdfgroup.org/t/h5i-get-name-call-is-very-slow-for-hdf5-file-5-gb/8246"><code>H5Iget_name</code> call is very slow for HDF5 file &gt; 5 GB</a><br />
+<div class="outline-text-5" id="text-org8781de3">
 <ul class="org-ul">
 <li><a href="https://portal.hdfgroup.org/display/HDF5/H5I_GET_NAME"><code>H5Iget_nname</code></a> constructs <i>an</i> HDF5 path name given an object identifier
 <ul class="org-ul">
@@ -4855,17 +5082,17 @@ tree, you are skating on thin ice with path names!
 </div>
 </div>
 
-<div id="outline-container-org1801639" class="outline-2">
-<h2 id="org1801639">Clinic 2021-03-02</h2>
-<div class="outline-text-2" id="text-org1801639">
+<div id="outline-container-org5f7a17c" class="outline-2">
+<h2 id="org5f7a17c">Clinic 2021-03-02</h2>
+<div class="outline-text-2" id="text-org5f7a17c">
 </div>
-<div id="outline-container-org3148295" class="outline-3">
-<h3 id="org3148295">Your questions</h3>
-<div class="outline-text-3" id="text-org3148295">
+<div id="outline-container-org98727d5" class="outline-3">
+<h3 id="org98727d5">Your questions</h3>
+<div class="outline-text-3" id="text-org98727d5">
 </div>
 <ul class="org-ul">
-<li><a id="orgc48f43d"></a><a href="https://github.com/steven-varga/h5rnd">h5rnd</a><br />
-<div class="outline-text-4" id="text-orgc48f43d">
+<li><a id="org88bae46"></a><a href="https://github.com/steven-varga/h5rnd">h5rnd</a><br />
+<div class="outline-text-4" id="text-org88bae46">
 <ul class="org-ul">
 <li><b><b>Question:</b></b> How are generated HDF5 objects named?  An integer name, or can a
 randomized string be used?
@@ -4890,8 +5117,8 @@ types of extensions for <code>h5rnd</code>?
 </div>
 </li>
 
-<li><a id="org0415ecc"></a>Other questions?<br />
-<div class="outline-text-4" id="text-org0415ecc">
+<li><a id="orgb94afc5"></a>Other questions?<br />
+<div class="outline-text-4" id="text-orgb94afc5">
 <ul class="org-ul">
 <li><b><b>Question:</b></b> How do these extensions fit with the general intent and
 extensibility of <code>h5rnd</code>?
@@ -4908,15 +5135,15 @@ extensibility of <code>h5rnd</code>?
 </ul>
 </div>
 
-<div id="outline-container-org94d1790" class="outline-3">
-<h3 id="org94d1790">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org94d1790">
+<div id="outline-container-orgeb17278" class="outline-3">
+<h3 id="orgeb17278">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orgeb17278">
 </div>
 <ul class="org-ul">
-<li><a id="org3033176"></a>Forum<br />
+<li><a id="org762e35b"></a>Forum<br />
 <ul class="org-ul">
-<li><a id="org84f7db8"></a><a href="https://forum.hdfgroup.org/t/external-link-access-in-parallel-hdf5-1-12-0/8219">External link access in parallel HDF5 1.12.0</a><br />
-<div class="outline-text-5" id="text-org84f7db8">
+<li><a id="org5aedd5d"></a><a href="https://forum.hdfgroup.org/t/external-link-access-in-parallel-hdf5-1-12-0/8219">External link access in parallel HDF5 1.12.0</a><br />
+<div class="outline-text-5" id="text-org5aedd5d">
 <ul class="org-ul">
 <li>Can't access externally linked datasets in parallel; fine in 1.10.x and in serial</li>
 <li>It appears that someone encountered a known bug in the field</li>
@@ -4925,8 +5152,8 @@ extensibility of <code>h5rnd</code>?
 </div>
 </li>
 
-<li><a id="orgf05ce6a"></a><a href="https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104"><code>H5I_dec_ref</code> hangs</a><br />
-<div class="outline-text-5" id="text-orgf05ce6a">
+<li><a id="org6f7fb19"></a><a href="https://forum.hdfgroup.org/t/h5i-dec-ref-hangs/8104"><code>H5I_dec_ref</code> hangs</a><br />
+<div class="outline-text-5" id="text-org6f7fb19">
 <ul class="org-ul">
 <li><a href="https://portal.hdfgroup.org/display/HDF5/H5I_DEC_REF"><code>H5Idec_ref</code></a> is one of those functions that needs to be used w/ extra care</li>
 <li>Using <code>mpi4py</code> and <code>h5py</code></li>
@@ -4937,8 +5164,8 @@ offer (as we are neither <code>mpi4py</code> nor <code>h5py</code> experts)</li>
 </div>
 </li>
 
-<li><a id="org67297ce"></a><a href="https://forum.hdfgroup.org/t/h5diff-exits-with-1-but-doesnt-print-differences/6872"><code>h5diff</code> exits with 1 but doesn’t print differences</a><br />
-<div class="outline-text-5" id="text-org67297ce">
+<li><a id="org90ee6d3"></a><a href="https://forum.hdfgroup.org/t/h5diff-exits-with-1-but-doesnt-print-differences/6872"><code>h5diff</code> exits with 1 but doesn’t print differences</a><br />
+<div class="outline-text-5" id="text-org90ee6d3">
 <ul class="org-ul">
 <li>Case of out-of-date/poor documentation</li>
 <li><a href="https://portal.hdfgroup.org/display/HDF5/h5diff"><code>h5diff</code></a> is perhaps the most complex tool (multi-graph comparison + what does
@@ -4949,8 +5176,8 @@ offer (as we are neither <code>mpi4py</code> nor <code>h5py</code> experts)</li>
 </div>
 </li>
 
-<li><a id="org51ba8d2"></a><a href="https://forum.hdfgroup.org/t/independent-datasets-for-mpi-processes-progress/8202">Independent datasets for MPI processes. Progress?</a><br />
-<div class="outline-text-5" id="text-org51ba8d2">
+<li><a id="orgb2e0464"></a><a href="https://forum.hdfgroup.org/t/independent-datasets-for-mpi-processes-progress/8202">Independent datasets for MPI processes. Progress?</a><br />
+<div class="outline-text-5" id="text-orgb2e0464">
 <ul class="org-ul">
 <li>Need some clarification on the problem formulation</li>
 <li>Current status (w/ MPI) MD-modifying ops. must be collective</li>
@@ -4959,8 +5186,8 @@ offer (as we are neither <code>mpi4py</code> nor <code>h5py</code> experts)</li>
 </div>
 </li>
 
-<li><a id="org4a748bb"></a><a href="https://forum.hdfgroup.org/t/writing-to-virtual-datasets/8188">Writing to virtual datasets</a><br />
-<div class="outline-text-5" id="text-org4a748bb">
+<li><a id="orgcbfbcb7"></a><a href="https://forum.hdfgroup.org/t/writing-to-virtual-datasets/8188">Writing to virtual datasets</a><br />
+<div class="outline-text-5" id="text-orgcbfbcb7">
 <ul class="org-ul">
 <li>Apparently broken when a datatype conversion (truncation!) is involved</li>
 </ul>
@@ -4972,17 +5199,17 @@ offer (as we are neither <code>mpi4py</code> nor <code>h5py</code> experts)</li>
 </div>
 </div>
 
-<div id="outline-container-orga62ba0a" class="outline-2">
-<h2 id="orga62ba0a">Clinic 2021-02-23</h2>
-<div class="outline-text-2" id="text-orga62ba0a">
+<div id="outline-container-org7e1e773" class="outline-2">
+<h2 id="org7e1e773">Clinic 2021-02-23</h2>
+<div class="outline-text-2" id="text-org7e1e773">
 </div>
-<div id="outline-container-orgb4238d5" class="outline-3">
-<h3 id="orgb4238d5">Your questions</h3>
-<div class="outline-text-3" id="text-orgb4238d5">
+<div id="outline-container-orgcf9cbd3" class="outline-3">
+<h3 id="orgcf9cbd3">Your questions</h3>
+<div class="outline-text-3" id="text-orgcf9cbd3">
 </div>
 <ul class="org-ul">
-<li><a id="org7131651"></a>How to use <code>H5Ocopy</code> in C++ code?<br />
-<div class="outline-text-4" id="text-org7131651">
+<li><a id="org15302f6"></a>How to use <code>H5Ocopy</code> in C++ code?<br />
+<div class="outline-text-4" id="text-org15302f6">
 <ul class="org-ul">
 <li><p>
 <a href="https://forum.hdfgroup.org/t/how-to-use-h5copy-in-c-code/8175">Forum post</a>
@@ -5029,8 +5256,8 @@ German)</li>
 </div>
 </li>
 
-<li><a id="orgd5bc2ba"></a>Steven's solution (excerpt)<br />
-<div class="outline-text-4" id="text-orgd5bc2ba">
+<li><a id="org12cd8bd"></a>Steven's solution (excerpt)<br />
+<div class="outline-text-4" id="text-org12cd8bd">
 <p>
 The full example can be downloaded from <a href="https://github.com/steven-varga/HDFGroup-mailinglist/tree/master/object-copy-2021-feb-18">here</a>.
 </p>
@@ -5113,8 +5340,8 @@ The full example can be downloaded from <a href="https://github.com/steven-varga
 </div>
 </li>
 
-<li><a id="org635f8b7"></a>Parting thoughts<br />
-<div class="outline-text-4" id="text-org635f8b7">
+<li><a id="orgc456c66"></a>Parting thoughts<br />
+<div class="outline-text-4" id="text-orgc456c66">
 <ul class="org-ul">
 <li>This is can be tricky business depending on how selective you want to be</li>
 <li><code>H5Ovisit</code> visits <i>objects</i> and does not account for dangling links, etc.</li>
@@ -5124,10 +5351,10 @@ The full example can be downloaded from <a href="https://github.com/steven-varga
 </div>
 </li>
 
-<li><a id="orgf7f8ce5"></a>More Questions<br />
+<li><a id="org76d933c"></a>More Questions<br />
 <ul class="org-ul">
-<li><a id="org59920e6"></a>Question 1<br />
-<div class="outline-text-5" id="text-org59920e6">
+<li><a id="org7a96cbb"></a>Question 1<br />
+<div class="outline-text-5" id="text-org7a96cbb">
 <blockquote>
 <p>
 I have an unrelated question. I have 7,000 HDF5 files, each 500 MB long. When I
@@ -5189,13 +5416,13 @@ What's the access pattern?
 </ul>
 </div>
 
-<div id="outline-container-org3058cc5" class="outline-3">
-<h3 id="org3058cc5">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org3058cc5">
+<div id="outline-container-org5504eca" class="outline-3">
+<h3 id="org5504eca">Last week's highlights</h3>
+<div class="outline-text-3" id="text-org5504eca">
 </div>
 <ul class="org-ul">
-<li><a id="org67c06f1"></a>Forum<br />
-<div class="outline-text-4" id="text-org67c06f1">
+<li><a id="org2bacf44"></a>Forum<br />
+<div class="outline-text-4" id="text-org2bacf44">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/possible-bug-with-hyperslab-selection-in-1-10-7/8164">Hyperslab selection bug confirmed</a></li>
 <li><a href="https://forum.hdfgroup.org/t/write-data-to-variable-length-string-attribute/8101">Write data to variable length string attribute</a> bug is a feature <code>;-)</code></li>
@@ -5209,14 +5436,14 @@ What's the access pattern?
 </ul>
 </div>
 
-<div id="outline-container-orgf714547" class="outline-3">
-<h3 id="orgf714547">Appendix</h3>
-<div class="outline-text-3" id="text-orgf714547">
+<div id="outline-container-orgede166b" class="outline-3">
+<h3 id="orgede166b">Appendix</h3>
+<div class="outline-text-3" id="text-orgede166b">
 </div>
 <ul class="org-ul">
-<li><a id="orgd340d16"></a>The <code>h5copy</code> command line tool<br />
-<div class="outline-text-4" id="text-orgd340d16">
-<pre class="example" id="org441fc64">
+<li><a id="org2a478c0"></a>The <code>h5copy</code> command line tool<br />
+<div class="outline-text-4" id="text-org2a478c0">
+<pre class="example" id="org93fd014">
 gerd@guix ~$ h5copy
 
 usage: h5copy [OPTIONS] [OBJECTS...]
@@ -5273,71 +5500,71 @@ usage: h5copy [OPTIONS] [OBJECTS...]
 </div>
 </div>
 
-<div id="outline-container-org495aa80" class="outline-2">
-<h2 id="org495aa80">Clinic 2021-02-09</h2>
-<div class="outline-text-2" id="text-org495aa80">
+<div id="outline-container-org802f679" class="outline-2">
+<h2 id="org802f679">Clinic 2021-02-09</h2>
+<div class="outline-text-2" id="text-org802f679">
 <p>
 <b><b>THIS MEETING IS BEING RECORDED</b></b> and the recording will be available on The
 HDF Group's <a href="https://www.youtube.com/channel/UCRhtsIZquL3r-zH-R-r9-tQ">YouTube channel</a>. Remember to subscribe!
 </p>
 </div>
 
-<div id="outline-container-orgc5f42aa" class="outline-3">
-<h3 id="orgc5f42aa">Goal(s)</h3>
+<div id="outline-container-orge9d5579" class="outline-3">
+<h3 id="orge9d5579">Goal(s)</h3>
 </div>
-<div id="outline-container-orgb2f24f1" class="outline-3">
-<h3 id="orgb2f24f1">This is a meeting dedicated to <i>your</i> questions.</h3>
+<div id="outline-container-orgfc6a276" class="outline-3">
+<h3 id="orgfc6a276">This is a meeting dedicated to <i>your</i> questions.</h3>
 </div>
-<div id="outline-container-org578c31b" class="outline-3">
-<h3 id="org578c31b">In the unlikely event there aren't any</h3>
-<div class="outline-text-3" id="text-org578c31b">
+<div id="outline-container-org647adf0" class="outline-3">
+<h3 id="org647adf0">In the unlikely event there aren't any</h3>
+<div class="outline-text-3" id="text-org647adf0">
 <p>
 We have a few prepared topics (forum posts, announcements, etc.)
 </p>
 </div>
 </div>
-<div id="outline-container-orgecdbc80" class="outline-3">
-<h3 id="orgecdbc80">Sometimes life deals you an HDF5 file</h3>
-<div class="outline-text-3" id="text-orgecdbc80">
+<div id="outline-container-orgcea3905" class="outline-3">
+<h3 id="orgcea3905">Sometimes life deals you an HDF5 file</h3>
+<div class="outline-text-3" id="text-orgcea3905">
 <p>
 No question is too small. We are here to learn. All of us.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org402a10a" class="outline-3">
-<h3 id="org402a10a">Meeting Etiquette</h3>
+<div id="outline-container-org9ccb86f" class="outline-3">
+<h3 id="org9ccb86f">Meeting Etiquette</h3>
 </div>
-<div id="outline-container-org814ecc7" class="outline-3">
-<h3 id="org814ecc7">Be social, turn on your camera (if you've got one)</h3>
-<div class="outline-text-3" id="text-org814ecc7">
+<div id="outline-container-org5105118" class="outline-3">
+<h3 id="org5105118">Be social, turn on your camera (if you've got one)</h3>
+<div class="outline-text-3" id="text-org5105118">
 <p>
 Talking to black boxes isn't fun.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org3b82153" class="outline-3">
-<h3 id="org3b82153">Raise your hand to signal a contribution (question, comment)</h3>
-<div class="outline-text-3" id="text-org3b82153">
+<div id="outline-container-orgc681a69" class="outline-3">
+<h3 id="orgc681a69">Raise your hand to signal a contribution (question, comment)</h3>
+<div class="outline-text-3" id="text-orgc681a69">
 <p>
 Mute yourself while others are speaking, be ready to participate.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5280fc0" class="outline-3">
-<h3 id="org5280fc0">Be mindful of your "airtime"</h3>
-<div class="outline-text-3" id="text-org5280fc0">
+<div id="outline-container-orga0d9570" class="outline-3">
+<h3 id="orga0d9570">Be mindful of your "airtime"</h3>
+<div class="outline-text-3" id="text-orga0d9570">
 <p>
 We want to cover as many of your topics as possible. Be fair to others.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org6aab159" class="outline-3">
-<h3 id="org6aab159">Introduce yourself</h3>
-<div class="outline-text-3" id="text-org6aab159">
+<div id="outline-container-org8552836" class="outline-3">
+<h3 id="org8552836">Introduce yourself</h3>
+<div class="outline-text-3" id="text-org8552836">
 <ol class="org-ol">
 <li>Your Name</li>
 <li>Your affiliation/organization/group</li>
@@ -5346,30 +5573,30 @@ We want to cover as many of your topics as possible. Be fair to others.
 </div>
 </div>
 
-<div id="outline-container-org661701a" class="outline-3">
-<h3 id="org661701a">Use the shared Google doc for questions and code snippets</h3>
-<div class="outline-text-3" id="text-org661701a">
+<div id="outline-container-orgcee851b" class="outline-3">
+<h3 id="orgcee851b">Use the shared Google doc for questions and code snippets</h3>
+<div class="outline-text-3" id="text-orgcee851b">
 <p>
 The <a href="https://docs.google.com/document/d/17j7MsAdNdCLxxWA_PtXv3jTgWDTqOm2uTk5jHCj8zXM/edit">link</a> can be found in the chat window.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgb3f7f96" class="outline-3">
-<h3 id="orgb3f7f96">When the 30 min. timer runs out, this meeting is over.</h3>
-<div class="outline-text-3" id="text-orgb3f7f96">
+<div id="outline-container-orgdb6d15c" class="outline-3">
+<h3 id="orgdb6d15c">When the 30 min. timer runs out, this meeting is over.</h3>
+<div class="outline-text-3" id="text-orgdb6d15c">
 <p>
 Continue the discussion on the <a href="https://forum.hdfgroup.org/">HDF Forum</a> or come back next week!
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgfa79839" class="outline-3">
-<h3 id="orgfa79839">Notes</h3>
+<div id="outline-container-org5f933a4" class="outline-3">
+<h3 id="org5f933a4">Notes</h3>
 </div>
-<div id="outline-container-org11f73b1" class="outline-3">
-<h3 id="org11f73b1">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</h3>
-<div class="outline-text-3" id="text-org11f73b1">
+<div id="outline-container-org3a00990" class="outline-3">
+<h3 id="org3a00990">Don't miss our next webinar about data virtualization with HDF5-UDF and how it can streamline your work</h3>
+<div class="outline-text-3" id="text-org3a00990">
 <ul class="org-ul">
 <li>Presented by Lucas Villa Real (IBM Research)</li>
 <li>Feb 12, 2021 11:00 AM in Central Time (US and Canada)</li>
@@ -5378,9 +5605,9 @@ Continue the discussion on the <a href="https://forum.hdfgroup.org/">HDF Forum</
 </div>
 </div>
 
-<div id="outline-container-org6b5bb47" class="outline-3">
-<h3 id="org6b5bb47">Bug-of-the-Week Award (my candidate)</h3>
-<div class="outline-text-3" id="text-org6b5bb47">
+<div id="outline-container-org5b185a3" class="outline-3">
+<h3 id="org5b185a3">Bug-of-the-Week Award (my candidate)</h3>
+<div class="outline-text-3" id="text-org5b185a3">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/write-data-to-variable-length-string-attribute/8101">Write data to variable length string attribute</a> by Kerim Khemraev</li>
 <li><a href="https://jira.hdfgroup.org/browse/HDFFV-11215">Jira issue HDFFV-11215</a></li>
@@ -5458,9 +5685,9 @@ Quick demonstration
 </div>
 </div>
 
-<div id="outline-container-org77c6e16" class="outline-3">
-<h3 id="org77c6e16">Documentation update</h3>
-<div class="outline-text-3" id="text-org77c6e16">
+<div id="outline-container-orgc802985" class="outline-3">
+<h3 id="orgc802985">Documentation update</h3>
+<div class="outline-text-3" id="text-orgc802985">
 <ul class="org-ul">
 <li>Doxygen-based RM</li>
 <li>Remaining: a few <code>H5P</code>  calls and <code>H5E</code></li>
@@ -5470,20 +5697,20 @@ Quick demonstration
 </div>
 </div>
 
-<div id="outline-container-org1356ae5" class="outline-2">
-<h2 id="org1356ae5">Clinic 2021-02-16</h2>
-<div class="outline-text-2" id="text-org1356ae5">
+<div id="outline-container-orgab12a06" class="outline-2">
+<h2 id="orgab12a06">Clinic 2021-02-16</h2>
+<div class="outline-text-2" id="text-orgab12a06">
 </div>
-<div id="outline-container-org0b933d5" class="outline-3">
-<h3 id="org0b933d5">Your questions</h3>
+<div id="outline-container-org3c4f04c" class="outline-3">
+<h3 id="org3c4f04c">Your questions</h3>
 </div>
-<div id="outline-container-org4b4aaa1" class="outline-3">
-<h3 id="org4b4aaa1">Last week's highlights</h3>
-<div class="outline-text-3" id="text-org4b4aaa1">
+<div id="outline-container-orgd743e3c" class="outline-3">
+<h3 id="orgd743e3c">Last week's highlights</h3>
+<div class="outline-text-3" id="text-orgd743e3c">
 </div>
 <ul class="org-ul">
-<li><a id="org5a7e557"></a>Events<br />
-<div class="outline-text-4" id="text-org5a7e557">
+<li><a id="orgf2c403c"></a>Events<br />
+<div class="outline-text-4" id="text-orgf2c403c">
 <ul class="org-ul">
 <li><a href="https://www.youtube.com/watch?v=7ZYZKB7DNUg">Webinar: <i>Learn about data virtualization with HDF5-UDF and how it can
 streamline your work</i></a></li>
@@ -5491,8 +5718,8 @@ streamline your work</i></a></li>
 </ul>
 </div>
 </li>
-<li><a id="org3436f0f"></a>Forum<br />
-<div class="outline-text-4" id="text-org3436f0f">
+<li><a id="org242b5e1"></a>Forum<br />
+<div class="outline-text-4" id="text-org242b5e1">
 <ul class="org-ul">
 <li><a href="https://forum.hdfgroup.org/t/hdfql-2-3-0-release-with-excel-import-export-support/8132">Release of HDFql 2.3.0</a>
 <ul class="org-ul">
@@ -5515,15 +5742,15 @@ with <code>SelA OR SelB</code> works, but not <code>SelB OR SelA</code></li>
 </li>
 </ul>
 </div>
-<div id="outline-container-orgfcc8c45" class="outline-3">
-<h3 id="orgfcc8c45">Notes</h3>
-<div class="outline-text-3" id="text-orgfcc8c45">
+<div id="outline-container-org1f222c0" class="outline-3">
+<h3 id="org1f222c0">Notes</h3>
+<div class="outline-text-3" id="text-org1f222c0">
 </div>
 <ul class="org-ul">
-<li><a id="orga22b221"></a>What (if any) are the ACID properties of HDF5 operations?<br />
+<li><a id="org8de4e68"></a>What (if any) are the ACID properties of HDF5 operations?<br />
 <ul class="org-ul">
-<li><a id="org205ec6b"></a>Split-state<br />
-<div class="outline-text-5" id="text-org205ec6b">
+<li><a id="org04bc78c"></a>Split-state<br />
+<div class="outline-text-5" id="text-org04bc78c">
 <p>
 The state of an open (for RW) HDF5 file is <i>split</i> between RAM and persistent
 storage. Often the partial states will be out of sync. In the event of a
@@ -5532,15 +5759,15 @@ impossible to predict what the partial state on disk will be.
 </p>
 
 
-<div id="orgc09eedb" class="figure">
+<div id="org28fa6e9" class="figure">
 <p><img src="hdf5-file-state.png" alt="hdf5-file-state.png" />
 </p>
 </div>
 </div>
 </li>
 
-<li><a id="org2f6c430"></a>Non-transactional<br />
-<div class="outline-text-5" id="text-org2f6c430">
+<li><a id="orge3eab9e"></a>Non-transactional<br />
+<div class="outline-text-5" id="text-orge3eab9e">
 <p>
 The main reason why it is impossible to predict the outcome is that HDF5
 operations are non-transactional. By 'transaction' I mean a collection of
@@ -5552,8 +5779,8 @@ not straightforward to speak about the ACID properties of HDF5 operations.
 </div>
 </li>
 
-<li><a id="org91fbb68"></a>File system facilities<br />
-<div class="outline-text-5" id="text-org91fbb68">
+<li><a id="orgfc8f122"></a>File system facilities<br />
+<div class="outline-text-5" id="text-orgfc8f122">
 <p>
 People sometimes speak about ACID properties with respect to file system
 operations. Although the HDF5 library relies on file system operations for the
@@ -5566,8 +5793,8 @@ multiple operations combined.
 </div>
 </li>
 
-<li><a id="org9ad76ad"></a>ACID<br />
-<div class="outline-text-5" id="text-org9ad76ad">
+<li><a id="orgdd0ac27"></a>ACID<br />
+<div class="outline-text-5" id="text-orgdd0ac27">
 <dl class="org-dl">
 <dt>Atomicity</dt><dd>All changes to an HDF5 file's state must complete or fail as a
 whole unit.
@@ -5612,7 +5839,7 @@ file's state survive failure.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Gerd Heber</p>
-<p class="date">Created: 2021-09-28 Tue 10:22</p>
+<p class="date">Created: 2021-10-19 Tue 11:37</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
