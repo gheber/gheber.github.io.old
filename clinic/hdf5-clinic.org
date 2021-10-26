@@ -3,6 +3,79 @@
 #+OPTIONS: num:nil H:2
 #+SETUPFILE: ~/org/theme-readtheorg.setup
 
+* Clinic 2021-10-28
+** Your Questions
+- Q :: ???
+** Last week's highlights
+*** Announcements
+**** [[https://www.youtube.com/playlist?list=PLPyhR4PdEeGYdTX7SVM59LwoNJDgJSNdd][HUG 2021 Videos are showing up on YouTube]]
+**** Submit comments/questions/criticisms to the [[mailto:hug@hdfgroup.org][organizing committee]]
+*** Forum
+**** [[https://forum.hdfgroup.org/t/hdfview-3-1-0-error-displaying-dataset-with-np-float16-data/7974][HDFView 3.1.0 error displaying dataset with np.float16 data]]
+- HDF5 has supported user-defined floating-point types from day one
+- Good example of poor execution on our part!
+- GPUs have rekindled the interest in reduced floating-point representations
+**** [[https://forum.hdfgroup.org/t/announcing-development-of-the-enterprise-support-edition-of-hdf5/4374][Announcing development of the Enterprise Support Edition of HDF5]]
+- Good example of an own goal / publicity disaster
+- One more time: *There is no Enterprise Support Edition of HDF5!*
+  - However, support and consulting agreements are available from The HDF Group
+    for enterprises and other organizations
+- There is only one development line of HDF5 (data model, file format, library)
+  & it is available on [[https://github.com/HDFGroup/hdf5][GitHub]]
+  - Hence, it is nonsensical to speak of 'HDF5 editions'
+- End of story
+**** COMMENT [[https://forum.hdfgroup.org/t/h5dget-chunk-info-performance-for-many-chunks/9079][=H5Dget_chunk_info= performance for many chunks?]]
+- *Task:* Get all of the chunk file offsets + sizes
+- *Solution:* [[https://docs.hdfgroup.org/hdf5/develop/group___h5_d.html#title6][=H5Dchunk_iter=]]
+- *Caveat:* Currently only available in the =development= branch
+- *Note:* We covered this function and an example in our clinic on [2021-08-03 Tue]
+** Tips, tricks, & insights
+*** Who is afraid of =h5debug=?
+- A useful tool to explore the "guts" of the HDF5 file format
+- There's even a nice [[https://docs.hdfgroup.org/hdf5/develop/_f_m_t_d_i_s_c.html][guided tour]] by Quincey Koziol from 2003
+  - HDF5 1.4.5 was released [2003-02-02]
+  - HDF5 1.6.0 was released [2003-07-03]
+- Compiling and running =example1.c= produces this output:
+  #+begin_example
+%h5debug example1.h5
+
+Reading signature at address 0 (rel)
+File Super Block...
+File name (as opened):                             example1.h5
+File name (after resolving symlinks):              example1.h5
+File access flags                                  0x00000000
+File open reference count:                         1
+Address of super block:                            0 (abs)
+Size of userblock:                                 0 bytes
+Superblock version number:                         0
+Free list version number:                          0
+Root group symbol table entry version number:      0
+Shared header version number:                      0
+Size of file offsets (haddr_t type):               8 bytes
+Size of file lengths (hsize_t type):               8 bytes
+Symbol table leaf node 1/2 rank:                   4
+Symbol table internal node 1/2 rank:               16
+Indexed storage internal node 1/2 rank:            32
+File status flags:                                 0x00
+Superblock extension address:                      18446744073709551615 (rel)
+Shared object header message table address:        18446744073709551615 (rel)
+Shared object header message version number:       0
+Number of shared object header message indexes:    0
+Address of driver information block:               18446744073709551615 (rel)
+Root group symbol table entry:
+   Name offset into private heap:                  0
+   Object header address:                          96
+   Cache info type:                                Symbol Table
+   Cached entry information:
+      B-tree address:                              136
+      Heap address:                                680
+  #+end_example
+- It matches the output from 2003 except for
+  - The root group's object header address is 96 (in 2021) vs. 928 (in 2003)
+  - The root's B-tree is at 136 vs. 384
+  - The root group's local heap is at 680 vs. 96
+- Happy HDF5 exploring!
+
 * Clinic 2021-10-19
 ** Your Questions
 - Q :: ???
@@ -14,24 +87,24 @@
 - Memory-contiguous vs. non-contiguous layout
   #+begin_src C
   struct Instruction {
-        float timestamp;
-        Key keys[MAX_KEYS]; // -> H5T_ARRAY
+    float timestamp;
+    Key keys[MAX_KEYS]; // -> H5T_ARRAY
   };
 
   struct Instruction {
-      float timestamp;
-      Key* keys; // -> H5T_VLEN
+    float timestamp;
+    Key* keys; // -> H5T_VLEN
   };
   #+end_src
 **** [[https://forum.hdfgroup.org/t/memory-mapping-paging-via-hdf5-vfd/9052][Memory mapping / Paging via HDF5 & VFD?]]
 - ~hid_t H5Dread_mapped(..., void** buf);~
 - Returns a pointer to  a memory-mapped region
 - If the region is writable, changes will be propagated to the file (instead of
-   calling ~H5Dwrite~)
+  calling ~H5Dwrite~)
 **** [[https://forum.hdfgroup.org/t/external-links-vfds/9056][External links & VFDs]]
 - What if an external link requires a different VFD for its resolution?
 - Current approach: set it manually via ~H5Pset_elink_fapl()~ after figuring out
-   that that's required. Yikes!
+  that that's required. Yikes!
 - Add VFD-plugins and this gets out of hand quickly...
 **** [[https://forum.hdfgroup.org/t/why-increasing-rdcc-nbytes-and-rdcc-nslots-will-result-in-a-decrease-in-indexing-performance/9062][Why increasing =rdcc_nbytes= and =rdcc_nslots= will result in a decrease in indexing performance?]]
 - See [[https://docs.hdfgroup.org/hdf5/rfc/RFC_chunk_cache_functions.pdf][RFC: Setting Raw Data Chunk Cache Parameters in HDF5]] for guidance
@@ -115,22 +188,22 @@ int main()
       }
   }
 
-fail_write:
+ fail_write:
   H5Dclose(dset);
 
-fail_dset:
+ fail_dset:
   H5Pclose(dcpl);
 
-fail_dcpl:
+ fail_dcpl:
   H5Sclose(dspace);
 
-fail_dspace:
+ fail_dspace:
   H5Tclose(dtype);
 
-fail_dtype:
+ fail_dtype:
   H5Fclose(file);
 
-fail_file:
+ fail_file:
   return retval;
 }
 
@@ -324,26 +397,26 @@ int main()
 
     if (H5Dwrite(dset, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, data)
         < 0) {
-        retval = EXIT_FAILURE;
-        goto fail_write;
-      }
+      retval = EXIT_FAILURE;
+      goto fail_write;
+    }
   }
 
   // housekeeping
-fail_write:
+ fail_write:
   H5Dclose(dset);
-fail_dset:
+ fail_dset:
   H5Pclose(dcpl);
-fail_dcpl:
+ fail_dcpl:
   H5Sclose(dspace);
-fail_dspace:
+ fail_dspace:
   H5Fclose(file);
-fail_file:
+ fail_file:
   // unregister the filter
   if (H5Zunregister(cls.id) < 0) {
     retval = EXIT_FAILURE;
   }
-fail_register:
+ fail_register:
   return retval;
 }
 
@@ -991,11 +1064,11 @@ int chunk_cb(const hsize_t *offset, uint32_t filter_mask, haddr_t addr,
       state = hdfql_execute("USE FILE data.h5")
       state = hdfql_execute(
       "SHOW DATASET LIKE **/^temperature WHERE DATA TYPE == FLOAT")
-      DO WHILE(hdfql_cursor_next() .EQ. HDFQL_SUCCESS)
-         WRITE(*, *) "Dataset found: ", hdfql_cursor_get_char()
-         state = hdfql_execute(
-         "SELECT FROM " // hdfql_cursor_get_char() //
-         " ORDER ASC INTO UNIX FILE output.txt SPLIT 1")
+D     O WHILE(hdfql_cursor_next() .EQ. HDFQL_SUCCESS)
+      WRITE(*, *) "Dataset found: ", hdfql_cursor_get_char()
+      state = hdfql_execute(
+      "SELECT FROM " // hdfql_cursor_get_char() //
+      " ORDER ASC INTO UNIX FILE output.txt SPLIT 1")
       END DO
       state = hdfql_execute("CLOSE FILE")
       END PROGRAM
